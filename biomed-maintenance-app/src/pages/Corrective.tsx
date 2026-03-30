@@ -66,10 +66,10 @@ const Corrective = () => {
   };
 
   return (
-    <div className="flex-1 p-10 overflow-y-auto h-screen relative z-10">
+    <div className="flex-1 p-4 md:p-6 lg:p-10 overflow-y-auto h-screen relative z-10">
       <header className="mb-12 flex justify-between items-end">
         <div>
-          <h2 className="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-500 drop-shadow-[0_0_15px_rgba(167,139,250,0.3)] tracking-wide">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-500 drop-shadow-[0_0_15px_rgba(167,139,250,0.3)] tracking-wide">
             Mantenimiento Correctivo
           </h2>
           <p className="text-white/60 font-light mt-3 text-lg tracking-wide">Órdenes de Servicio y Fallas HUSJ.</p>
@@ -79,7 +79,7 @@ const Corrective = () => {
         </button>
       </header>
 
-      <div className="flex flex-col justify-center items-center text-center bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-2xl max-w-4xl mx-auto shadow-2xl min-h-[400px]">
+      <div className="flex flex-col justify-center items-center text-center bg-white/5 border border-white/10 rounded-[3rem] p-4 md:p-6 lg:p-16 backdrop-blur-2xl max-w-4xl mx-auto shadow-2xl min-h-[400px]">
          <div className="p-6 bg-violet-500/20 rounded-full mb-8 shadow-[0_0_40px_rgba(147,51,234,0.3)]">
             <Wrench size={48} className="text-violet-400" />
          </div>
@@ -93,7 +93,7 @@ const Corrective = () => {
           <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setIsModalOpen(false)}></div>
           <div className="relative bg-gray-900 w-full max-w-3xl rounded-[2.5rem] border border-white/10 shadow-3xl flex flex-col overflow-hidden animate-in zoom-in-95">
              
-             <div className="p-8 border-b border-white/10 flex justify-between items-center bg-white/5">
+             <div className="p-4 md:p-6 lg:p-8 border-b border-white/10 flex justify-between items-center bg-white/5">
                 <div>
                    <h3 className="text-2xl font-bold text-white">Orden de Servicio Correctivo</h3>
                    <p className="text-violet-300/60 text-xs font-bold uppercase tracking-widest mt-1">Reparación Técnica Documentada</p>
@@ -101,7 +101,7 @@ const Corrective = () => {
                 <button onClick={() => setIsModalOpen(false)} className="p-2 bg-white/5 rounded-full text-white/50"><X /></button>
              </div>
 
-             <div className="p-10 space-y-8 overflow-y-auto max-h-[70vh]">
+             <div className="p-4 md:p-6 lg:p-10 space-y-8 overflow-y-auto max-h-[70vh]">
                 {!selectedEq ? (
                   <div className="space-y-4">
                      <label className="text-xs font-bold text-white/20 uppercase tracking-widest">Activo a Reparar</label>
@@ -130,7 +130,7 @@ const Corrective = () => {
                         <button onClick={() => setSelectedEq(null)} className="text-violet-300 text-xs underline">Cambiar Equipo</button>
                      </div>
 
-                     <div className="grid grid-cols-2 gap-6">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         <div>
                            <label className="text-[10px] text-white/30 font-bold uppercase tracking-widest mb-2 block">Tipo de Falla</label>
                            <select value={failureType} onChange={e => setFailureType(e.target.value)} className="w-full bg-black/40 border border-white/10 rounded-xl p-3 text-white focus:border-violet-500 font-light">
@@ -162,7 +162,7 @@ const Corrective = () => {
                 )}
              </div>
 
-             <div className="p-8 border-t border-white/10 bg-black/60 flex justify-end">
+             <div className="p-4 md:p-6 lg:p-8 border-t border-white/10 bg-black/60 flex justify-end">
                 <button onClick={handleSaveCorrective} disabled={!selectedEq || !description || saving} className={`px-12 py-4 rounded-2xl font-bold flex items-center gap-2 shadow-xl transition-all ${selectedEq && description ? 'bg-violet-600 text-white hover:scale-105' : 'bg-white/5 text-white/20'}`}>
                    {saving ? <Loader2 className="animate-spin" /> : <Activity size={20} />} Finalizar y Guardar Reporte Cloud
                 </button>

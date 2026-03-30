@@ -399,17 +399,17 @@ export default function SurgeryRounds() {
   };
 
   return (
-    <div className="flex-1 p-10 overflow-y-auto h-screen relative z-10 custom-scrollbar">
+    <div className="flex-1 p-4 md:p-6 lg:p-10 overflow-y-auto h-screen relative z-10 custom-scrollbar">
       <header className="mb-12 flex justify-between items-end backdrop-blur-sm">
         <div>
-          <h2 className="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-500 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)] tracking-wide">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-500 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)] tracking-wide">
             Rondas Quirófanos
           </h2>
           <p className="text-white/60 font-light mt-3 text-lg tracking-wide">
             Lista de chequeo verificación y parámetros técnicos
           </p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4">
           <div 
             className="bg-black/40 border border-teal-500/30 rounded-2xl px-4 py-3 flex items-center gap-3 hover:border-teal-400 transition-all cursor-pointer"
             onClick={() => {
@@ -435,12 +435,12 @@ export default function SurgeryRounds() {
       </header>
 
       {/* Grid de Salas */}
-      <div className="grid grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6 mb-12">
         {[1, 2, 3, 4, 5, 6, 7, 8].map(sala => (
           <button
             key={sala}
             onClick={() => setSelectedSala(sala)}
-            className={`p-6 rounded-3xl border transition-all text-left relative overflow-hidden group ${
+            className={`p-3 md:p-4 lg:p-6 rounded-3xl border transition-all text-left relative overflow-hidden group ${
               selectedSala === sala 
                 ? 'bg-teal-500/20 border-teal-400 shadow-[0_0_25px_rgba(45,212,191,0.2)]' 
                 : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/30'
@@ -460,8 +460,8 @@ export default function SurgeryRounds() {
 
       {/* Editor de la Sala Seleccionada */}
       {selectedSala && (
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <h3 className="text-3xl text-teal-300 font-bold mb-8 flex items-center gap-3 border-b border-white/10 pb-4">
+        <div className="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-6 lg:p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <h3 className="text-xl md:text-2xl lg:text-3xl text-teal-300 font-bold mb-8 flex items-center gap-3 border-b border-white/10 pb-4">
             <CheckSquare size={28} /> Auditando SALA #{selectedSala}
           </h3>
 
@@ -470,7 +470,7 @@ export default function SurgeryRounds() {
               const eqData = data[selectedSala]?.[eq.id] || {};
               const Icon = eq.icon;
               return (
-                <div key={eq.id} className="bg-black/20 rounded-2xl p-6 border border-white/5">
+                <div key={eq.id} className="bg-black/20 rounded-2xl p-3 md:p-4 lg:p-6 border border-white/5">
                   <div className="flex justify-between items-center mb-6">
                     <h4 className="text-lg text-white font-medium flex items-center gap-3">
                       <div className="p-2 bg-teal-500/20 rounded-lg text-teal-400 border border-teal-500/20">

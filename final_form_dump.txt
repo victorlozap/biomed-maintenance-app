@@ -1,0 +1,50 @@
+Row 1:  |  |  |  | EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA |  |  |  |  |  |  |  |  |  |  |  |  |  | CÓDIGO: GRF3MAN-FR43
+VERSIÓN: 6.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 3:  |  |  |  | LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO FLUJOMETROS, CONCENTRADORES DE OXIGENO, VACUTRONES, ASPIRADORES Y REGULADORES DE GASES |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 6:  | EQUIPO |  |  |  |  |  |  |  |  |  |  |  | MARCA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 7:  | MODELO |  |  |  |  |  |  |  |  |  |  |  | SERIE |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 8:  | ACTIVO FIJO |  |  |  |  |  |  |  |  |  |  |  | UBICACIÓN |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 10:  | ACTIVIDADES REALIZADAS |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | FECHA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 13:  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | C |  | NC |  | NA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 14:  | Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 15:  | Revisión estado fisico de pulsadores, indicadores luminosos, display y swiches |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 16:  | Revisión de cable de poder |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 17:  | Revisión, ajuste  y limpieza del manómetro, reemplazo del mismo si es necesario |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 18:  | Revisión del buen estado físico del acople de conexión |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 19:  | Revisión, ajuste y limpieza de la válvula reguladora reemplazo de la misma si es necesario |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 20:  | Revisión y cambio de Oring si se requiere |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 21:  | Revisión y limpieza de tubo escala (Mirilla), reemplazo del mismo si es necesario |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 22:  | Revisión de rosca |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 23:  | Revisión y limpieza de camisa externa, reemplazo de la misma si es necesario |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 24:  | Revision y/o Cambio de filtro |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 25:  | Inspeccion del liner |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 26:  | Revisión del motor |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 27:  | Revision de trampa de agua |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 28:  | Limpieza general |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 29:  | Pruebas de funcionamiento |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 31:  | SEGURIDAD ELECTRICA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | VALOR |  |  |  | NA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 32:  | Red eléctrica L1-L2 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 33:  | Red eléctrica L1-gnd |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 34:  | Red eléctrica L2-gnd |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 35:  | Resistencia cable de poder EBP (≤ 0,2 Ω) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 36:  | Corriente de fuga a tierra Neutro abierto (≤ 1000 µA) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 37:  | Corriente de fuga a tierra Normal (≤ 500 µA) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 38:  | Corriente de Fuga a chasis EBP Normal (≤ 100 µA) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 39:  | Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 40:  | Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA) |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 43:  |  |  |  | EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA |  |  |  |  |  |  |  |  |  |  |  |  |  | CÓDIGO: GRF3MAN-FR43
+VERSIÓN: 6.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 45:  |  |  |  | LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO FLUJOMETROS, CONCENTRADORES DE OXIGENO, VACUTRONES, ASPIRADORES Y REGULADORES DE GASES |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 48:  | EQUIPO |  |  |  |  |  |  |  |  |  |  |  | MARCA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 49:  | MODELO |  |  |  |  |  |  |  |  |  |  |  | SERIE |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 50:  | ACTIVO FIJO |  |  |  |  |  |  |  |  |  |  |  | UBICACIÓN |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 52:  | OBSERVACIONES |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 72:  | REALIZADO POR |  |  |  |  |  |  |  |  |  |  |  | RECIBIDO POR |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 77:  | TABLA DE CONVENCIONES |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 78:  | C |  | CUMPLE |  |  |  |  |  | NC |  | NO CUMPLE |  |  |  |  |  | NA |  | NO APLICA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 

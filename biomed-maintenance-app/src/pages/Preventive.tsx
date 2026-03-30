@@ -129,9 +129,9 @@ const Preventive = () => {
   };
 
   return (
-    <div className="flex-1 p-10 overflow-y-auto h-screen relative z-10">
+    <div className="flex-1 p-4 md:p-6 lg:p-10 overflow-y-auto h-screen relative z-10">
       <header className="mb-12">
-        <h2 className="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-wide">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-wide">
           Protocolos Preventivos
         </h2>
         <p className="text-white/60 font-light mt-3 text-lg tracking-wide uppercase flex items-center gap-2">
@@ -139,7 +139,7 @@ const Preventive = () => {
         </p>
       </header>
 
-      <div className="flex flex-col justify-center items-center text-center group bg-white/5 border border-white/10 rounded-3xl p-12 backdrop-blur-2xl max-w-4xl mx-auto shadow-2xl min-h-[350px]">
+      <div className="flex flex-col justify-center items-center text-center group bg-white/5 border border-white/10 rounded-3xl p-4 md:p-8 lg:p-12 backdrop-blur-2xl max-w-4xl mx-auto shadow-2xl min-h-[350px]">
         <FileText size={48} className="text-emerald-500/50 mb-6 group-hover:-translate-y-2 transition-transform" />
         <h4 className="text-2xl text-white/90 font-medium mb-3">Ejecutar Formato Centralizado</h4>
         <p className="text-white/50 mb-8 max-w-xl">Los reportes se guardarán automáticamente en la nube.</p>
@@ -153,7 +153,7 @@ const Preventive = () => {
 
       {isModalOpen && (
         <div className="fixed inset-y-0 right-0 w-full max-w-3xl bg-gray-900/95 backdrop-blur-3xl border-l border-white/10 z-50 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-          <div className="p-8 border-b border-white/10 flex justify-between items-center bg-black/40">
+          <div className="p-4 md:p-6 lg:p-8 border-b border-white/10 flex justify-between items-center bg-black/40">
             <div>
               <h3 className="text-2xl font-bold text-white">Manual de Ejecución</h3>
               {activeProtocol && <p className="text-emerald-400 text-xs font-bold mt-1 uppercase tracking-widest">{activeProtocol.code} - VER. {activeProtocol.version}</p>}
@@ -161,7 +161,7 @@ const Preventive = () => {
             <button onClick={() => setIsModalOpen(false)} className="p-2 bg-white/5 hover:bg-white/10 rounded-full text-white/50"><X /></button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-8 pb-32 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 pb-32 custom-scrollbar">
             {!selectedEq ? (
               <div className="space-y-4">
                 <label className="text-xs font-bold text-white/30 uppercase tracking-widest">Identificar Equipo en Nube</label>
@@ -226,7 +226,7 @@ const Preventive = () => {
                     {activeProtocol.numeric_items && (
                       <div className="space-y-4">
                         <p className="text-[10px] font-bold text-amber-400 uppercase tracking-[0.2em]">Mediciones Analizador</p>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
                            {activeProtocol.numeric_items.map((item: any) => (
                               <div key={item.id} className="bg-white/5 p-4 rounded-xl border border-white/5 text-white">
                                  <label className="text-[10px] text-white/40 block mb-2">{item.label}</label>
@@ -249,7 +249,7 @@ const Preventive = () => {
             )}
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-8 border-t border-white/10 bg-black/80 flex justify-end">
+          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8 border-t border-white/10 bg-black/80 flex justify-end">
              <button 
                 onClick={handleSaveAndGenerate}
                 disabled={!selectedEq || !activeProtocol || saving}
