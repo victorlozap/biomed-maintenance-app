@@ -103,7 +103,7 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 pb-10">
                 {/* Main Action area */}
                 <div className="xl:col-span-2 space-y-8">
-                    <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-4 md:p-6 lg:p-10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] relative overflow-hidden group">
+                    <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-4 md:p-6 lg:p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] relative overflow-hidden group">
                         <div className="absolute -right-20 -top-20 w-80 h-80 bg-orange-500/10 rounded-full blur-[80px] group-hover:bg-orange-500/20 transition-all duration-700"></div>
                         <div className="relative z-10">
                             <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold text-white mb-4">Cronograma Vigente 2026</h3>
