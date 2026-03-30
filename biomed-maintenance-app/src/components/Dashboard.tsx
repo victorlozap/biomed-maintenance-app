@@ -47,11 +47,11 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <div className="flex-1 p-10 overflow-y-auto h-screen relative z-10 custom-scrollbar">
+        <div className="flex-1 p-4 md:p-6 lg:p-10 overflow-y-auto h-screen relative z-10 custom-scrollbar">
             {/* Header section with glassmorphism */}
             <header className="mb-12 flex justify-between items-end animate-in fade-in slide-in-from-top duration-700">
                 <div>
-                    <h2 className="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-400 to-orange-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-tight">
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-400 to-orange-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-tight">
                         BioMed HUSJ <span className="text-white/20 font-light mx-2">|</span> Dashboard
                     </h2>
                     <p className="text-white/60 font-light mt-3 text-lg tracking-wide uppercase flex items-center gap-2">
@@ -103,15 +103,15 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 pb-10">
                 {/* Main Action area */}
                 <div className="xl:col-span-2 space-y-8">
-                    <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] relative overflow-hidden group">
+                    <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-4 md:p-6 lg:p-10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] relative overflow-hidden group">
                         <div className="absolute -right-20 -top-20 w-80 h-80 bg-orange-500/10 rounded-full blur-[80px] group-hover:bg-orange-500/20 transition-all duration-700"></div>
                         <div className="relative z-10">
-                            <h3 className="text-3xl font-semibold text-white mb-4">Cronograma Vigente 2026</h3>
+                            <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold text-white mb-4">Cronograma Vigente 2026</h3>
                             <p className="text-white/40 text-lg mb-8 max-w-xl font-light">Has completado el 65% de los mantenimientos preventivos programados para el primer trimestre en el área de Urgencias.</p>
                             <div className="w-full bg-white/5 h-3 rounded-full mb-8 overflow-hidden">
                                 <div className="bg-gradient-to-r from-orange-400 to-amber-500 h-full w-[65%] rounded-full shadow-[0_0_15px_rgba(245,158,11,0.5)]"></div>
                             </div>
-                            <div className="flex gap-4">
+                            <div className="flex flex-col md:flex-row gap-2 md:gap-4">
                                <button className="px-8 py-3 rounded-2xl bg-white text-black font-semibold hover:scale-105 transition-all">Ver Cronograma</button>
                                <button className="px-8 py-3 rounded-2xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-all">Exportar Datos</button>
                             </div>
@@ -120,7 +120,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Sidebar Dashboard info */}
-                <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] min-h-[500px]">
+                <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-4 md:p-6 lg:p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] min-h-[500px]">
                     <h4 className="text-xl font-semibold text-white mb-8 flex items-center gap-1.5">
                        <HeartPulse className="text-orange-400" size={20} /> Salud de los Activos
                     </h4>
@@ -144,7 +144,7 @@ const Dashboard = () => {
 };
 
 const StatCard = ({ label, value, trend, icon, color, borderColor }: any) => (
-  <div className={`p-8 bg-gradient-to-br ${color} border ${borderColor} rounded-[2rem] backdrop-blur-xl shadow-lg group hover:scale-[1.02] transition-all duration-500`}>
+  <div className={`p-4 md:p-6 lg:p-8 bg-gradient-to-br ${color} border ${borderColor} rounded-[2rem] backdrop-blur-xl shadow-lg group hover:scale-[1.02] transition-all duration-500`}>
     <div className="flex justify-between items-start mb-6">
       <div className="p-3 bg-white/5 rounded-2xl border border-white/10 group-hover:border-white/30 transition-all">
         {icon}
