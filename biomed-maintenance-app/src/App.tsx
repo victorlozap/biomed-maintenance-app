@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import { MobileDrawerOverlay } from './components/MobileDrawerOverlay';
 import Dashboard from './components/Dashboard';
@@ -13,6 +13,27 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 const AppContent = () => {
   const { user, loading } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Memoized callbacks
+  const toggleMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
+  }, []);
+
+  // Handle window resize to close drawer on desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   if (loading) {
     return (
@@ -36,11 +57,15 @@ const AppContent = () => {
       
       {/* Hamburger button - visible only on mobile */}
       <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="fixed top-4 left-4 z-45 lg:hidden p-2 hover:bg-gray-800 rounded-lg transition-colors"
+        onClick={toggleMenu}
+        className={`fixed top-4 left-4 z-40 lg:hidden p-2 rounded-lg transition-colors ${
+          isMobileMenuOpen ? 'bg-orange-500/20' : 'hover:bg-gray-800'
+        }`}
         aria-label="Toggle menu"
+        aria-expanded={isMobileMenuOpen}
       >
         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <title>Menu</title>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
@@ -53,7 +78,7 @@ const AppContent = () => {
       {/* Mobile Drawer Overlay */}
       <MobileDrawerOverlay
         isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
+        onClose={closeMenu}
       >
         <Sidebar />
       </MobileDrawerOverlay>
