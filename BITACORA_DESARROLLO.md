@@ -40,7 +40,15 @@ Este documento registra la evolución tecnológica de la aplicación de mantenim
 
 ---
 
-### 📊 Resumen Estadístico del Día
+### �️ Hito 5: Corrección de Drawer Móvil
+**Objetivo:** Solucionar el problema de menú hamburguesa que abría fondo negro sin mostrar navegación en móvil.
+- **Acción:** Ajustar `Sidebar.tsx`, eliminando `hidden lg:block` de la raíz de sidebar para permitir renderizado dentro de `MobileDrawerOverlay`.
+- **Acción:** En `App.tsx`, mantener sidebar de escritorio en `<div className="hidden lg:block">` y la versión móvil en `<MobileDrawerOverlay>`.
+- **Resultado:** Menú hamburguesa móvil funcional, contenido visible y build limpio.
+
+---
+
+### �📊 Resumen Estadístico del Día
 - **Registros Migrados:** 2,923 equipos únicos.
 - **Archivos Modificados:** 12 archivos clave de la lógica interna.
 - **Nuevas Funcionalidades:** LogIn corporativo, persistencia de sesión, sincronización en tiempo real.
