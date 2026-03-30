@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard';
 import Inventory from './pages/Inventory';
 import Preventive from './pages/Preventive';
 import Corrective from './pages/Corrective';
+import SurgeryRounds from './pages/SurgeryRounds';
 import Login from './components/Login';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
@@ -24,8 +25,11 @@ const AppContent = () => {
 
   return (
     <div className="flex h-screen bg-[#030712] text-white">
-      {/* Background Ambient Glows */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#030712] to-[#030712] pointer-events-none"></div>
+      {/* Background Ambient Glows - Intensified for Vercel */}
+      <div className="absolute inset-0 bg-[#030712] pointer-events-none"></div>
+      <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/10 blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-[20%] left-[20%] w-[30%] h-[30%] rounded-full bg-purple-500/5 blur-[100px] pointer-events-none"></div>
       
       <Sidebar />
       
@@ -35,6 +39,7 @@ const AppContent = () => {
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/preventive" element={<Preventive />} />
           <Route path="/corrective" element={<Corrective />} />
+          <Route path="/surgery-rounds" element={<SurgeryRounds />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

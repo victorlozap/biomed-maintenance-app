@@ -7,7 +7,8 @@ import {
   Wrench, 
   Settings, 
   LogOut,
-  Hospital
+  Hospital,
+  ShieldCheck
 } from 'lucide-react';
 
 import { useAuth } from '../contexts/AuthContext';
@@ -38,6 +39,7 @@ const Sidebar = () => {
         <SidebarItem to="/inventory" icon={<Activity size={22} />} label="Inventario" iconColor="orange" />
         <SidebarItem to="/preventive" icon={<ClipboardList size={22} />} label="Preventivos" iconColor="green" />
         <SidebarItem to="/corrective" icon={<Wrench size={22} />} label="Correctivos" iconColor="purple" />
+        <SidebarItem to="/surgery-rounds" icon={<ShieldCheck size={22} />} label="Rondas Cirugía" iconColor="blue" />
         
         <div className="mt-10 mb-4">
           <p className="px-3 text-[10px] font-semibold text-white/40 uppercase tracking-[0.2em] mb-2">Sistema</p>
@@ -73,6 +75,7 @@ const SidebarItem = ({ to, icon, label, iconColor }: ItemProps) => {
       case 'orange': return 'text-orange-400 drop-shadow-[0_0_12px_rgba(251,146,60,0.7)]';
       case 'green': return 'text-emerald-400 drop-shadow-[0_0_12px_rgba(52,211,153,0.7)]';
       case 'purple': return 'text-violet-400 drop-shadow-[0_0_12px_rgba(167,139,250,0.7)]';
+      case 'blue': return 'text-blue-400 drop-shadow-[0_0_12px_rgba(59,130,246,0.7)]';
       default: return 'text-slate-300';
     }
   };
