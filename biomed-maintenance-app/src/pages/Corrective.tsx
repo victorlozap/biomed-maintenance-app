@@ -1,4 +1,3 @@
-import React from 'react';
 import { Wrench, AlertTriangle, PenTool } from 'lucide-react';
 
 const Corrective = () => {

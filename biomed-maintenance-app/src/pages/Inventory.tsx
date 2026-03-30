@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { Plus, Search, Filter, X, Download, ShieldCheck, Wrench, Activity, Hash, Tag, Layers, Edit, Save } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { Plus, Search, Filter, X, Download, ShieldCheck, Wrench, Activity, Layers, Edit, Save } from 'lucide-react';
 import rawInventoryData from '../data/inventory.json';
 
 // Type assertion since we're importing raw JSON

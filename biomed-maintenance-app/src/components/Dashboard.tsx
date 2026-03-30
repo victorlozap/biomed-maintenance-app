@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { 
   Activity, 
   CheckCircle2, 
   AlertTriangle, 
-  Clock,
   TrendingUp,
   ArrowRight,
   Plus
@@ -21,7 +20,6 @@ const Dashboard = () => {
 
     inventoryData.forEach(item => {
       const estado = (item['Estado'] || '').toLowerCase();
-      const riesgo = (item['RIESGO'] || '').toLowerCase();
 
       if (estado.includes('malo') || estado.includes('falla') || estado.includes('baja')) {
         criticos++;

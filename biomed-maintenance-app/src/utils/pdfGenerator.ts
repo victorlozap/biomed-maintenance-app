@@ -7,8 +7,28 @@ export const generateProtocolPDF = async (
   checks: Record<string, string>, 
   numerics: Record<string, string>, 
   notes: string, 
-  reportId: string
+  reportId: string,
+  maintenanceDate: string = ''
 ) => {
+  const fixSymbols = (text: string) => {
+    if (!text || typeof text !== 'string') return text;
+    let t = text;
+    
+    // 1. Limpiar artefactos conocidos de codificación en Excel/PDF
+    t = t.split('"d').join('<='); 
+    t = t.split('!&').join(' Ohms');
+    
+    // 2. Reemplazos universales para símbolos no soportados por Helvetica estándar
+    t = t.split('≤').join('<=');
+    t = t.split('<=').join('<=');
+    t = t.split('Ohms').join('Ohms');
+    t = t.split('Ω').join(' Ohms');
+    t = t.split('Ω').join(' Ohms');
+    t = t.split('\u2264').join('<=');
+    t = t.split('\u2126').join(' Ohms');
+    
+    return t;
+  };
   // Buscar logo dinámicamente en varias rutas posibles y formatos
   let logoData: string | null = null;
   let logoFormat = 'PNG';
@@ -62,11 +82,13 @@ export const generateProtocolPDF = async (
   // Pad estirado para Desfibrilador para que ocupe hermosamente el largo de la hoja carta
   const dPad = isDesfibrilador ? { top: 1.9, bottom: 1.9, left: 1, right: 1 } : { top: 1.2, bottom: 1.2, left: 1, right: 1 };
   const dFont = 8;
-  const dDateH = isDesfibrilador ? 11 : 11;
+  const dDateH = 11;
   const logoH = 25;
 
-  const drawHospitalHeader = (doc: any, pageNum: number, totalPages: number) => {
-    // Encabezado Principal del Hospital
+  const drawHeader = () => {
+    const pageNum = doc.getNumberOfPages();
+    const totalPages = 2; 
+    
     autoTable(doc, {
       startY: 10,
       margin: { left: 10, right: 10 },
@@ -79,7 +101,7 @@ export const generateProtocolPDF = async (
       },
       body: [
         [
-          { content: '', rowSpan: 2, styles: { minCellHeight: logoH } }, // Espacio Logo
+          { content: '', rowSpan: 2, styles: { minCellHeight: logoH } }, 
           { content: `EMPRESA SOCIAL DEL ESTADO\nHOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA`, styles: { fontStyle: 'bold', halign: 'center' } },
           { content: `CÓDIGO: ${protocol.code}\nVERSIÓN: ${protocol.version}\nFECHA: ${protocol.date}\nPÁGINA: ${pageNum} DE ${totalPages}`, rowSpan: 2 }
         ],
@@ -87,22 +109,17 @@ export const generateProtocolPDF = async (
           { content: protocol.title, styles: { fontStyle: 'bold', halign: 'center' } }
         ]
       ],
-      didDrawCell: (data: any) => {
-         // Dibujamos el logo solo en la celda inicial (row 0, col 0)
-         if (data.row.index === 0 && data.column.index === 0) {
+      didDrawCell: (d: any) => {
+         if (d.row.index === 0 && d.column.index === 0) {
             if (logoData) {
-               // Ajustamos al centro del cajón de 2 filas
                const logoYOffset = isDesfibrilador ? 1 : 4;
                const logoHeight = isDesfibrilador ? 14 : 16;
-               doc.addImage(logoData, logoFormat, data.cell.x + 2, data.cell.y + logoYOffset, 31, logoHeight);
-            } else {
-               doc.text("Logo\nHUSJ", data.cell.x + 17, data.cell.y + (isDesfibrilador ? 9 : 12), { align: "center" });
+               doc.addImage(logoData, logoFormat, d.cell.x + 2, d.cell.y + logoYOffset, 31, logoHeight);
             }
          }
       }
     });
 
-    // Bloque de Identificación del Equipo
     autoTable(doc, {
       startY: (doc as any).lastAutoTable.finalY + 2,
       margin: { left: 10, right: 10 },
@@ -131,28 +148,30 @@ export const generateProtocolPDF = async (
           { content: 'ACTIVO FIJO', styles: { fillColor: GRAY } }, 
           String(equipment['Id_Unico'] || ''), 
           { content: 'UBICACIÓN', styles: { fillColor: GRAY } }, 
-          String(equipment['UBICACIÓN'] || equipment['Servicio'] || '')
+          String(equipment['Servicio'] || '')
         ]
       ]
     });
   };
 
-  // ----- HOJA 1: LISTADO PREVENTIVO -----
-  drawHospitalHeader(doc, 1, 2);
+  // ----- HOJA 1 -----
+  drawHeader();
 
   const checkBody: any[] = [];
   
   // Encabezados con columna invisible separadora
   checkBody.push([
     { content: 'ACTIVIDADES REALIZADAS', colSpan: 2, rowSpan: 2, styles: { halign: 'center', valign: 'middle', fontStyle: 'bold', fillColor: GRAY } },
-    { content: '', rowSpan: 3, styles: { lineWidth: 0, fillColor: [255,255,255] } }, // Columna invisible (GAP)
+    { content: '', rowSpan: 3, styles: { lineWidth: 0, fillColor: [255,255,255] } }, 
     { content: 'FECHA', colSpan: 3, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }
   ]);
+  const formattedMaintDate = maintenanceDate ? maintenanceDate.split('-').reverse().join('/') : '';
+
   checkBody.push([
-    { content: '', colSpan: 3, styles: { minCellHeight: dDateH } } // Caja de fecha vacía adaptada
+    { content: formattedMaintDate, colSpan: 3, styles: { minCellHeight: dDateH, halign: 'center', valign: 'middle', fontSize: 10, fontStyle: 'bold' } } 
   ]);
   checkBody.push([
-    { content: '', colSpan: 2, styles: { lineWidth: 0, minCellHeight: 4 } }, // Espaciador invisible izquierdo
+    { content: '', colSpan: 2, styles: { lineWidth: 0, minCellHeight: 4 } }, 
     { content: 'C', styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY, cellWidth: 15 } },
     { content: 'NC', styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY, cellWidth: 15 } },
     { content: 'NA', styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY, cellWidth: 15 } }
@@ -177,8 +196,8 @@ export const generateProtocolPDF = async (
        });
      }
      
-     row.push({ content: item.label }); // Dejar sin cellWidth forzado para expandirse
-     row.push({ content: '', styles: { lineWidth: 0 } }); // GAP invisible por item
+     row.push({ content: fixSymbols(item.label) }); 
+     row.push({ content: '', styles: { lineWidth: 0 } }); 
      row.push({ content: cMark, styles: { halign: 'center' }});
      row.push({ content: ncMark, styles: { halign: 'center' }});
      row.push({ content: naMark, styles: { halign: 'center' }});
@@ -188,11 +207,12 @@ export const generateProtocolPDF = async (
 
   autoTable(doc, {
     startY: (doc as any).lastAutoTable.finalY + 3,
-    margin: { left: 10, right: 10, bottom: 10 },
+    margin: { left: 10, right: 10, bottom: 10, top: 58 },
+    didDrawPage: drawHeader,
     theme: 'grid',
     styles: { lineWidth: 0.5, lineColor: 0, textColor: 0, fontSize: dFont, cellPadding: dPad },
     columnStyles: {
-       2: { cellWidth: 4 } // Ancho del GAP separador
+       2: { cellWidth: 4 } 
     },
     body: checkBody,
     didParseCell: (hookData: any) => {
@@ -205,7 +225,7 @@ export const generateProtocolPDF = async (
     },
     didDrawCell: (data: any) => {
        if (data.cell.raw && data.cell.raw.content === '{v}') {
-          doc.setDrawColor(15, 20, 25); // negro tinta
+          doc.setDrawColor(15, 20, 25); 
           doc.setLineWidth(0.8);
           const rx = data.cell.x + (data.cell.width / 2) - 1;
           const ry = data.cell.y + (data.cell.height / 2);
@@ -233,23 +253,27 @@ export const generateProtocolPDF = async (
 
         const val = numerics[item.id];
         numBody1.push([
-           item.label,
+           fixSymbols(item.label),
            { content: val ? String(val) : '', colSpan: 2, styles: { halign: 'center' } }
         ]);
      });
 
      autoTable(doc, {
         startY: (doc as any).lastAutoTable.finalY + 2,
-        margin: { left: 10, right: 10, bottom: 10 },
+        margin: { left: 10, right: 10, bottom: 10, top: 58 },
+        didDrawPage: drawHeader,
         theme: 'grid',
         styles: { lineWidth: 0.5, lineColor: 0, textColor: 0, fontSize: dFont, cellPadding: dPad },
+        columnStyles: { 0: { halign: 'center' } },
         body: numBody1
      });
   }
 
-  // ----- HOJA 2: NUMÉRICOS (SEGURIDAD), OBSERVACIONES Y FIRMAS -----
-  doc.addPage();
-  drawHospitalHeader(doc, 2, 2);
+  // ----- SECCIÓN: SEGURIDAD ELECTRICA -----
+  if (protocol.layout?.forceSecondPageBeforeElectric && doc.getNumberOfPages() === 1) {
+     doc.addPage();
+     drawHeader();
+  }
 
   if (numericItemsPage2.length > 0) {
      const numBody2: any[] = [];
@@ -267,26 +291,35 @@ export const generateProtocolPDF = async (
 
         const val = numerics[item.id];
         numBody2.push([
-           item.label,
+           fixSymbols(item.label),
            { content: val ? String(val) : '', styles: { halign: 'center' } },
-           { content: '', styles: { halign: 'center' } } // Vacio, sin la 'X' para imprimir y llenar a mano
+           { content: '', styles: { halign: 'center' } }
         ]);
      });
 
      autoTable(doc, {
         startY: (doc as any).lastAutoTable.finalY + 3,
-        margin: { left: 10, right: 10 },
+        margin: { left: 10, right: 10, top: 58 },
+        didDrawPage: drawHeader,
         theme: 'grid',
         styles: { lineWidth: 0.5, lineColor: 0, textColor: 0, fontSize: 8, cellPadding: { top: 1.2, bottom: 1.2, left: 1, right: 1 } },
         body: numBody2
      });
   }
 
-  // Cuadro de Observaciones (Fondo gris titulos)
-  const obsY = (doc as any).lastAutoTable.finalY + 3;
+  // ----- SECCIÓN 2: OBSERVACIONES Y FIRMAS -----
+  // Forzar salto a nueva hoja para observaciones si el layout lo pide y aún no hemos saltado
+  if (protocol.layout?.forceObservationsToNextPage !== false && doc.getNumberOfPages() === 1) {
+    doc.addPage();
+    drawHeader();
+  }
+
+  // Cuadro de Observaciones
+  const obsY = Math.max((doc as any).lastAutoTable.finalY + 3, 62);
   autoTable(doc, {
     startY: obsY,
-    margin: { left: 10, right: 10 },
+    margin: { left: 10, right: 10, top: 58 },
+    didDrawPage: drawHeader,
     theme: 'grid',
     styles: { lineWidth: 0.5, lineColor: 0, textColor: 0, fontSize: 8, cellPadding: 2 },
     body: [
@@ -318,9 +351,10 @@ export const generateProtocolPDF = async (
       ]
     ],
     didDrawCell: (data: any) => {
-      if (data.row.index === 1 && data.column.index === 0 && firmaData) {
-        // Renderizar la firma
-        doc.addImage(firmaData, firmaFormat, data.cell.x + 25, data.cell.y + 2, 45, 15);
+      if (data.row.index === 1 && data.column.index === 0 && firmaData && reportId !== 'BLANK') {
+        const sigW = 32;
+        const sigH = 12;
+        doc.addImage(firmaData, firmaFormat, data.cell.x + (data.cell.width - sigW) / 2, data.cell.y + 4, sigW, sigH);
         // Renderizar el nombre debajo
         doc.setFontSize(8);
         doc.setFont("helvetica", "bold");

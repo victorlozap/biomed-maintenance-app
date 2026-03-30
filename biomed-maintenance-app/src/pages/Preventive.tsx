@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Calendar, CheckCircle, FileText, Search, X, Activity, Save, AlertCircle } from 'lucide-react';
 import { generateProtocolPDF } from '../utils/pdfGenerator';
 import rawInventoryData from '../data/inventory.json';
@@ -12,6 +12,7 @@ const Preventive = () => {
   const [searchEq, setSearchEq] = useState('');
   const [selectedEq, setSelectedEq] = useState<any | null>(null);
   const [localInventory, setLocalInventory] = useState<any[]>(inventoryData);
+  const [maintenanceDate, setMaintenanceDate] = useState<string>(new Date().toISOString().split('T')[0]);
 
   useEffect(() => {
     const saved = localStorage.getItem('custom_inventory');
@@ -43,9 +44,27 @@ const Preventive = () => {
     if (selectedEq) {
       const eqName = String(selectedEq['Equipo']).toUpperCase();
       let matched = null;
-      if (eqName.includes('MONITOR')) matched = protocols['MONITOR'];
-      else if (eqName.includes('DESFIBRILADOR')) matched = protocols['DESFIBRILADOR'];
-      else if (eqName.includes('FLUJO') || eqName.includes('CONCENTRADOR') || eqName.includes('VACUTRON') || eqName.includes('ASPIRADOR') || eqName.includes('REGULADOR')) matched = protocols['FLUJOMETRO'];
+      if (eqName.includes('MONITOR')) {
+        matched = protocols['MONITOR'];
+      } else if (eqName.includes('DESFIBRILADOR')) {
+        matched = protocols['DESFIBRILADOR'];
+      } else if (
+        eqName.includes('VENTILADOR') || 
+        eqName.includes('BLENDER') || 
+        eqName.includes('NEOPUFF') ||
+        eqName.includes('REANIMADOR NEONATAL')
+      ) {
+        matched = protocols['VENTILADOR_NEOPUFF_BLENDER'];
+      } else if (
+        eqName.includes('VACUTRON') || 
+        eqName.includes('ASPIRADOR') || 
+        eqName.includes('FLUJO') || 
+        eqName.includes('CONCENTRADOR') || 
+        eqName.includes('REGULADOR') ||
+        eqName.includes('OXIGENO')
+      ) {
+        matched = protocols['FLUJOMETRO'];
+      }
       
       if (matched) {
         setActiveProtocol(matched);
@@ -97,12 +116,14 @@ const Preventive = () => {
         <p className="text-white/50 font-light text-base max-w-xl mb-8 leading-relaxed">
           Selección Dinámica: Al buscar tu equipo, el sistema cargará automáticamente todos los parámetros técnicos y de seguridad eléctrica correspondientes a la versión vigente.
         </p>
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="relative z-10 px-10 py-4 rounded-2xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/50 text-emerald-300 font-medium transition-all shadow-[0_0_20px_rgba(52,211,153,0.2)] hover:shadow-[0_0_30px_rgba(52,211,153,0.4)] flex items-center gap-3 hover:scale-105"
-        >
-          <CheckCircle size={20} /> Buscar Equipo / Iniciar Formato
-        </button>
+        <div className="flex flex-wrap justify-center gap-4">
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="relative z-10 px-10 py-4 rounded-2xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/50 text-emerald-300 font-medium transition-all shadow-[0_0_20px_rgba(52,211,153,0.2)] hover:shadow-[0_0_30px_rgba(52,211,153,0.4)] flex items-center gap-3 hover:scale-105"
+          >
+            <CheckCircle size={20} /> Buscar Equipo / Iniciar Formato
+          </button>
+        </div>
       </div>
 
       {isModalOpen && (
@@ -162,7 +183,29 @@ const Preventive = () => {
                   
                   {activeProtocol ? (
                     <div>
-                      <h4 className="text-xl font-medium text-white/90 border-b border-white/10 pb-4 mb-6">{activeProtocol.title}</h4>
+                      <div className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/10 mb-6">
+                        <div className="flex items-center gap-4">
+                          <div className="p-2 bg-emerald-500/20 rounded-xl">
+                            <FileText className="text-emerald-400" size={20} />
+                          </div>
+                          <div>
+                            <h4 className="text-white font-medium">{activeProtocol.title}</h4>
+                            <p className="text-white/40 text-[10px] uppercase tracking-widest">{activeProtocol.code} - Ver. {activeProtocol.version}</p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-col items-end">
+                          <label className="text-[10px] text-white/40 uppercase tracking-widest mb-1 flex items-center gap-1">
+                            <Calendar size={12} className="text-emerald-400" /> Fecha de Ejecución
+                          </label>
+                          <input 
+                            type="date" 
+                            value={maintenanceDate}
+                            onChange={(e) => setMaintenanceDate(e.target.value)}
+                            className="bg-black/40 border border-white/20 rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:border-emerald-500/50 transition-all cursor-pointer invert brightness-200"
+                          />
+                        </div>
+                      </div>
                       
                       <div className="space-y-3">
                          {activeProtocol.items.map((item: any) => (
@@ -227,7 +270,15 @@ const Preventive = () => {
                 onClick={async () => {
                   try {
                     const reportId = 'PM-' + Math.floor(1000 + Math.random() * 9000);
-                    await generateProtocolPDF(activeProtocol, selectedEq, checkValues, numericValues, notes, reportId);
+                    await generateProtocolPDF(
+                      activeProtocol, 
+                      selectedEq, 
+                      checkValues, 
+                      numericValues, 
+                      notes, 
+                      reportId,
+                      maintenanceDate
+                    );
                     alert(`✅ Acta de Mantenimiento GRF (${activeProtocol.code}) generada desde JSON con éxito.`);
                     setIsModalOpen(false);
                   } catch (e: any) {

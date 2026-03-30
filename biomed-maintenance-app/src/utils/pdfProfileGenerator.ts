@@ -80,7 +80,7 @@ export const generateProfilePDF = async (equipment: any) => {
       [{ content: 'INFORMACIÓN GENERAL', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
       ['NOMBRE', equipment['Equipo'] || '', 'FECHA DE COMPRA', ''],
       ['CÓDIGO EQUIPO', equipment['Id_Unico'] || '', 'COMPRA DE INSTALACIÓN', ''],
-      ['SERVICIO', equipment['Servicio'] || equipment['UBICACIÓN'] || '', 'FORMA DE ADQUISICIÓN', ''],
+      ['SERVICIO', equipment['Servicio'] || '', 'FORMA DE ADQUISICIÓN', ''],
       ['MARCA', equipment['Marca'] || '', 'REPRESENTANTE', ''],
       ['MODELO', equipment['Modelo'] || '', 'DIRECCIÓN', ''],
       ['SERIE', equipment['NumeroSerie'] || '', 'CIUDAD', ''],
