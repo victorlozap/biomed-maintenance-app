@@ -65,7 +65,7 @@ const Dashboard = () => {
             </header>
 
             {/* KPI Section with Premium Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-10">
                 <StatCard 
                     label="Parque Tecnológico" 
                     value={loading ? '...' : stats.totalEquipments.toLocaleString()} 
