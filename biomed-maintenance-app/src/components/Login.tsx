@@ -14,12 +14,15 @@ const Login = () => {
     setLoading(true);
     setError(null);
 
-    const { error } = isRegistering 
+    const { error, data } = isRegistering 
       ? await supabase.auth.signUp({ email, password })
       : await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setError(error.message);
+      setLoading(false);
+    } else if (isRegistering && data.user) {
+      alert("✅ ¡Registro enviado! Por favor revisa tu correo electrónico para confirmar tu cuenta (o desactiva la confirmación en Supabase).");
       setLoading(false);
     }
   };
