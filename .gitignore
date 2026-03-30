@@ -21,6 +21,7 @@ venv/
 # Agents/Tooling
 .agents/
 .superpowers/
+.worktrees/
 
 # System files
 .DS_Store
