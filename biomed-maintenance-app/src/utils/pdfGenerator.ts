@@ -1,15 +1,35 @@
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
+// Helper to normalize equipment fields from different data sources
+const normalizeEquipment = (equipment: any) => ({
+  Equipo: equipment['equipo'] || equipment['Equipo'] || '',
+  Marca: equipment['marca'] || equipment['Marca'] || '',
+  Modelo: equipment['modelo'] || equipment['Modelo'] || '',
+  NumeroSerie: equipment['numero_serie'] || equipment['NumeroSerie'] || '',
+  Id_Unico: equipment['id_unico'] || equipment['Id_Unico'] || equipment['activoFijo'] || '',
+  Servicio: equipment['servicio'] || equipment['Servicio'] || ''
+});
+
 export const generateProtocolPDF = async (
-  protocol: any, 
-  equipment: any, 
-  checks: Record<string, string>, 
-  numerics: Record<string, string>, 
-  notes: string, 
+  protocol: any,
+  equipment: any,
+  checks: Record<string, string>,
+  numerics: Record<string, string>,
+  notes: string,
   reportId: string,
   maintenanceDate: string = ''
 ) => {
+  // Normalizar nombres de campos del equipo (compatibilidad con distintas bases de datos)
+  const eq = {
+    Equipo: equipment['equipo'] || equipment['Equipo'] || '',
+    Marca: equipment['marca'] || equipment['Marca'] || '',
+    Modelo: equipment['modelo'] || equipment['Modelo'] || '',
+    NumeroSerie: equipment['numero_serie'] || equipment['NumeroSerie'] || '',
+    Id_Unico: equipment['id_unico'] || equipment['Id_Unico'] || equipment['activoFijo'] || '',
+    Servicio: equipment['servicio'] || equipment['Servicio'] || ''
+  };
+
   const fixSymbols = (text: string) => {
     if (!text || typeof text !== 'string') return text;
     let t = text;
@@ -146,7 +166,7 @@ export const generateProtocolPDF = async (
         ],
         [
           { content: 'ACTIVO FIJO', styles: { fillColor: GRAY } }, 
-          String(equipment['Id_Unico'] || ''), 
+          String(equipment['Id_Unico'] || equipment['activoFijo'] || ''), 
           { content: 'UBICACIÓN', styles: { fillColor: GRAY } }, 
           String(equipment['Servicio'] || '')
         ]
@@ -400,5 +420,16 @@ export const generateProtocolPDF = async (
   });
 
   const filename = `Preventivo_${protocol.code}_${equipment['Id_Unico']}.pdf`;
-  doc.save(filename);
+   // Manual download with fallback: open PDF in new tab and trigger download
+   const blob = doc.output('blob');
+   const url = URL.createObjectURL(blob);
+   // Open in new tab for user to manually save if automatic download blocked
+   window.open(url, '_blank');
+   const a = document.createElement('a');
+   a.href = url;
+   a.download = filename;
+   document.body.appendChild(a);
+   a.click();
+   document.body.removeChild(a);
+   URL.revokeObjectURL(url);
 };
