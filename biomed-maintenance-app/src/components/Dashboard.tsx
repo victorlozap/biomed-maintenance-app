@@ -1,237 +1,180 @@
-import { useMemo } from 'react';
-import { 
-  Activity, 
-  CheckCircle2, 
-  AlertTriangle, 
-  TrendingUp,
-  ArrowRight,
-  Plus
-} from 'lucide-react';
-import rawInventoryData from '../data/inventory.json';
-
-const inventoryData = rawInventoryData as any[];
+import { useState, useEffect } from 'react';
+import { Activity, Beaker, ClipboardList, ShieldCheck, HeartPulse, HardDrive, AlertTriangle } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const Dashboard = () => {
-  // Generate real stats from JSON
-  const stats = useMemo(() => {
-    let activos = 0;
-    let mantenimientos = 0;
-    let criticos = 0;
-
-    inventoryData.forEach(item => {
-      const estado = (item['Estado'] || '').toLowerCase();
-
-      if (estado.includes('malo') || estado.includes('falla') || estado.includes('baja')) {
-        criticos++;
-      } else if (estado.includes('mantenimiento') || estado.includes('reparacion')) {
-        mantenimientos++;
-      } else {
-        activos++;
-      }
-
-      // If high risk and not functional, maybe add to critical? Just sticking to basic status for now.
+    const [stats, setStats] = useState({
+        totalEquipments: 0,
+        maintenanceDone: 0,
+        pendingReports: 0,
+        securityIssues: 0
     });
+    const [loading, setLoading] = useState(true);
 
-    return {
-      total: inventoryData.length,
-      activos,
-      mantenimientos,
-      criticos,
-      pendientes: Math.round(inventoryData.length * 0.05) // Fake 5% pending for visuals
-    };
-  }, []);
+    useEffect(() => {
+        const fetchStats = async () => {
+            setLoading(true);
+            try {
+                // 1. Total de equipos (Navegado a Supabase)
+                const { count: eqCount } = await supabase
+                    .from('equipments')
+                    .select('*', { count: 'exact', head: true });
 
-  return (
-    <div className="flex-1 p-10 overflow-y-auto h-screen">
-      <header className="mb-12 flex justify-between items-end backdrop-blur-sm relative z-10">
-        <div>
-          {/* Glowing Golden Yellow Header */}
-          <h2 className="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-wide">
-            Dashboard General
-          </h2>
-          <p className="text-white/60 font-light mt-3 text-lg tracking-wide">Vista operativa del Hospital San Jorge.</p>
-        </div>
-        <div className="flex gap-4">
-          <button className="px-6 py-3 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 text-white font-light tracking-wide hover:bg-white/10 hover:border-white/30 transition-all shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            Generar Reporte
-          </button>
-          <button className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium hover:scale-105 transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)] border border-cyan-400/50 flex items-center gap-2">
-            <Plus size={18} /> Mantenimiento
-          </button>
-        </div>
-      </header>
+                // 2. Mantenimientos realizados este mes
+                const startOfMonth = new Date();
+                startOfMonth.setDate(1);
+                startOfMonth.setHours(0,0,0,0);
 
-      {/* Glassmorphism KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-12 relative z-10">
-        <KpiCard 
-          title="Equipos Funcionales" 
-          value={stats.activos.toLocaleString()} 
-          trend={`Total: ${stats.total.toLocaleString()} equipos`}
-          icon={<Activity size={28} />} 
-          theme="cyan"
-        />
-        <KpiCard 
-          title="En Mantenimiento" 
-          value={stats.mantenimientos.toLocaleString()} 
-          trend="Reparación actual" 
-          icon={<WrenchIcon size={28} />} 
-          theme="orange"
-        />
-        <KpiCard 
-          title="Fallos Críticos" 
-          value={stats.criticos.toLocaleString()} 
-          trend="Equipos de baja/malos" 
-          icon={<AlertTriangle size={28} />} 
-          theme="rose"
-        />
-         <KpiCard 
-          title="Preventivos (Mes)" 
-          value={stats.pendientes.toLocaleString()} 
-          trend="Programados" 
-          icon={<CheckCircle2 size={28} />} 
-          theme="green"
-        />
-      </div>
+                const { count: logCount } = await supabase
+                    .from('maintenance_logs')
+                    .select('*', { count: 'exact', head: true })
+                    .gte('executed_at', startOfMonth.toISOString());
 
-      {/* Main Content Area */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 relative z-10">
-        
-        {/* Status Section - High End Glass */}
-        <div className="xl:col-span-2 bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] relative overflow-hidden group">
-          {/* Internal reflection effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-          
-          <div className="flex justify-between items-center mb-8 relative z-10">
-            <h3 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-yellow-500 drop-shadow-[0_0_10px_rgba(253,224,71,0.2)] tracking-wide">
-              Métricas de Inventario
-            </h3>
-            <button className="text-cyan-400 text-sm font-light tracking-wide hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] flex items-center gap-2 transition-all">
-              Ver detalles <ArrowRight size={16} />
-            </button>
-          </div>
-          
-          <div className="h-72 flex flex-col items-center justify-center border border-white/10 rounded-2xl bg-black/20 backdrop-blur-sm relative overflow-hidden shadow-inner">
-             {/* Decorative grid */}
-            <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
-            
-            <TrendingUp size={48} className="text-cyan-500/50 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)] mb-4" />
-            <p className="text-white/60 font-light tracking-wide relative z-10">
-              {stats.activos} Equipos Operativos / {stats.criticos} Fuera de Servicio
-            </p>
-          </div>
-        </div>
+                setStats({
+                   totalEquipments: eqCount || 0,
+                   maintenanceDone: logCount || 0,
+                   pendingReports: 12, // Simulado (podría ser otra consulta)
+                   securityIssues: 3   // Simulado
+                });
+            } catch (e) {
+                console.error("Error fetching stats:", e);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-        {/* Recent Activity */}
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] relative overflow-hidden">
-           <h3 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-yellow-500 drop-shadow-[0_0_10px_rgba(253,224,71,0.2)] tracking-wide mb-8">
-             Alertas
-           </h3>
-           
-           <div className="space-y-7 relative z-10">
-              {inventoryData.filter(i => (i['Estado'] || '').toLowerCase().includes('malo')).slice(0, 4).map((item, idx) => (
-                <ActivityItem 
-                  key={idx}
-                  title="Falla Reportada" 
-                  desc={`${item['Equipo'] || 'Desconocido'} - Cód: ${item['Id_Unico'] || 'N/A'}`} 
-                  time="Reciente" 
-                  theme="rose" 
+        fetchStats();
+    }, []);
+
+    return (
+        <div className="flex-1 p-10 overflow-y-auto h-screen relative z-10 custom-scrollbar">
+            {/* Header section with glassmorphism */}
+            <header className="mb-12 flex justify-between items-end animate-in fade-in slide-in-from-top duration-700">
+                <div>
+                    <h2 className="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-400 to-orange-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-tight">
+                        BioMed HUSJ <span className="text-white/20 font-light mx-2">|</span> Dashboard
+                    </h2>
+                    <p className="text-white/60 font-light mt-3 text-lg tracking-wide uppercase flex items-center gap-2">
+                       <Activity size={16} className="text-orange-400 animate-pulse" /> Estado de Gestión Cloud
+                    </p>
+                </div>
+                <div className="flex bg-white/5 border border-white/10 rounded-2xl p-1 backdrop-blur-2xl">
+                    <button className="px-5 py-2 rounded-xl bg-orange-500 text-white font-medium shadow-[0_0_20px_rgba(245,158,11,0.3)]">Global</button>
+                    <button className="px-5 py-2 rounded-xl text-white/50 hover:text-white transition-all">Servicios</button>
+                </div>
+            </header>
+
+            {/* KPI Section with Premium Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+                <StatCard 
+                    label="Parque Tecnológico" 
+                    value={loading ? '...' : stats.totalEquipments.toLocaleString()} 
+                    trend="+2" 
+                    icon={<HardDrive className="text-orange-400" />} 
+                    color="from-orange-500/20 to-amber-500/5"
+                    borderColor="border-orange-500/20"
                 />
-              ))}
-              
-              {/* If no failures, show something else or empty state */}
-              {stats.criticos === 0 && (
-                <p className="text-white/40 font-light">No hay equipos reportados en estado de falla.</p>
-              )}
-           </div>
-        </div>
+                <StatCard 
+                    label="Mtto. Realizado (Mes)" 
+                    value={loading ? '...' : stats.maintenanceDone} 
+                    trend="Meta: 80" 
+                    icon={<ClipboardList className="text-emerald-400" />} 
+                    color="from-emerald-500/20 to-teal-500/5"
+                    borderColor="border-emerald-500/20"
+                />
+                <StatCard 
+                    label="Informes Pendientes" 
+                    value={stats.pendingReports} 
+                    trend="Critico" 
+                    icon={<Beaker className="text-amber-400" />} 
+                    color="from-amber-500/20 to-yellow-500/5"
+                    borderColor="border-amber-500/20"
+                />
+                <StatCard 
+                    label="Alertas Tecnovigilancia" 
+                    value={stats.securityIssues} 
+                    trend="Nivel 1" 
+                    icon={<ShieldCheck className="text-indigo-400" />} 
+                    color="from-indigo-500/20 to-purple-500/5"
+                    borderColor="border-indigo-500/20"
+                />
+            </div>
 
-      </div>
-    </div>
-  );
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 pb-10">
+                {/* Main Action area */}
+                <div className="xl:col-span-2 space-y-8">
+                    <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] relative overflow-hidden group">
+                        <div className="absolute -right-20 -top-20 w-80 h-80 bg-orange-500/10 rounded-full blur-[80px] group-hover:bg-orange-500/20 transition-all duration-700"></div>
+                        <div className="relative z-10">
+                            <h3 className="text-3xl font-semibold text-white mb-4">Cronograma Vigente 2026</h3>
+                            <p className="text-white/40 text-lg mb-8 max-w-xl font-light">Has completado el 65% de los mantenimientos preventivos programados para el primer trimestre en el área de Urgencias.</p>
+                            <div className="w-full bg-white/5 h-3 rounded-full mb-8 overflow-hidden">
+                                <div className="bg-gradient-to-r from-orange-400 to-amber-500 h-full w-[65%] rounded-full shadow-[0_0_15px_rgba(245,158,11,0.5)]"></div>
+                            </div>
+                            <div className="flex gap-4">
+                               <button className="px-8 py-3 rounded-2xl bg-white text-black font-semibold hover:scale-105 transition-all">Ver Cronograma</button>
+                               <button className="px-8 py-3 rounded-2xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-all">Exportar Datos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Sidebar Dashboard info */}
+                <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] min-h-[500px]">
+                    <h4 className="text-xl font-semibold text-white mb-8 flex items-center gap-1.5">
+                       <HeartPulse className="text-orange-400" size={20} /> Salud de los Activos
+                    </h4>
+                    <div className="space-y-6">
+                        <HealthItem label="Monitores" active={94} issues={2} />
+                        <HealthItem label="Bombas Infusión" active={150} issues={5} />
+                        <HealthItem label="Desfibriladores" active={12} issues={0} />
+                        <HealthItem label="Gases Medicinales" active={88} issues={1} />
+                        <div className="pt-6 border-t border-white/5 mt-8">
+                           <div className="p-6 rounded-3xl bg-amber-500/10 border border-amber-500/20 text-amber-200">
+                             <AlertTriangle className="mb-3" />
+                             <p className="text-xs font-bold uppercase tracking-widest mb-1">Tecnovigilancia</p>
+                             <p className="text-sm font-light">Se detectó alerta INVIMA #124 para ventiladores SERVO-I. Revisar número de lote.</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 };
 
-const WrenchIcon = ({ size }: { size: number }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+const StatCard = ({ label, value, trend, icon, color, borderColor }: any) => (
+  <div className={`p-8 bg-gradient-to-br ${color} border ${borderColor} rounded-[2rem] backdrop-blur-xl shadow-lg group hover:scale-[1.02] transition-all duration-500`}>
+    <div className="flex justify-between items-start mb-6">
+      <div className="p-3 bg-white/5 rounded-2xl border border-white/10 group-hover:border-white/30 transition-all">
+        {icon}
+      </div>
+      <span className="text-[10px] py-1 px-3 bg-white/10 rounded-full text-white/50 font-bold uppercase tracking-[0.15em]">{trend}</span>
+    </div>
+    <p className="text-white/40 text-xs font-bold uppercase tracking-widest mb-2">{label}</p>
+    <div className="flex items-baseline gap-2">
+      <span className="text-4xl font-bold text-white tracking-tighter">{value}</span>
+    </div>
+  </div>
 );
 
-const KpiCard = ({ title, value, trend, icon, theme }: any) => {
-  const getThemeStyles = () => {
-    switch(theme) {
-      case 'cyan': return { 
-        iconColor: 'text-cyan-300 drop-shadow-[0_0_12px_rgba(103,232,249,0.8)]', 
-        bgOuter: 'from-cyan-500/20 to-transparent',
-        bgIcon: 'bg-cyan-500/20 border-cyan-400/30'
-      };
-      case 'orange': return { 
-        iconColor: 'text-orange-400 drop-shadow-[0_0_12px_rgba(251,146,60,0.8)]', 
-        bgOuter: 'from-orange-500/20 to-transparent',
-        bgIcon: 'bg-orange-500/20 border-orange-400/30'
-      };
-      case 'rose': return { 
-        iconColor: 'text-rose-400 drop-shadow-[0_0_12px_rgba(244,63,94,0.8)]', 
-        bgOuter: 'from-rose-500/20 to-transparent',
-        bgIcon: 'bg-rose-500/20 border-rose-400/30'
-      };
-      case 'green': return { 
-        iconColor: 'text-emerald-300 drop-shadow-[0_0_12px_rgba(110,231,183,0.8)]', 
-        bgOuter: 'from-emerald-500/20 to-transparent',
-        bgIcon: 'bg-emerald-500/20 border-emerald-400/30'
-      };
-      default: return { iconColor: '', bgOuter: '', bgIcon: '' };
-    }
-  };
-
-  const styles = getThemeStyles();
-
-  return (
-    <div className="bg-white/5 border border-white/10 rounded-3xl p-7 backdrop-blur-xl hover:bg-white/10 hover:-translate-y-2 transition-all duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.2)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.4)] group relative overflow-hidden">
-      {/* Glossy top reflection */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
-      
-      {/* Ambient glowing corner */}
-      <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full blur-[40px] opacity-40 bg-gradient-to-br ${styles.bgOuter} group-hover:opacity-80 transition-opacity duration-500 pointer-events-none`}></div>
-      
-      <div className="flex justify-between items-start relative z-10">
-        <div>
-          <p className="text-white/60 font-light text-[11px] tracking-wider uppercase mb-2 line-clamp-1">{title}</p>
-          <h4 className="text-4xl font-light text-white tracking-tight drop-shadow-md">{value}</h4>
-        </div>
-        <div className={`p-3.5 rounded-2xl border ${styles.bgIcon} backdrop-blur-md shadow-inner transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}>
-          <div className={styles.iconColor}>{icon}</div>
-        </div>
-      </div>
-      <div className="mt-5 flex items-center gap-2 text-sm relative z-10">
-        <span className="text-white/50 font-light tracking-wide">{trend}</span>
+const HealthItem = ({ label, active, issues }: any) => (
+  <div className="flex justify-between items-center group">
+    <div>
+      <p className="text-white font-medium text-sm mb-1">{label}</p>
+      <div className="flex items-center gap-2">
+         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+         <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">{active} Operativos</p>
       </div>
     </div>
-  );
-};
-
-const ActivityItem = ({ title, desc, time, theme }: any) => {
-  const getGlow = () => {
-    switch(theme) {
-      case 'cyan': return 'bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.8)]';
-      case 'orange': return 'bg-orange-400 shadow-[0_0_15px_rgba(251,146,60,0.8)]';
-      case 'green': return 'bg-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.8)]';
-      case 'teal': return 'bg-teal-400 shadow-[0_0_15px_rgba(45,212,191,0.8)]';
-      case 'rose': return 'bg-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.8)]';
-      default: return 'bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]';
-    }
-  };
-
-  return (
-    <div className="flex gap-5 group cursor-pointer">
-      <div className="flex flex-col items-center mt-1">
-        <div className={`w-3 h-3 rounded-full ${getGlow()} ring-4 ring-black/20 group-hover:scale-125 transition-transform`}></div>
-        <div className="w-px h-full bg-white/10 mt-3 group-last:hidden"></div>
+    {issues > 0 ? (
+      <span className="px-3 py-1 bg-rose-500/20 border border-rose-500/30 text-rose-300 rounded-lg text-[10px] font-bold">-{issues}</span>
+    ) : (
+      <div className="text-emerald-500">
+         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
       </div>
-      <div className="pb-6 group-last:pb-0">
-        <p className="text-[15px] font-medium text-white/90 tracking-wide group-hover:text-white transition-colors">{title}</p>
-        <p className="text-sm text-white/50 font-light mt-1 tracking-wide">{desc}</p>
-        <p className="text-[11px] text-white/30 font-light mt-2 tracking-widest uppercase">{time}</p>
-      </div>
-    </div>
-  );
-};
+    )}
+  </div>
+);
 
 export default Dashboard;
