@@ -10,7 +10,11 @@ import {
   Hospital
 } from 'lucide-react';
 
+import { useAuth } from '../contexts/AuthContext';
+
 const Sidebar = () => {
+  const { signOut } = useAuth();
+
   return (
     <aside className="w-72 bg-white/[0.03] backdrop-blur-[24px] border-r border-white/10 flex flex-col h-screen sticky top-0 shadow-[4px_0_24px_rgba(0,0,0,0.3)]">
       {/* Logo Section */}
@@ -34,7 +38,6 @@ const Sidebar = () => {
         <SidebarItem to="/inventory" icon={<Activity size={22} />} label="Inventario" iconColor="orange" />
         <SidebarItem to="/preventive" icon={<ClipboardList size={22} />} label="Preventivos" iconColor="green" />
         <SidebarItem to="/corrective" icon={<Wrench size={22} />} label="Correctivos" iconColor="purple" />
-        <SidebarItem to="/surgery" icon={<Activity size={22} />} label="Rondas Cirugía" iconColor="cyan" />
         
         <div className="mt-10 mb-4">
           <p className="px-3 text-[10px] font-semibold text-white/40 uppercase tracking-[0.2em] mb-2">Sistema</p>
@@ -44,7 +47,10 @@ const Sidebar = () => {
       </nav>
 
       <div className="p-6 border-t border-white/10 bg-gradient-to-t from-black/20 to-transparent">
-        <button className="flex items-center gap-3 px-4 py-3 w-full text-white/70 hover:text-rose-400 hover:bg-rose-500/10 rounded-2xl transition-all duration-300 group border border-transparent hover:border-rose-500/30">
+        <button 
+          onClick={() => signOut()}
+          className="flex items-center gap-3 px-4 py-3 w-full text-white/70 hover:text-rose-400 hover:bg-rose-500/10 rounded-2xl transition-all duration-300 group border border-transparent hover:border-rose-500/30"
+        >
           <LogOut size={20} className="group-hover:text-rose-400 drop-shadow-[0_0_8px_rgba(244,63,94,0)] group-hover:drop-shadow-[0_0_8px_rgba(244,63,94,0.6)] transition-all" />
           <span className="font-light tracking-wide text-sm">Cerrar Sesión</span>
         </button>
