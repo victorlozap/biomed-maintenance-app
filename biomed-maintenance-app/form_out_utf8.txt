@@ -1,0 +1,131 @@
+﻿
+=== FORMATO FROM MONITORES DE SIGNOS VITALES GRF3MAN-FR35 VERSION 4.xlsx ===
+EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | C├ôDIGO: GRF3MAN-FR35
+VERSI├ôN: 4.0	
+FECHA: 03-02-2025	
+P├üGINA: 1 DE 2
+LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO MONITORES 
+DE SIGNOS VITALES, PULSOXIMETROS Y ELECTROCARDIOGRAFOS
+EQUIPO | MONITOR DE SIGNOS VITALES | MARCA | EDAN
+MODELO | SERIE | 333123-M14102120037
+ACTIVO FIJO | UBICACI├ôN | URGENCIAS
+ACTIVIDADES REALIZADAS | FECHA
+INSPECCI├ôN F├ìSICA | Aseg├║rese de que el equipo se enuentre limpio, sin humedad, sin objetos extra├▒os y carcasa en buen estado.
+Verifique que los rotulos y etiquetas se encuentren en buen estado y legibles.
+Limpieza del equipo
+ALIMENTACI├ôN | Cable AC
+Enchufe/ recept├ículo
+Contacto entre la toma de entrada del instrumento y el conector del cable de conexi├│n
+Interruptores / Swiches
+Protecciones / Fusibles
+Estado y funcionamiento de la bater├¡a
+FUNCIONAMIENTO | Autocomprobaci├│n de encendido
+Fecha y hora correctas
+Verificacion de estado de los modulos multiparametros CO, BIS, PICCO (Anclaje, pilotos, contactos y conectores)
+Estado y funcionamiento de ECG (Cable troncal, latiguillos)
+Estado y funcionamiento de GA
+Estado y funcionamiento de ICG
+Estado y funcionamiento de CO2
+Estado y funcionamiento de RM (Mecanica respiratoria)
+Estado y funcionamiento  de NIBP (Manguera, brazalete, conectores, acoples y fugas)
+Estado y funcionamiento de SPO2 (Sensor y extensi├│n)
+Calibracion de parametros desde el menu seg├║n corresponda
+Estado y funcionamiento de IBP (Cable)
+Estado y funcionamiento de la temperaura (Sensor )
+Funcionamiento de la impresora
+PANTALLA | Estado de la pantalla y touch screen del equipo
+Calibracion de touchscreen
+Configuracion de brillo
+Configuraci├│n de control de visualizaci├│n
+ALARMAS | Indicadores luminosos
+Se├▒ales audibles
+EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | C├ôDIGO: GRF3MAN-FR35
+VERSI├ôN: 4.0	
+FECHA: 03-02-2025	
+P├üGINA: 2 DE 2
+LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO MONITORES 
+DE SIGNOS VITALES, PULSOXIMETROS Y ELECTROCARDIOGRAFOS
+EQUIPO | MONITOR DE SIGNOS VITALES | MARCA | EDAN
+MODELO | SERIE | 333123-M14102120037
+ACTIVO FIJO | UBICACI├ôN | URGENCIAS
+SEGURIDAD ELECTRICA | VALOR
+Red el├®ctrica L1-L2               
+
+Red el├®ctrica L1-gnd
+Red el├®ctrica L2-gnd
+Resistencia cable de poder EBP (Ôëñ 0,2 Ôäª)
+Corriente de fuga a tierra Neutro abierto (Ôëñ 1000 ┬ÁA)
+Corriente de fuga a tierra Normal (Ôëñ 500 ┬ÁA)
+Corriente de Fuga a chasis EBP Normal (Ôëñ 100 ┬ÁA)
+Corriente de Fuga a chasis EBP Neutro abierto (Ôëñ 500 ┬ÁA)
+Corriente de Fuga a chasis EBP Tierra abierta (Ôëñ 500 ┬ÁA)
+OBSERVACIONES
+REALIZADO POR | RECIBIDO POR
+TABLA DE CONVENCIONES
+CUMPLE | NO CUMPLE | NO APLICA
+
+=== FORMATO FROM DESFIBRILADORES GRF3MAN-FR55 VERSION 4.xlsx ===
+EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | C├ôDIGO: GRF3MAN-FR55
+VERSI├ôN: 4.0
+FECHA: 03-02-2025
+P├üGINA: 1 DE 2
+LISTA DE CHEQUEO MANTENIMIENTO
+ PREVENTIVO DE DESFIBRILADOR
+EQUIPO | DESFIBRILADOR | MARCA | PHILIPS
+MODELO | HEARTST ART MRx | SERIE | US00580424
+ACTIVO FIJO | UBICACI├ôN | BLOQUE QUIR├ÜRGICO
+ACTIVIDADES REALIZADAS | FECHA
+Aseg├║rese de que el equipo se encuentre limpio, sin humedad, sin 
+objetos extra├▒os y carcasa y etiquetas en buen estado
+Revisi├│n de alarmas y configuraci├│n (Hora y fecha, limites de alarmas)
+Revisi├│n estado f├¡sico de  pulsadores, indicadores, palas , display y swiches 
+Revisi├│n cable de poder, protecciones, fusibles, enchufe y recept├ículo
+Revision general de accesorios  (Cable ECG, sensor y extensi├│n SPO2, manguera y brazalete PNI, capnografia, palas)
+Revisi├│n del piloto de conexi├│n de AC y carga de b├íteria
+Revisi├│n  impresora
+Realizaci├│n del test
+Revisi├│n del modo sincronico
+Revisi├│n del modo DEA
+Revisi├│n marcpasos
+Revision de la bateria, estado fisico, bornes, test  y cambio de ser necesario
+Limpieza general
+Pruebas de funcionamiento general
+PRUEBAS DE ENERGIA CON CONEXI├ôN AC | VALOR
+50 J (┬▒5J)
+100 J (┬▒5J)
+200 J (┬▒5J)
+PRUEBA DE ENERGIA CON BATERIA | VALOR
+50 J (┬▒5J)
+100 J (┬▒5J)
+200 J (┬▒5J)
+LECTURA DE BPM | VALOR
+SEGURIDAD ELECTRICA | VALOR
+Red el├®ctrica L1-L2               
+
+Red el├®ctrica L1-gnd
+Red el├®ctrica L2-gnd
+Resistencia cable de poder EBP (Ôëñ 0,2 Ôäª)
+EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | C├ôDIGO: GRF3MAN-FR55
+VERSI├ôN: 4.0
+FECHA: 03-02-2025
+P├üGINA: 2 DE 2
+LISTA DE CHEQUEO MANTENIMIENTO
+ PREVENTIVO DE DESFIBRILADOR
+EQUIPO | DESFIBRILADOR | MARCA | PHILIPS
+MODELO | HEARTST ART MRx | SERIE | US00580424
+ACTIVO FIJO | UBICACI├ôN | BLOQUE QUIR├ÜRGICO
+SEGURIDAD ELECTRICA | VALOR
+Corriente de fuga a tierra Neutro abierto (Ôëñ 1000 ┬ÁA)
+Corriente de fuga a tierra Normal (Ôëñ 500 ┬ÁA)
+Corriente de Fuga a chasis EBP Normal (Ôëñ 100 ┬ÁA)
+Corriente de Fuga a chasis EBP Neutro abierto (Ôëñ 500 ┬ÁA)
+Corriente de Fuga a chasis EBP Tierra abierta (Ôëñ 500 ┬ÁA)
+OBSERVACIONES
+REALIZADO POR | RECIBIDO POR
+TABLA DE CONVENCIONES
+CUMPLE | NO CUMPLE | NO APLICA
+CORRIENTE ALTERNA | LATIDOS POR MINUTO

@@ -1,0 +1,933 @@
+=================================================================
+FILE: 1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx
+=================================================================
+  [SHEET: Validación]
+    Clasificación de los Equipos por Riesgo | Clasificación de los Equipos por Uso | Estado | Garantía | ¿Se realiza Mtto?
+    I | Riesgo Bajo | Diagnóstico | Encontrado | Expirada | Sí
+    IIa | Riesgo Moderado | Prevención | No Encontrado | Vigente | No
+    IIb | Riesgo Alto | Rehabilitación | Baja | Baja
+    III | Riesgo Crítico | Análisis de Laboratorio
+    Tratamiento y Mantenimiento de la vida
+    BIOMÉDICOS | ¿Requiere Calibración?
+    Victor López | Sí
+    Jeferson Cabrera | No
+    Camilo Ramirez
+    Wilson Torres
+    Laura Galeano
+  [SHEET: Notas]
+    P | PROGRAMADO
+    E | EJECUTADO
+    COMO DILIGENCIAR EL FORMATO
+    MANTENIMIENTO PREVENTIVO | En la columna "P", se debe ingresa la letra "X" para programar el mantenimiento de acuerdo con la "Matriz periodicidad mantto preventivo_variables y manual ModificadoSoftware"
+    Cuando se ejecute el mantenimiento (independiente del mes de ejecución) se debe ingresar la letra "X" en la columna "E" correspondiente al mes de la ejecución. De esta forma se realizará el calculo de porcentaje (%) en el mes y anual
+    CALIBRACION | En la columna "P", se debe ingresa la letra "C" para programar la calibracion correspondiente al equipo
+    Cuando se ejecute la calibracion (independiente del mes de ejecución) se debe ingresar  "CE" en la columna "E" correspondiente al mes de la ejecución. De esta forma se realizará el calculo de porcentaje (%) en el mes y anual
+
+=================================================================
+FILE: BÁSCULAS - BALANZAS  - GRF3MAN-FR52 VERSION 5.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR52
+VERSIÓN: 5.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO
+ BASCULAS Y BALANZAS
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegurece de que el equipo se encuentre limpio, sin humedad , sin objetos extraños y etiquetas en buen estado
+    Revisión de indicadores y display
+    Funcionamiento de los pulsadores
+    Tarjetas electronicas
+    Estado de la bateria
+    Revisión de la bandeja
+    Revisión de la bandeja
+    Pruebas funcionales
+    Revisión del clamp
+    Chequeo de puesta a cero
+    Revisión y ajuste de partes mecanicas
+    Limpieza general
+    Verificacion de tallimetro
+    VERIFICACIÓN DE PESAJE | LECTURA | NA
+    Peso patron 200g
+    Peso patron 500g
+    Peso patron 1Kg
+    Peso patron 5Kg
+    Peso patron 10Kg
+    Peso patron 20Kg
+    Peso patron 35Kg
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR52	
+VERSIÓN: 5.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO
+ BASCULAS Y BALANZAS
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+
+=================================================================
+FILE: CAMAS - CUNAS - GRF3MAN-FR41 VERSION 4.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR41				
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE CAMAS, CUNAS Y SILLAS ELECTRICAS
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado
+    Revisión general de etiquetas (Que no estén removidas o barradas)
+    Revisión  estado físico de led, pulsadores y swiches del control de mano o de la baranda según aplique
+    Revisión cable de poder, protecciones, fusibles, enchufe y receptáculo
+    Revisión de ruedas (Posición libre de juego, giran y ruedan fácilmente, funcionamiento de los frenos)
+    Revisión de los diferentes movimientos
+    Revisión del sistema eléctrico (Caja de control, cables de conexión y motores)
+    Revisión sistema mecánico (Anclaje de barandas, freno central, visagras, pines de seguridad y pasadores)
+    Revisión tableros y termoformados
+    Revisión pintura
+    Revision de baterias internas
+    Limpieza y lubricación general
+    Pruebas de funcionamiento
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    OBSERVACIONES
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR41				
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE CAMAS, CUNAS Y SILLAS ELECTRICAS
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+    TABLA DE CONVENCIONES
+
+=================================================================
+FILE: COMPRESOR VASCULAR - GRF3MAN-FR96 VERSION 5.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR96
+VERSIÓN: 5.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE COMPRESOR VASCULAR
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado
+    Revisión general de etiquetas (Que no estén removidas o borradas)
+    Revision de interruptores / swiches
+    Funcionamiento de indicadores luminosos
+    Prueba general de funcionamiento (T2)
+    Autoprueba (T5)
+    Prueba de rendimiento (T6)
+    Estado de filtro de aire y filtro de extractor
+    Estado de mangueras
+    Estado de fusibles
+    Estado del Cable de alimentacion AC
+    Limpieza general del equipo
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    OBSERVACIONES
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR96
+VERSIÓN: 5.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE COMPRESOR VASCULAR
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+
+=================================================================
+FILE: DESFIBRILADORES GRF3MAN-FR55 VERSION 4.xlsx
+=================================================================
+  [SHEET: BÚSQUEDA]
+    BUSQUEDA 🔎 | 549353
+    ACTIVO FIJO | 549353
+    EQUIPO | DESFIBRILADOR
+    MARCA | PHILIPS
+    MODELO | HEARTST ART MRx
+    SERIE | US00580424
+    UBICACIÓN | BLOQUE QUIRÚRGICO
+  [SHEET: DESFIBRILADORES]
+    EQUIPO | MARCA | MODELO | SERIE | ACTIVO FIJO | SERVICIO
+    DESFIBRILADOR | MINDRAY | BENEHEART D3 | EZ-13059338 | 572919 | CUIDADO INTENSIVO ADULTO
+    DESFIBRILADOR | SPACE LABS | MEDIC6 | 3128 | 540947 | BLOQUE QUIRÚRGICO
+    DESFIBRILADOR | PHILIPS | HEARTSTART XL+ | USN1203239 | 545616 | CARDIOLOGÍA
+    DESFIBRILADOR | MINDRAY | BENEHEART D3 | EZ-99025115 | 574108 | HEMODIÁLISIS
+    DESFIBRILADOR | MINDRAY | BENEHEART D3 | EZ-99025116 | 574111 | HOSPITALIZACION ADULTOS 5° PISO
+    DESFIBRILADOR | ZOLL | M SERIES | T09F113180 | 542003 | CUIDADO INTERMEDIO ADULTO
+    DESFIBRILADOR | SPACE LABS | MEDIC6 | 3192 | 518599 | INVENTARIOS
+    DESFIBRILADOR | NIHON KOHDEN | TEC-5531E | 03586 | 546062 | HOSPITALIZACIÓN ADULTOS 4° PISO
+    DESFIBRILADOR | PHILIPS | HEARTSTART XL+ | US21304081 | 545125 | QUIMIOTERAPIA
+    DESFIBRILADOR | NIHON KOHDEN | TEC-5631 | 01738 | 574600 | CUIDADO INTENSIVO PEDIÁTRICO
+    DESFIBRILADOR | MINDRAY | BENEHEART D3 | EL-65026398 | 549363 | UNIDAD CRÍTICA OBSTÉTRICA
+    DESFIBRILADOR | NIHON KOHDEN | TEC-5531E | 03211 | 545626 | URGENCIAS
+    DESFIBRILADOR | PHILIPS | HEARTSTART XL+ | USD1203888 | 545108 | URGENCIAS
+    DESFIBRILADOR | MINDRAY | BENEHEART D6 | D6-53013007 | 549900 | URGENCIAS
+    DESFIBRILADOR | MINDRAY | BENEHEART D3 | EL-65026409 | 549364 | URGENCIAS PEDIATRÍA
+    DESFIBRILADOR | PHILIPS | HEARTST ART MRx | US00580424 | 549353 | BLOQUE QUIRÚRGICO
+    DESFIBRILADOR | NIHON KOHDEN | TEC-5631 | 00415 | 549366 | HOSPITALIZACIÓN QUIRÚRGICAS
+    DESFIBRILADOR | MINDRAY | BENEHEART D3 | EZ-99025117 | 574109 | HEMATO 2 PISO
+    DESFIBRILADOR | COMEN | S5 | S5230703019 | 572062 | BLOQUE QUIRÚRGICO
+    DESFIBRILADOR | COMEN | S5 | S5230703013 | 572061 | HOSPITALIZACIÓN ADULTOS EXPANSIÓN
+    DESFIBRILADOR | COMEN | S5 | S5230703032 | 572075 | CUIDADO INTERMEDIO ADULTO
+    DESFIBRILADOR | COMEN | S5 | S5230703024 | 572076 | CUIDADO INTENSIVO ADULTO
+    DESFIBRILADOR | NIHON KOHDEN | TEC-5631E | 01778 | 574610 | GASTROENTEROLOGÍA
+
+=================================================================
+FILE: ECÓGRAFO - DOPPLER - MONITOR FETAL - ULTRASONIDO - GRF3MAN-FR50 VERSION 4.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR50
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE ULTRASONIDO, ECOGRAFO, MONITORE FETAL Y DOOPLER
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado
+    Revisión general de etiquetas (Que no estén  removidas o borradas)
+    Pruebas de funcionamiento
+    Pulsadores, Swiches y display
+    Estado de transductores
+    Superficie del cabezal de sonido
+    Funcionamiento de LED´S
+    Revisión cable de poder, protecciones, fusibles,  enchufe y receptáculo.
+    Verifición de sonda de transductor
+    Revision pulsador de eventos
+    Revision fuente de poder
+    Revision accesorios
+    Estado y funcionamiento  de NIBP (Manguera, brazalete, conectores, acoples y fugas)
+    Estado y funcionamiento de SPO2 (Sensor y extensión)
+    Verificación de modos de funcionamiento  y configuración
+    Revisión bateria
+    Revisión plataforma rodante
+    Revisión raton estacionario
+    Revisión impresora
+    Limpieza general
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR50
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE ULTRASONIDO, ECOGRAFO, MONITORE FETAL Y DOOPLER
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+
+=================================================================
+FILE: ELECTROBISTURÍ - ELECTROCAUTERIO - GRF3MAN-FR40 VERSION 4.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR40	
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE ELECTROBISTURI Y ELECTROCAUTERIO
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado.
+    Revisión general de etiquetas (Que no estén removidas o barradas)
+    Revisión  estado físico de  pulsadores, indicadores, display y swiches
+    Revisión cable de poder, protecciones, fusibles,  enchufe y receptáculo.
+    Revisión de electrodo neutro
+    Revisión del pedal
+    Test de generador
+    Revisión  de señales audibles
+    Revisión corte y coagulación
+    Limpieza general
+    Pruebas de funcionamiento
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    OBSERVACIONES
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR40	
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE ELECTROBISTURI Y ELECTROCAUTERIO
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+    REALIZADO POR: | RECIBIDO POR:
+    TABLA DE CONVENCIONES
+    C | CUMPLE | NC | NO CUMPLE | NA | NO APLICA
+
+=================================================================
+FILE: ELECTROESTIMULADOR - MARCAPASOS - GRF3MAN-FR68 VERSION 4.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR68	
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE ELECTROESTIMULADOR Y MARCAPASOS
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegurece de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y etiquetas en buen estado
+    Funcionamiento general del equipo
+    Indicadores, display
+    Perillas y pulsadores
+    Estado de los accesorios
+    Revision de los conectores
+    Estado de la bateria
+    Limpieza general
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    OBSERVACIONES
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR68	
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE ELECTROESTIMULADOR Y MARCAPASOS
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+    TABLA DE CONVENCIONES
+
+=================================================================
+FILE: FLUJÓMETROS - REGULADORES - VACUTRONES - GRF3MAN-FR43 VERSION 6.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR43
+VERSIÓN: 6.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO FLUJOMETROS, CONCENTRADORES DE OXIGENO, VACUTRONES, ASPIRADORES Y REGULADORES DE GASES
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado.
+    Revisión estado fisico de pulsadores, indicadores luminosos, display y swiches
+    Revisión de cable de poder
+    Revisión, ajuste  y limpieza del manómetro, reemplazo del mismo si es necesario
+    Revisión del buen estado físico del acople de conexión
+    Revisión, ajuste y limpieza de la válvula reguladora reemplazo de la misma si es necesario
+    Revisión y cambio de Oring si se requiere
+    Revisión y limpieza de tubo escala (Mirilla), reemplazo del mismo si es necesario
+    Revisión de rosca
+    Revisión y limpieza de camisa externa, reemplazo de la misma si es necesario
+    Revision y/o Cambio de filtro
+    Inspeccion del liner
+    Revisión del motor
+    Revision de trampa de agua
+    Limpieza general
+    Pruebas de funcionamiento
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR43
+VERSIÓN: 6.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO FLUJOMETROS, CONCENTRADORES DE OXIGENO, VACUTRONES, ASPIRADORES Y REGULADORES DE GASES
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+    TABLA DE CONVENCIONES
+    C | CUMPLE | NC | NO CUMPLE | NA | NO APLICA
+
+=================================================================
+FILE: FONENDOSCOPIOS - GRF3MAN-FR63 VERSION 4.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR63
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO
+ PREVENTIVO FONENDOSCOPIO
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegurece de que el equipo se encuentra en buen estado físico
+    Estado de la manguera
+    Estado de la YE metalica
+    Estado de la campana
+    Estado de las olivas
+    Limpieza general
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+    TABLA DE CONVENCIONES
+    C | CUMPLE | NC | NO CUMPLE | NA | NO APLICA
+
+=================================================================
+FILE: GRF3MA-FR16 VERSIÓN 6.xlsx
+=================================================================
+  [SHEET: Sheet1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR16
+VERSIÓN:6.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 1
+    CONTROL DE MANTENIMIENTO PREVENTIVO Y CORRECTIVO
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    FECHA DE INGRESO | TIPO MTTO | REPORTE TECNICO | VALOR REPUESTO | REALIZADO POR | VALOR DE MANO OBRA | FECHA DE ENTREGA
+    TABLA DE CONVENCIONES
+    P | MANTENIMIENTO PREVENTIVO | C | MANTENIMIENTO CORRECTIVO | R.T | REPORTE TECNICO
+    C.C | CERTIFICADO DE CALIBRACIÓN | C.E | CORRESPONDENCIA EXTERNA | MTTO | MANTENIMIENTO
+
+=================================================================
+FILE: GRF3MAN-FR131 VERSION 1.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CODIGO: GRF3MAN-FR131
+VERSIÓN: 1
+FECHA: 22-09-2025
+PAGINA: 1 DE 1
+    FORMATO PARA LA ENTREGA DE INSUMOS, REPUESTOS Y ACCESORIOS
+    SERVICIO
+    FECHA DE ENTREGA DEL INSUMO AL SERVICIO | TIPO DE SOLICITUD | RELACION DEL INSUMO O REPUESTO | EQUIPO | ACTIVO FIJO | # SOPORTE | CANTIDAD | QUIEN RECIBE | QUIEN ENTREGA | PROVEEDOR
+    R | C | Nombre | Servicio
+    TIPO DE SOLICITUD:   R: Reparacion   C: cambio
+  [SHEET: Hoja2]
+
+=================================================================
+FILE: LARINGOSCOPIOS - GRF3MAN-FR45 VERSION 3.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR45
+VERSIÓN: 3.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE LARINGOSCOPIO
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegurece de que el equipo se encuentra en buen estado fisico
+    Estado del bombillo
+    Estado del socket
+    Estado de los resortes
+    Estado de los contactos
+    Estado del acople para valvas
+    Estado de las baterias, reemplazo si es necesario
+    Limpieza general
+    Verifique que los rotulos y etiquetas se encuentren en buen estado y legibles
+    OBSERVACIONES
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR45
+VERSIÓN: 3.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE LARINGOSCOPIO
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+    TABLA DE CONVENCIONES
+    C | CUMPLE | NC | NO CUMPLE | NA | NO APLICA
+
+=================================================================
+FILE: LÁMPARAS - GRF3MAN-FR51VERSION 4.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR51		
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE LAMPARA CIELITICA, LAMPARA CUELLO DE CISNE, LAMPARA AUXILIAR RODANTE
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado
+    Revisión general de etiquetas (Que no estén  removidas o borradas)
+    Verificacion de indicadores luminosos
+    Estado de interruptores y swiches
+    Funcionamiento de los sensores
+    Verificacion de bombilleria
+    Funcionamiento de la bateria
+    Estado de soporte / mango de agarre
+    Revision de ruedas
+    Revisión y ajuste de sistema de frenos
+    Limpieza general
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    OBSERVACIONES
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR51		
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE LAMPARA CIELITICA, LAMPARA CUELLO DE CISNE, LAMPARA AUXILIAR RODANTE
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+
+=================================================================
+FILE: MESAS DE CIRUGÍA - GRF3MAN-FR86 VERSION 3.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR86
+VERSIÓN: 3.0
+FECHA: 03-02-2025
+PÁGINA: 1 DE 3
+    LISTA DE CHEQUEO MANTENIMIENTO
+PREVENTIVO MESAS DE CIRUGÍA
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y chasis en buen estado.
+    CONTROL DE MANO | Estado físico del estuche
+    Estado físico del control
+    Estado físico de las conexiones
+    Estado físico de los íconos
+    Estado físico de la cubierta de aluminio
+    Chequeo de funciones cambiantes
+    TECALDO DE LA COLUMNA | Estado físico  del panel de control
+    Estado físico cubierta de aluminio del panel de control
+    Estado físico de la cubierta de aluminio
+    MARCO SUPERIOR | Chequeo de Tapicería
+    Chequeo del estado de rieles guiados
+    Pruebas funcionales de todos los cilindros neumáticos (Placas de la cabeza, la espalda y las piernas)
+    Control Visual/ Chequeo de desempeño/ Análisis de ruido/ Ajuste de la posición cero
+    Revisión del cableado
+    Estado físico y funcional de todos los interbloqueos (Placa de las piernas)
+    Control visual chequeo de desempeño de todos los puntos de adaptación (Placas de la cabeza y la espalda)
+    Lubricación del husillo del motor
+    MOVILIDAD | Chequeo de la inscripción del pedal del freno
+    Chequeo de desempeño del pedal del freno activado/desactivado
+    Chequeo de movilidad (La mesa se mueve)
+    Chequeo  de desempeño de movilidad direccional (La mesa se mueve derecho perfectamente)
+    Verificación de movimientos espaldar arriba/abajo
+    Verificación de movimientos pies  arriba/abajo
+    Verificación de movimientos trendelenburg/trendelenburg inverso
+    Verificación de movimientos desplazamiento longitudinal
+    Verificación de movimientos flex y reflex
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR86
+VERSIÓN: 3.0
+FECHA: 03-02-2025
+PÁGINA: 2 DE 3
+    LISTA DE CHEQUEO MANTENIMIENTO
+PREVENTIVO MESAS DE CIRUGÍA
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    MOVILIDAD | Verificación de movimientos inclinación lateral
+    PLACA BASE Y CONEXIONES | Revisión del sistema eléctrico (Conectores, cables, cable AC, voltaje de carga de la batería, fusibles)
+    Estado físico y funcional de interruptor prendido/apagado
+    Chequeo de conexión equipotencial
+    Chequeo del cable de conexión equipotencial
+    MESA DE OPERACIÓN | Chequeo de cables de columna de levantamiento
+    Chequeo de conexiones de acumuladores (El cable esta correctamente conectado)
+    Ajuste apropiado de columna de levantamiento (Vibración la mesa no tiembla)
+    Chequeo de los tornillos (Yodos los tornillos están atornillados)
+    Chequeo de la cubierta de la columna (La cubierta encaja / Todos los soportes están en su lugar)
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP ( (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto  (≤ 1000 µA)
+    Corriente de fuga a tierra Normal  (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    OBSERVACIONES
+
+=================================================================
+FILE: MICROSCOPIO - COLPOSCOPIO - FRONTOLUZ - LÁMPARA DE HENDIDURA - EQUIPOS DE ÓRGANOS - GRF3MAN-FR44 VERSION 4.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR44
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE MICROSCOPIO, COLPOSCOPIO, FRONTOLUZ LAMPARA DE HENDIDURA, EQUIPOS DE ORGANOS
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado
+    Revisión general de etiquetas (Que no estén  removidas o barradas)
+    Revisión  estado físico de pulsadores, indicadores, display y swiches
+    Revisión cable de poder, protecciones, fusibles,  enchufe y receptáculo
+    Revisión de ruedas (Posición libre de juego, giran y ruedan fácilmente, soporte seguro de los fijadores y de los frenos)
+    Revisión del pedal de mando
+    Revisión del sistema eléctrico
+    Revisión sistema optico (Porta objetos, lentes, prisma)
+    Revisión  estado de objetivos, tubo y otros accesorios montados en el microscopio
+    Revisión bombillo
+    Control calidad de la imagen (Zoom, enfoque, aperturta del campo luminoso, filtro de protección térmica y filtro UV)
+    Reemplazo de baterías internas
+    Limpieza general
+    Pruebas de funcionamiento
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    OBSERVACIONES
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR44
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE MICROSCOPIO, COLPOSCOPIO, FRONTOLUZ LAMPARA DE HENDIDURA, EQUIPOS DE ORGANOS
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+
+=================================================================
+FILE: MONITORES DE SIGNOS VITALES GRF3MAN-FR35 VERSION 4.xlsx
+=================================================================
+  [SHEET: BÚSQUEDA]
+    BUSQUEDA 🔎 | 545688
+    ACTIVO FIJO | 545688
+    EQUIPO | MONITOR DE SIGNOS VITALES
+    MARCA | EDAN
+    MODELO | M50
+    SERIE | 333123-M14102120037
+    UBICACIÓN | URGENCIAS
+  [SHEET: MONITORES]
+    ACTIVO FIJO | EQUIPO | MARCA | MODELO | SERIE | SERVICIO
+    550514 | MONITOR DE GASES | DRAEGER | VAMOS 2 | ASAD-0021 | BLOQUE QUIRÚRGICO
+    549358 | MONITOR DE GASES | DRAEGER | SCIO | ASHD-0001 | BLOQUE QUIRÚRGICO
+    549360 | MONITOR DE GASES | DRAEGER | SCIO | ASFK-0085 | BLOQUE QUIRÚRGICO | BUSQUEDA | 571126
+    569821 | MONITOR DE GASES | DRAEGER | VAMOS | ARXA-0026 | BLOQUE QUIRÚRGICO
+    550483 | MONITOR DE GASES | DRAEGER | VAMOS 2 | ASAD-0022 | BLOQUE QUIRÚRGICO | ACTIVO FIJO | 571126
+    571126 | MONITOR DE SIGNOS VITALES | MINDAY | uMEC 10 | KN-45223120 | HOSPITALIZACIÓN PEDIATRÍA (Ruta Dorada) | MONITOR DE SIGNOS VITALES
+    572718 | SIISTEMA DE TELEVISION PARA MONITOREO DE PACIENTES | PHILIPS | EFFICIA CMS200 | CN52101811 | CUIDADO INTERMEDIO PEDIÁTRICO | MINDAY
+    545713 | SIISTEMA DE TELEVISION PARA MONITOREO DE PACIENTES | NIHON KOHDEN | CNS 9601 | 00741 | CUIDADO INTERMEDIO ADULTO | uMEC 10
+    545718 | SIISTEMA DE TELEVISION PARA MONITOREO DE PACIENTES | NIHON KOHDEN | CNS 9601 | 00800 | CUIDADO INTERMEDIO ADULTO | KN-45223120
+    545711 | SIISTEMA DE TELEVISION PARA MONITOREO DE PACIENTES | MINDRAY | HIPERVISOR VI | MXL3370766 | CUIDADO INTENSIVO ADULTO | HOSPITALIZACIÓN PEDIATRÍA (Ruta Dorada)
+    545712 | SIISTEMA DE TELEVISION PARA MONITOREO DE PACIENTES | MINDRAY | HIPERVISOR VI | MXL3382XCC | CUIDADO INTENSIVO ADULTO
+    547476 | SIISTEMA DE TELEVISION PARA MONITOREO DE PACIENTES | PHILIPS | NO DEFINIDO | 2UA3020MZ | UNIDAD CRÍTICA OBSTÉTRICA
+    574122 | SIISTEMA DE TELEVISION PARA MONITOREO DE PACIENTES | MINDRAY | CMS Benevision | JB-97006131 | UNIDAD CRÍTICA OBSTÉTRICA
+    COMODATO 000900 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M13A01810036 | GASTROENTEROLOGÍA
+    549313 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 33123-M15907420043-01 | BLOQUE QUIRÚRGICO
+    545103 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125139 | BLOQUE QUIRÚRGICO
+    541627 | MONITOR DE SIGNOS VITALES | PENLON | PM 8000 EXPRESS | AA68C22551 | BLOQUE QUIRÚRGICO
+    541211 | MONITOR DE SIGNOS VITALES | MINDRAY | PM-9000 | W-78101038 | BLOQUE QUIRÚRGICO
+    541268 | MONITOR DE SIGNOS VITALES | MINDRAY | PM-9000 | W78101021 | BLOQUE QUIRÚRGICO
+    545093 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125137 | BLOQUE QUIRÚRGICO
+    573303 | MONITOR DE SIGNOS VITALES | COMEN | STAR 8000E | E7200519036 | CARDIOLOGÍA
+    545376 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M13707020027-01 | HOSPITALIZACIÓN GINECO-OBSTETRICIA
+    542143 | MONITOR DE SIGNOS VITALES | NIHON KOHDEN | OPV-1500K | 04056 | HOSPITALIZACIÓN GINECO-OBSTETRICIA
+    545097 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125152 | HOSPITALIZACIÓN GINECO-OBSTETRICIA
+    545375 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M13707020030-01 | HOSPITALIZACIÓN GINECO-OBSTETRICIA
+    545695 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M14102120051 | HOSPITALIZACIÓN GINECO-OBSTETRICIA
+    545696 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M14102120009 | HOSPITALIZACIÓN GINECO-OBSTETRICIA
+    545094 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125138 | BLOQUE QUIRÚRGICO
+    545099 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125144 | BLOQUE QUIRÚRGICO
+    545100 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125140 | BLOQUE QUIRÚRGICO
+    545101 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125141 | BLOQUE QUIRÚRGICO
+    545104 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125142 | BLOQUE QUIRÚRGICO
+    545105 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125147 | BLOQUE QUIRÚRGICO
+    545106 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125145 | BLOQUE QUIRÚRGICO
+    549963 | MONITOR DE SIGNOS VITALES | EDAN | IM8 | 360001/M19910220036 | HOSPITALIZACIÓN ADULTOS EXPANSIÓN
+    549962 | MONITOR DE SIGNOS VITALES | EDAN | IM8 | 360001/M19910220002 | HOSPITALIZACIÓN ADULTOS EXPANSIÓN
+    540494 | MONITOR DE SIGNOS VITALES | MINDRAY | PM 8000 EXPRESS | AA-77101320 | CUIDADO INTENSIVO NEONATAL
+    544587 | MONITOR DE SIGNOS VITALES | EDAN | M8 | 301204-K12100120009 | CUIDADO INTENSIVO NEONATAL
+    544588 | MONITOR DE SIGNOS VITALES | EDAN | M8 | 301204-K12100120017 | CUIDADO INTENSIVO NEONATAL
+    544591 | MONITOR DE SIGNOS VITALES | EDAN | M8 | 301204-K12100120014 | CUIDADO INTENSIVO NEONATAL
+    544592 | MONITOR DE SIGNOS VITALES | EDAN | M8 | 301204-K12100120019 | CUIDADO INTENSIVO NEONATAL
+    514989 | MONITOR DE SIGNOS VITALES | NIHON KOHDEN | OPV-1500K | 3926 | HOSPITALIZACIÓN PEDIATRÍA
+    573301 | MONITOR DE SIGNOS VITALES | COMEN | STAR 8000E | E7200821072F | HOSPITALIZACIÓN PEDIATRÍA
+    549985 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 261246-M17911610039-01 | HOSPITALIZACIÓN ADULTOS 5° PISO
+    549984 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 261246-M17911610003-01 | HOSPITALIZACIÓN ADULTOS 5° PISO
+    542150 | MONITOR DE SIGNOS VITALES | NIHON KOHDEN | OPV-1500K | 04057 | HOSPITALIZACIÓN ADULTOS 5° PISO
+    545371 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M13707020054-01 | HOSPITALIZACIÓN ADULTOS 5° PISO
+    545697 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M14102120001 | HOSPITALIZACIÓN ADULTOS 5° PISO
+    545367 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M13707020064-01 | HOSPITALIZACIÓN ADULTOS 5° PISO
+    510693
+540562 | MONITOR DE SIGNOS VITALES | CRITIKON | 8715 | K5413 | HOSPITALIZACIÓN ADULTOS 5° PISO
+    540496 | MONITOR DE SIGNOS VITALES | MINDRAY | PM 8000 EXPRESS | AA-77101321 | CUIDADO INTERMEDIO NEONATAL
+    540511 | MONITOR DE SIGNOS VITALES | MINDRAY | PM 8000 EXPRESS | AA-77101318 | CUIDADO INTERMEDIO NEONATAL
+    542151 | MONITOR DE SIGNOS VITALES | NIHON KOHDEN | OPV-1500K | 04060 | INVENTARIOS
+    540506 | MONITOR DE SIGNOS VITALES | MINDRAY | PM 8000 EXPRESS | AA-77101319 | INVENTARIOS
+    545241 | MONITOR DE SIGNOS VITALES | NIHON KOHDEN | OPV-1500K | 3927 | INVENTARIOS
+    545098 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125149 | BANCO DE SANGRE
+    545370 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M13707020019-01 | HOSPITALIZACIÓN ADULTOS 4° PISO
+    545372 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M13707020049-01 | HOSPITALIZACIÓN ADULTOS 4° PISO
+    541976 | MONITOR DE SIGNOS VITALES | MEDIANA | LUCON M20 | 109709050014 | HOSPITALIZACIÓN ADULTOS 4° PISO
+    549983 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 261246-M17911610017-01 | HOSPITALIZACIÓN ADULTOS 4° PISO
+    573991 | MONITOR DE SIGNOS VITALES | EDAN | IM8 | 360001/M19910220009 | HOSPITALIZACIÓN ADULTOS 4° PISO
+    541208 | MONITOR DE SIGNOS VITALES | WELCH ALLYN | PROPAC CS 242 | GA106852 | HOSPITALIZACIÓN ADULTOS 4° PISO
+    573302 | MONITOR DE SIGNOS VITALES | COMEN | STAR 8000E | E7200821065F | QUIMIOTERAPIA
+    549982 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 261246-M17911610024-01 | QUIMIOTERAPIA
+    544589 | MONITOR DE SIGNOS VITALES | EDAN | M8 | 301204-K12100120002 | CUIDADO INTENSIVO NEONATAL
+    540843 | MONITOR DE SIGNOS VITALES | WELCH ALLYN | ATLAS | 62222046 | URGENCIAS
+    545368 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M13707020041-01 | URGENCIAS
+    573304 | MONITOR DE SIGNOS VITALES | COMEN | STAR 8000E | E7200821063F | URGENCIAS
+    540845 | MONITOR DE SIGNOS VITALES | GE MEDICAL | PRO CARE 200 | AAW062002546A | URGENCIAS
+    541980 | MONITOR DE SIGNOS VITALES | MEDIANA | LUCON M20 | 109709050011 | URGENCIAS
+    549887 | MONITOR DE SIGNOS VITALES | COMEN | STAR 800H | H7151128021G | URGENCIAS
+    541978 | MONITOR DE SIGNOS VITALES | MEDIANA | LUCON M20 | 109709050001 | URGENCIAS
+    545366 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333021-M13301830022-01 | URGENCIAS
+    545634 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M14102120006 | URGENCIAS
+    545635 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M14102120045 | URGENCIAS
+    545688 | MONITOR DE SIGNOS VITALES | EDAN | M50 | 333123-M14102120037 | URGENCIAS
+    573305 | MONITOR DE SIGNOS VITALES | COMEN | STAR 8000E | E7200519041 | URGENCIAS
+    545095 | MONITOR DE SIGNOS VITALES | MINDRAY | MEC-1200 | CC-32125148 | URGENCIAS
+    540863 | MONITOR DE SIGNOS VITALES | WELCH ALLYN | PROPAQ LT | KA 004843 | URGENCIAS
+
+=================================================================
+FILE: TENSIÓMETRO - INFUSOR - TORNIQUETE - GRF3MAN-FR53 VERSION 4.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR53		
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE TENSIÓMETRO, INFUSOR DE PRESIÓN Y TORNIQUETE
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa
+    Revisión estado físico de etiquetas
+    Revisión estado físico de pulsadores, indicadores y display
+    Revisión de accesorios (Pera, manometro, brazalete y manguito)
+    Revisión de base rodante
+    Revisión sistema electrónico
+    Revisión batería
+    Limpieza general
+    Pruebas de funcionamiento general
+    PRUEBAS DE PRESIÓN | VALOR
+    20mmHg
+    40mmHg
+    80mmHg
+    100mmHg
+    150mmHg
+    200mmHg
+    240mmHg
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    OBSERVACIONES
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR53		
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE TENSIÓMETRO, INFUSOR DE PRESIÓN Y TORNIQUETE
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+
+=================================================================
+FILE: TERMOHIGRÓMETRO - GRF3MAN-FR106 VERSION 4.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR106
+VERSIÓN: 4.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 1
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE  TERMOHIGROMETRO Y TERMOMETRO
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa y etiquetas en buen estado
+    Revisión  estado físico de pulsadores, indicadores y display
+    Revisión del sistema electrónico
+    Revisión de batería, tapa y los contacto de la misma
+    Revisión de la sonda
+    Limpieza general
+    Pruebas de funcionamiento general
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+    TABLA DE CONVENCIONES
+    C | CUMPLE | NC | NO CUMPLE | NA | NO APLICA
+
+=================================================================
+FILE: VENTILADOR - NEOPUFF - BLENDER GRF3MAN-FR102 VERSION 5.xlsx
+=================================================================
+  [SHEET: Hoja1]
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR102
+VERSIÓN: 5.0	
+FECHA: 03-02-2025	
+PÁGINA: 1 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE VENTILADORES, BLENDER Y NEOPUFF
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    ACTIVIDADES REALIZADAS | FECHA
+    C | NC | NA
+    Asegurece de que el equipo se encuentre limpio, sin humedad , sin objetos extraños y etiquetas en buen estado
+    Revisión carro de transporte y ruedas
+    Revisión mangueras de oxígeno y aire, y sus respectivos conectores
+    Revisión del buen estado de Pantalla – Display. (Sistema touch screen)
+    Revisión  del buen estado de pulsadores, pilotos, perillas y controles
+    Verificación de sistema neumático
+    Limpieza general
+    Autonomía de la batería
+    Revisión estado de las valvulas
+    Pruebas de funcionamiento
+    SEGURIDAD ELECTRICA | VALOR | NA
+    Red eléctrica L1-L2
+    Red eléctrica L1-gnd
+    Red eléctrica L2-gnd
+    Resistencia cable de poder EBP (≤ 0,2 Ω)
+    Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)
+    Corriente de fuga a tierra Normal (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Normal (≤ 100 µA)
+    Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)
+    Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)
+    OBSERVACIONES
+    EMPRESA SOCIAL DEL ESTADO 
+HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA | CÓDIGO: GRF3MAN-FR102
+VERSIÓN: 5.0	
+FECHA: 03-02-2025	
+PÁGINA: 2 DE 2
+    LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE VENTILADORES, BLENDER Y NEOPUFF
+    EQUIPO | MARCA
+    MODELO | SERIE
+    ACTIVO FIJO | UBICACIÓN
+    OBSERVACIONES
+    REALIZADO POR | RECIBIDO POR
+

@@ -1,0 +1,53 @@
+Row 1:  |  |  | EMPRESA SOCIAL DEL ESTADO  HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | CÓDIGO: GRF3MAN-FR25 VERSIÓN: 1.0		 FECHA: 02-05-2025		 PÁGINA: 1 DE  2
+Row 2:  |  |  | LISTA DE CHEQUEO VERIFICACIÓN DIARIA DE SALAS DE CIRUGIA  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 4:  | UBICACIÓN |  |  |  |  | FECHA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 5:  | RESPONSABLE |  |  |  |  | VERIFICACIÓN DIARIA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 6:  | CARGO |  |  |  |  | SALA #1 |  |  | SALA #2 |  |  | SALA #3 |  |  | SALA #4 |  |  | SALA #5 |  |  | SALA #6 |  |  | SALA #7 |  |  | SALA #8 |  |  | OBSERVACIONES
+Row 7:  | Activo Fijo |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 8:  | 1. MÁQUINA DE ANESTESIA  |  |  |  |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | 
+Row 9:  | Verificación de suministro de gases medicinales (oxígeno, aire comprimido). Comprobar la presión y flujo de aire y oxígeno |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 10:  | Funcionamiento adecuado de los vaporizadores (niveles de anestésico volátil, seguro y acople rápido). |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 11:  | Pruebas de integridad del sistema de ventilación y chequeo de fugas (circuitos, válvulas y sensores). |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 12:  | Alarma y sensores de presión de gases activas y funcionales. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 13:  | Verificación de la batería de respaldo y fuente de alimentación estable. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 14:  | La válvula APL y el flush de O2 funcionan adecuadamente  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 15:  | Prueba del absorbedor de CO₂: cal sodada, asegurando que no esté saturada y que el sistema de eliminación de gases anestésicos funcione. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 16:  |  |  |  |  |  | SALA #1 |  |  | SALA #2 |  |  | SALA #3 |  |  | SALA #4 |  |  | SALA #5 |  |  | SALA #6 |  |  | SALA #7 |  |  | SALA #8 |  |  | OBSERVACIONES
+Row 17:  | Activo Fijo |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 18:  | 2. MONITOR DE SIGNOS VITALES |  |  |  |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | 
+Row 19:  | Verificación de encendido y autodiagnóstico: asegurarse de que el equipo encienda correctamente y complete su prueba de inicio sin errores. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 20:  | Comprobar la integridad y conexión de los cables de ECG, sensor de SpO₂, manguito de presión arterial y sensor de temperatura. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 21:  | Prueba de alarmas y configuraciones: activar alarmas de alta y baja frecuencia cardíaca, presión arterial y SpO₂. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 22:  | Inspección de la batería y fuente de alimentación: comprobar el estado de la batería, su tiempo de autonomía y la correcta conexión.. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 23:  | Verificar estado de panel de control, membranas teclado, perillas, panel táctil y modos de configuración del equipo. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 24:  |  |  |  |  |  | SALA #1 |  |  | SALA #2 |  |  | SALA #3 |  |  | SALA #4 |  |  | SALA #5 |  |  | SALA #6 |  |  | SALA #7 |  |  | SALA #8 |  |  | OBSERVACIONES
+Row 25:  | Activo Fijo |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 26:  | 3. MESA DE CIRUGÍA |  |  |  |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | 
+Row 27:  | Verificar controles y posiciones: ajuste de altura, inclinación y movimientos. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 28:  | Revisar estabilidad y frenos: asegurar bloqueo firme y sin deslizamientos. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 29:  | Inspeccionar acolchados y superficies: evitar daños que afecten asepsia o comodidad. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 30:  | Evaluar sistema de alimentación: revisar batería o cableado en modelos eléctricos. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 31:  | Comprobar capacidad de carga: verificar resistencia sin deformaciones. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 33:  |  |  | EMPRESA SOCIAL DEL ESTADO  HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | CÓDIGO: SG4SST-FR173	 VERSIÓN: 8.0		 FECHA: 07-05-2025		 PÁGINA: 1 DE  12
+Row 34:  |  |  | VERIFICACIÓN DIARIA DE SALAS DE CIRUGIA  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 36:  |  |  |  |  |  | SALA #1 |  |  | SALA #2 |  |  | SALA #3 |  |  | SALA #4 |  |  | SALA #5 |  |  | SALA #6 |  |  | SALA #7 |  |  | SALA #8 |  |  | OBSERVACIONES
+Row 37:  | Activo Fijo |  |  |  |  | 541392 |  |  | 543829 |  |  | 546332 |  |  | 541393 |  |  | 546335 |  |  | 548669 |  |  | 541395 |  |  | 541702 |  |  | 
+Row 38:  | 4. LÁMPARA CIELÍTICA |  |  |  |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | 
+Row 39:  | Verificar encendido y brillo: comprobar intensidad y estabilidad de la luz. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 40:  | Revisar movilidad y fijación: asegurarse de que gire y se mantenga en posición. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 41:  | Inspeccionar bombillas o LEDs: detectar fallos o reducción de luminosidad. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 42:  | Limpiar y desinfectar: retirar polvo y residuos de la superficie óptica, estado de la manija de enfoque y desenfoque |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 43:  | Verificar panel de control y estado de los pulsadores y membrana teclado. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 44:  |  |  |  |  |  | SALA #1 |  |  | SALA #2 |  |  | SALA #3 |  |  | SALA #4 |  |  | SALA #5 |  |  | SALA #6 |  |  | SALA #7 |  |  | SALA #8 |  |  | OBSERVACIONES
+Row 45:  | Activo Fijo |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 46:  | 5. ELECTROBISTURÍ |  |  |  |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | C | NC |  | 
+Row 47:  | Verificar encendido y displays: asegurarse de que muestren valores correctos. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 48:  | Revisar cables y electrodos: comprobar integridad y buena conexión. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 49:  | Probar modos de corte y coagulación: confirmar salida de energía adecuada. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 50:  | Evaluar pedal y activadores: chequear respuesta rápida y sin fallos. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 51:  | Medir placa de retorno: garantizar buena adhesión y baja resistencia. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 52:  | Verificar panel de control, estado de los pulsadores, membrana teclado y alarmas audibles del equipo. |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 53:  | OBSERVACIONES |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 61:  | RESPONSABLE DEL SERVICIO  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 62:  | NOMBRE |  |  |  |  |  |  |  |  |  |  |  |  |  | CARGO |  |  |  |  |  |  |  |  |  |  |  |  |  |  | 
+Row 63:  | FECHA |  |  |  |  |  |  |  |  |  |  |  |  |  | CONVENCIONES |  |  |  |  |  |        C = CUMPLE     NC = NO CUMPLE         N/A = NO APLICA |  |  |  |  |  |  |  |  | 

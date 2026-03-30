@@ -1,0 +1,35 @@
+# Dependency folders
+node_modules/
+biomed-maintenance-app/node_modules/
+
+# Build outputs
+dist/
+biomed-maintenance-app/dist/
+build/
+
+# Local env files
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+
+# Agents/Tooling
+.agents/
+.superpowers/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Large data/temp files
+*.log
+form_out*.txt
+hv_out.txt
+raw_items*.txt
+excel_dump.txt
+format_dump.json

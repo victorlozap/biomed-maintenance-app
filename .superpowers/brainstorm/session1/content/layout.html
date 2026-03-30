@@ -1,0 +1,84 @@
+<h2>¿Cómo quieres organizar la navegación principal?</h2>
+<p class="subtitle">Elige el layout general de la app de mantenimiento biomédico</p>
+
+<div class="cards">
+  <div class="card" data-choice="sidebar" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;height:160px;background:#0f172a;border-radius:8px;overflow:hidden;gap:0">
+        <div style="width:56px;background:#1e293b;display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:16px">
+          <div style="width:28px;height:28px;background:#6366f1;border-radius:6px"></div>
+          <div style="width:22px;height:4px;background:#334155;border-radius:2px"></div>
+          <div style="width:22px;height:4px;background:#334155;border-radius:2px"></div>
+          <div style="width:22px;height:4px;background:#6366f1;border-radius:2px"></div>
+          <div style="width:22px;height:4px;background:#334155;border-radius:2px"></div>
+          <div style="width:22px;height:4px;background:#334155;border-radius:2px"></div>
+        </div>
+        <div style="flex:1;padding:10px;display:flex;flex-direction:column;gap:8px">
+          <div style="height:12px;background:#1e293b;border-radius:4px;width:60%"></div>
+          <div style="flex:1;background:#1e293b;border-radius:4px;display:flex;gap:6px;padding:8px">
+            <div style="flex:1;background:#0f172a;border-radius:4px"></div>
+            <div style="flex:1;background:#0f172a;border-radius:4px"></div>
+            <div style="flex:1;background:#0f172a;border-radius:4px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Sidebar lateral fijo</h3>
+      <p>Menú vertical siempre visible. Ideal para apps con muchas secciones. Navegación rápida sin perder contexto.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="topnav" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;flex-direction:column;height:160px;background:#0f172a;border-radius:8px;overflow:hidden;gap:0">
+        <div style="height:36px;background:#1e293b;display:flex;align-items:center;padding:0 12px;gap:16px">
+          <div style="width:20px;height:20px;background:#6366f1;border-radius:4px"></div>
+          <div style="width:40px;height:5px;background:#334155;border-radius:2px"></div>
+          <div style="width:40px;height:5px;background:#334155;border-radius:2px"></div>
+          <div style="width:40px;height:5px;background:#6366f1;border-radius:2px"></div>
+          <div style="width:40px;height:5px;background:#334155;border-radius:2px"></div>
+        </div>
+        <div style="flex:1;padding:10px;display:flex;gap:8px">
+          <div style="flex:2;background:#1e293b;border-radius:4px;padding:8px;display:flex;flex-direction:column;gap:4px">
+            <div style="height:6px;background:#334155;border-radius:2px;width:80%"></div>
+            <div style="height:6px;background:#334155;border-radius:2px;width:60%"></div>
+          </div>
+          <div style="flex:1;background:#1e293b;border-radius:4px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Barra superior + tabs</h3>
+      <p>Navegación horizontal en la parte superior. Más espacio vertical para tablas y formularios grandes.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="hybrid" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="display:flex;flex-direction:column;height:160px;background:#0f172a;border-radius:8px;overflow:hidden">
+        <div style="height:36px;background:#6366f1;display:flex;align-items:center;padding:0 12px;gap:12px">
+          <div style="width:20px;height:20px;background:rgba(255,255,255,0.3);border-radius:4px"></div>
+          <div style="flex:1"></div>
+          <div style="width:24px;height:24px;background:rgba(255,255,255,0.2);border-radius:50%"></div>
+        </div>
+        <div style="flex:1;display:flex">
+          <div style="width:180px;background:#1e293b;padding:10px;display:flex;flex-direction:column;gap:8px">
+            <div style="height:5px;background:#334155;border-radius:2px;width:70%"></div>
+            <div style="height:5px;background:#6366f1;border-radius:2px;width:80%"></div>
+            <div style="height:5px;background:#334155;border-radius:2px;width:60%"></div>
+            <div style="height:5px;background:#334155;border-radius:2px;width:75%"></div>
+          </div>
+          <div style="flex:1;background:#0f172a;padding:10px;display:flex;flex-direction:column;gap:6px">
+            <div style="height:30px;background:#1e293b;border-radius:4px"></div>
+            <div style="flex:1;background:#1e293b;border-radius:4px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Header fijo + sidebar expansible</h3>
+      <p>Header con logo y perfil arriba. Sidebar colapsable para ganar espacio. El más profesional y flexible.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,130 @@
+<h2>¿Qué debe mostrar el Dashboard principal?</h2>
+<p class="subtitle">La pantalla de inicio cuando abres la app. Elige qué información quieres ver de un vistazo.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="kpi-first" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="height:190px;background:#f8fafc;border-radius:8px;display:flex;overflow:hidden;border:1px solid #e2e8f0">
+        <div style="width:44px;background:#0f4c81;flex-shrink:0"></div>
+        <div style="flex:1;padding:10px;display:flex;flex-direction:column;gap:7px">
+          <!-- KPI row -->
+          <div style="display:flex;gap:5px">
+            <div style="flex:1;background:white;border-radius:5px;border:1px solid #e2e8f0;padding:6px">
+              <div style="font-size:7px;color:#64748b;font-family:sans-serif">Total Equipos</div>
+              <div style="font-size:13px;font-weight:bold;color:#0f4c81;font-family:monospace">247</div>
+            </div>
+            <div style="flex:1;background:white;border-radius:5px;border:1px solid #e2e8f0;padding:6px">
+              <div style="font-size:7px;color:#64748b;font-family:sans-serif">Activos</div>
+              <div style="font-size:13px;font-weight:bold;color:#16a34a;font-family:monospace">183</div>
+            </div>
+            <div style="flex:1;background:white;border-radius:5px;border:1px solid #e2e8f0;padding:6px">
+              <div style="font-size:7px;color:#64748b;font-family:sans-serif">En Mant.</div>
+              <div style="font-size:13px;font-weight:bold;color:#d97706;font-family:monospace">12</div>
+            </div>
+            <div style="flex:1;background:white;border-radius:5px;border:1px solid #e2e8f0;padding:6px">
+              <div style="font-size:7px;color:#64748b;font-family:sans-serif">Pendientes</div>
+              <div style="font-size:13px;font-weight:bold;color:#dc2626;font-family:monospace">8</div>
+            </div>
+          </div>
+          <!-- Alerts & upcoming -->
+          <div style="display:flex;gap:5px;flex:1">
+            <div style="flex:2;background:white;border-radius:5px;border:1px solid #e2e8f0;padding:6px;display:flex;flex-direction:column;gap:3px">
+              <div style="font-size:7px;color:#64748b;font-family:sans-serif;font-weight:bold">ALERTAS PRÓXIMAS</div>
+              <div style="height:4px;background:#fef3c7;border-radius:2px;border-left:2px solid #d97706;padding-left:3px"></div>
+              <div style="height:4px;background:#fee2e2;border-radius:2px;border-left:2px solid #dc2626;padding-left:3px"></div>
+              <div style="height:4px;background:#fef3c7;border-radius:2px;border-left:2px solid #d97706;padding-left:3px"></div>
+            </div>
+            <div style="flex:1;background:white;border-radius:5px;border:1px solid #e2e8f0;padding:6px;display:flex;flex-direction:column;gap:3px">
+              <div style="font-size:7px;color:#64748b;font-family:sans-serif;font-weight:bold">POR SERVICIO</div>
+              <div style="height:3px;background:#0f4c81;border-radius:2px;width:80%"></div>
+              <div style="height:3px;background:#0f4c81;border-radius:2px;width:60%"></div>
+              <div style="height:3px;background:#0f4c81;border-radius:2px;width:40%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — KPIs + Alertas + Resumen por servicio</h3>
+      <p>Métricas clave arriba (total, activos, en mantenimiento, pendientes). Alertas próximas y distribución por servicio/área.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="calendar-first" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="height:190px;background:#f8fafc;border-radius:8px;display:flex;overflow:hidden;border:1px solid #e2e8f0">
+        <div style="width:44px;background:#0f4c81;flex-shrink:0"></div>
+        <div style="flex:1;padding:10px;display:flex;flex-direction:column;gap:7px">
+          <!-- Stats mini row -->
+          <div style="display:flex;gap:5px">
+            <div style="flex:1;background:#eff6ff;border-radius:4px;border:1px solid #bfdbfe;padding:4px;text-align:center">
+              <div style="font-size:10px;font-weight:bold;color:#0f4c81;font-family:monospace">247</div>
+            </div>
+            <div style="flex:1;background:#f0fdf4;border-radius:4px;border:1px solid #bbf7d0;padding:4px;text-align:center">
+              <div style="font-size:10px;font-weight:bold;color:#16a34a;font-family:monospace">OK</div>
+            </div>
+            <div style="flex:1;background:#fefce8;border-radius:4px;border:1px solid #fef08a;padding:4px;text-align:center">
+              <div style="font-size:10px;font-weight:bold;color:#d97706;font-family:monospace">12</div>
+            </div>
+          </div>
+          <!-- Calendar-like grid -->
+          <div style="flex:1;background:white;border-radius:5px;border:1px solid #e2e8f0;padding:6px">
+            <div style="font-size:7px;color:#64748b;font-family:sans-serif;font-weight:bold;margin-bottom:3px">MANTENIMIENTOS ESTE MES</div>
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">
+              ${Array.from({length:28}).map((_,i)=>`<div style="height:10px;background:${i%5===0?'#bfdbfe':i%7===3?'#fef08a':'#f1f5f9'};border-radius:2px"></div>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Calendario de mantenimientos</h3>
+      <p>Vista mensual con todos los mantenimientos programados. Ideal para planificar y ver carga de trabajo del mes.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="combined" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="height:190px;background:#f8fafc;border-radius:8px;display:flex;overflow:hidden;border:1px solid #e2e8f0">
+        <div style="width:44px;background:#0f4c81;flex-shrink:0"></div>
+        <div style="flex:1;padding:10px;display:flex;flex-direction:column;gap:6px">
+          <!-- KPI mini -->
+          <div style="display:flex;gap:4px">
+            <div style="flex:1;background:#eff6ff;border-radius:4px;padding:4px;border:1px solid #bfdbfe">
+              <div style="font-size:8px;color:#0f4c81;font-family:monospace;font-weight:bold">247 eq.</div>
+            </div>
+            <div style="flex:1;background:#f0fdf4;border-radius:4px;padding:4px;border:1px solid #bbf7d0">
+              <div style="font-size:8px;color:#16a34a;font-family:monospace;font-weight:bold">183 OK</div>
+            </div>
+            <div style="flex:1;background:#fefce8;border-radius:4px;padding:4px;border:1px solid #fef08a">
+              <div style="font-size:8px;color:#d97706;font-family:monospace;font-weight:bold">8 pend.</div>
+            </div>
+          </div>
+          <!-- Two panels -->
+          <div style="flex:1;display:flex;gap:5px">
+            <div style="flex:1;background:white;border-radius:5px;border:1px solid #e2e8f0;padding:5px;display:flex;flex-direction:column;gap:3px;overflow:hidden">
+              <div style="font-size:6px;color:#64748b;font-family:sans-serif;font-weight:bold">PRÓXIMOS MANT.</div>
+              <div style="height:3px;background:#bfdbfe;border-radius:2px;width:90%"></div>
+              <div style="height:3px;background:#fef08a;border-radius:2px;width:75%"></div>
+              <div style="height:3px;background:#fecaca;border-radius:2px;width:60%"></div>
+              <div style="height:3px;background:#bfdbfe;border-radius:2px;width:80%"></div>
+            </div>
+            <div style="flex:1;background:white;border-radius:5px;border:1px solid #e2e8f0;padding:5px;display:flex;flex-direction:column;gap:3px">
+              <div style="font-size:6px;color:#64748b;font-family:sans-serif;font-weight:bold">ÚLTIMOS REGISTROS</div>
+              <div style="height:3px;background:#e2e8f0;border-radius:2px;width:85%"></div>
+              <div style="height:3px;background:#e2e8f0;border-radius:2px;width:70%"></div>
+              <div style="height:3px;background:#e2e8f0;border-radius:2px;width:90%"></div>
+              <div style="height:3px;background:#e2e8f0;border-radius:2px;width:65%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — KPIs + Próximos mantenimientos + Últimos registros</h3>
+      <p>Resumen rápido de números + lista de lo que viene próximo + últimas acciones registradas. El más completo para el día a día.</p>
+    </div>
+  </div>
+
+</div>
