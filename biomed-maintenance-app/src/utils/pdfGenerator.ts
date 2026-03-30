@@ -21,14 +21,7 @@ export const generateProtocolPDF = async (
   maintenanceDate: string = ''
 ) => {
   // Normalizar nombres de campos del equipo (compatibilidad con distintas bases de datos)
-  const eq = {
-    Equipo: equipment['equipo'] || equipment['Equipo'] || '',
-    Marca: equipment['marca'] || equipment['Marca'] || '',
-    Modelo: equipment['modelo'] || equipment['Modelo'] || '',
-    NumeroSerie: equipment['numero_serie'] || equipment['NumeroSerie'] || '',
-    Id_Unico: equipment['id_unico'] || equipment['Id_Unico'] || equipment['activoFijo'] || '',
-    Servicio: equipment['servicio'] || equipment['Servicio'] || ''
-  };
+  const eq = normalizeEquipment(equipment);
 
   const fixSymbols = (text: string) => {
     if (!text || typeof text !== 'string') return text;
@@ -154,21 +147,21 @@ export const generateProtocolPDF = async (
       body: [
         [
           { content: 'EQUIPO', styles: { fillColor: GRAY } }, 
-          String(equipment['Equipo'] || '').substring(0,40), 
+          String(eq.Equipo || '').substring(0,40), 
           { content: 'MARCA', styles: { fillColor: GRAY } }, 
-          String(equipment['Marca'] || '')
+          String(eq.Marca || '')
         ],
         [
           { content: 'MODELO', styles: { fillColor: GRAY } }, 
-          String(equipment['Modelo'] || ''), 
+          String(eq.Modelo || ''), 
           { content: 'SERIE', styles: { fillColor: GRAY } }, 
-          String(equipment['NumeroSerie'] || '')
+          String(eq.NumeroSerie || '')
         ],
         [
           { content: 'ACTIVO FIJO', styles: { fillColor: GRAY } }, 
-          String(equipment['Id_Unico'] || equipment['activoFijo'] || ''), 
+          String(eq.Id_Unico || ''), 
           { content: 'UBICACIÓN', styles: { fillColor: GRAY } }, 
-          String(equipment['Servicio'] || '')
+          String(eq.Servicio || '')
         ]
       ]
     });
@@ -419,7 +412,7 @@ export const generateProtocolPDF = async (
     body: convBody
   });
 
-  const filename = `Preventivo_${protocol.code}_${equipment['Id_Unico']}.pdf`;
+  const filename = `Preventivo_${protocol.code}_${eq.Id_Unico || 'S-N'}.pdf`;
    // Manual download with fallback: open PDF in new tab and trigger download
    const blob = doc.output('blob');
    const url = URL.createObjectURL(blob);
