@@ -199,7 +199,7 @@ Or if useState is already imported, verify it's there.
 Run: `npm run build`
 Expected: Build succeeds without errors
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/App.tsx
@@ -481,7 +481,7 @@ git commit -m "feat: add responsive layout to SurgeryRounds page"
 **Files:**
 - Modify: `src/components/Login.tsx`
 
-- [ ] **Step 1: Update Login title typography**
+- [x] **Step 1: Update Login title typography**
 
 Find h1 with largest text (typically `text-4xl` or `text-5xl`):
 ```typescript
@@ -493,7 +493,7 @@ Replace with:
 <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
 ```
 
-- [ ] **Step 2: Update Login subtitle typography**
+- [x] **Step 2: Update Login subtitle typography**
 
 Find subtitle (typically `text-xl` or `text-2xl`):
 ```typescript
@@ -505,7 +505,7 @@ Replace with:
 <p className="text-sm md:text-base lg:text-lg text-gray-300">
 ```
 
-- [ ] **Step 3: Update Login form padding**
+- [x] **Step 3: Update Login form padding**
 
 Find form container:
 ```typescript
@@ -517,7 +517,7 @@ Replace with:
 <form className="space-y-4 md:space-y-6 p-4 md:p-6 lg:p-8">
 ```
 
-- [ ] **Step 4: Test build compiles**
+- [x] **Step 4: Test build compiles**
 
 Run: `npm run build`
 Expected: Build succeeds
@@ -536,7 +536,7 @@ git commit -m "feat: add responsive typography to Login component"
 **Files:**
 - None (verification only)
 
-- [ ] **Step 1: Clean build**
+- [x] **Step 1: Clean build**
 
 Run:
 ```bash
@@ -546,7 +546,7 @@ npm run build
 
 Expected: Zero TypeScript errors, zero build warnings
 
-- [ ] **Step 2: Run dev server locally (optional visual test)**
+- [x] **Step 2: Run dev server locally (optional visual test)**
 
 Run:
 ```bash
@@ -555,7 +555,7 @@ npm run dev
 
 Expected: Server starts on http://localhost:5173 (or configured port)
 
-- [ ] **Step 3: Test responsive layout manually**
+- [x] **Step 3: Test responsive layout manually**
 
 - Open browser DevTools (F12)
 - Toggle device toolbar (Ctrl+Shift+M)
@@ -574,7 +574,7 @@ Verify:
 - Typography scales appropriately ✓
 - Padding/spacing is proportional ✓
 
-- [ ] **Step 4: Final commit with build verification**
+- [x] **Step 4: Final commit with build verification**
 
 ```bash
 git add -A
