@@ -65,7 +65,7 @@ interface ItemProps {
   to: string;
   icon: React.ReactNode;
   label: string;
-  iconColor: 'cyan' | 'orange' | 'green' | 'purple' | 'slate';
+  iconColor: 'cyan' | 'orange' | 'green' | 'purple' | 'slate' | 'blue';
 }
 
 const SidebarItem = ({ to, icon, label, iconColor }: ItemProps) => {

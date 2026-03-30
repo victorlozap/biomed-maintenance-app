@@ -43,7 +43,7 @@ const Preventive = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [searchEq]);
 
-  // Detector lógico de protocolos (Mantiene tu lógica de estandarización)
+  // Detector lógico de protocolos
   useEffect(() => {
     if (selectedEq) {
       const eqName = String(selectedEq.equipo || '').toUpperCase();
@@ -94,7 +94,6 @@ const Preventive = () => {
     const reportId = 'PM-' + Math.floor(1000 + Math.random() * 9000);
 
     try {
-      // 1. Guardar en Supabase (Historización Digital)
       const { error } = await supabase
         .from('maintenance_logs')
         .insert([{
@@ -109,7 +108,6 @@ const Preventive = () => {
 
       if (error) throw error;
 
-      // 2. Generar el PDF Institucional para entrega
       await generateProtocolPDF(
         activeProtocol, 
         selectedEq, 
@@ -120,12 +118,11 @@ const Preventive = () => {
         maintenanceDate
       );
 
-      alert(`✅ Acta de Mantenimiento GRF (${activeProtocol.code}) generada desde JSON con éxito.`);
+      alert(`✅ Acta de Mantenimiento GRF generada con éxito.`);
       setIsModalOpen(false);
       setSelectedEq(null);
-      setNotes('');
     } catch (e: any) {
-      alert("❌ Error: " + (e.message || "No se pudo sincronizar con la nube"));
+      alert("❌ Error: " + e.message);
     } finally {
       setSaving(false);
     }
@@ -137,17 +134,18 @@ const Preventive = () => {
         <h2 className="text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-wide">
           Protocolos Preventivos
         </h2>
-        <p className="text-white/60 font-light mt-3 text-lg tracking-wide">Sincronización centralizada HUSJ.</p>
+        <p className="text-white/60 font-light mt-3 text-lg tracking-wide uppercase flex items-center gap-2">
+            <Activity size={16} className="text-emerald-400" /> Sincronización centralizada HUSJ
+        </p>
       </header>
 
-      {/* Hero Central */}
       <div className="flex flex-col justify-center items-center text-center group bg-white/5 border border-white/10 rounded-3xl p-12 backdrop-blur-2xl max-w-4xl mx-auto shadow-2xl min-h-[350px]">
         <FileText size={48} className="text-emerald-500/50 mb-6 group-hover:-translate-y-2 transition-transform" />
         <h4 className="text-2xl text-white/90 font-medium mb-3">Ejecutar Formato Centralizado</h4>
-        <p className="text-white/50 mb-8 max-w-xl">Los reportes generados aquí se guardarán automáticamente en el historial de la hoja de vida del equipo en la nube.</p>
+        <p className="text-white/50 mb-8 max-w-xl">Los reportes se guardarán automáticamente en la nube.</p>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="px-10 py-4 rounded-2xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/50 text-emerald-300 font-medium hover:scale-105 transition-all shadow-lg"
+          className="px-10 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-medium hover:scale-105 transition-all shadow-lg"
         >
           <CheckCircle size={20} className="inline mr-2" /> Iniciar Mantenimiento
         </button>
@@ -174,13 +172,13 @@ const Preventive = () => {
                     placeholder="Escribe Placa o Nombre..." 
                     value={searchEq}
                     onChange={(e) => setSearchEq(e.target.value)}
-                    className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:border-emerald-500"
+                    className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white focus:border-emerald-500 transition-all font-light"
                   />
                   {(loadingSearch || inventoryResults.length > 0) && (
                     <div className="absolute top-full left-0 right-0 mt-2 bg-slate-800 border border-white/10 rounded-2xl overflow-hidden z-20 shadow-2xl">
                       {loadingSearch ? <div className="p-4 text-center text-white/40"><Loader2 className="animate-spin inline mr-2" /> buscando...</div> : 
                         inventoryResults.map(item => (
-                          <div key={item.id} onClick={() => setSelectedEq(item)} className="px-6 py-4 hover:bg-emerald-500/10 cursor-pointer border-b border-white/5 flex justify-between items-center">
+                          <div key={item.id} onClick={() => setSelectedEq(item)} className="px-6 py-4 hover:bg-emerald-500/10 cursor-pointer border-b border-white/5 flex justify-between items-center text-white">
                              <div>
                                 <p className="text-white font-medium">{item.equipo}</p>
                                 <p className="text-white/40 text-xs uppercase">{item.marca} - {item.servicio}</p>
@@ -194,7 +192,7 @@ const Preventive = () => {
               </div>
             ) : (
               <div className="space-y-8 animate-in fade-in duration-500">
-                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-6 flex justify-between items-center">
+                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-6 flex justify-between items-center text-white">
                    <div>
                       <p className="text-emerald-400 text-xs font-bold tracking-widest mb-1 uppercase">Equipo Seleccionado</p>
                       <h4 className="text-xl text-white font-bold">{selectedEq.equipo} <span className="text-white/40 ml-2">#{selectedEq.id_unico}</span></h4>
@@ -204,15 +202,17 @@ const Preventive = () => {
 
                 {activeProtocol ? (
                   <div className="space-y-6">
-                    <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10">
-                       <span className="text-white/40 text-xs uppercase font-bold">Fecha Mantenimiento</span>
+                    <div className="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10 text-white">
+                       <span className="text-white/40 text-xs uppercase font-bold flex items-center gap-2">
+                           <Calendar size={14} className="text-emerald-400" /> Fecha Mantenimiento
+                       </span>
                        <input type="date" value={maintenanceDate} onChange={e => setMaintenanceDate(e.target.value)} className="bg-black/40 border border-white/20 rounded px-3 py-1 text-white text-sm invert" />
                     </div>
 
                     <div className="space-y-3">
                        <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-4">Parámetros de Revisión</p>
                        {activeProtocol.items.map((item: any) => (
-                          <div key={item.id} className="flex justify-between items-center p-4 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 transition-all">
+                          <div key={item.id} className="flex justify-between items-center p-4 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 transition-all text-white">
                              <p className="text-white/80 text-sm flex-1 pr-4">{item.label}</p>
                              <div className="flex bg-black/40 rounded-lg p-1 border border-white/5">
                                 <button onClick={() => setCheckValues({...checkValues, [item.id]: 'cumple'})} className={`px-3 py-1.5 rounded-md text-[9px] font-bold ${checkValues[item.id] === 'cumple' ? 'bg-emerald-500/40 text-emerald-300' : 'text-white/20'}`}>CUMPLE</button>
@@ -228,7 +228,7 @@ const Preventive = () => {
                         <p className="text-[10px] font-bold text-amber-400 uppercase tracking-[0.2em]">Mediciones Analizador</p>
                         <div className="grid grid-cols-2 gap-4">
                            {activeProtocol.numeric_items.map((item: any) => (
-                              <div key={item.id} className="bg-white/5 p-4 rounded-xl border border-white/5">
+                              <div key={item.id} className="bg-white/5 p-4 rounded-xl border border-white/5 text-white">
                                  <label className="text-[10px] text-white/40 block mb-2">{item.label}</label>
                                  <input type="text" value={numericValues[item.id] || ''} onChange={e => setNumericValues({...numericValues, [item.id]: e.target.value})} className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-white text-sm focus:border-amber-500 transition-all" placeholder="0.00" />
                               </div>
@@ -242,7 +242,7 @@ const Preventive = () => {
                 ) : (
                   <div className="p-12 text-center border border-white/5 rounded-3xl bg-white/5">
                      <AlertCircle className="text-amber-500 mx-auto mb-4" size={32} />
-                     <h4 className="text-white">Equipo sin Protocolo Digitalizado</h4>
+                     <h4 className="text-white font-bold">Equipo sin Protocolo Digitalizado</h4>
                   </div>
                 )}
               </div>

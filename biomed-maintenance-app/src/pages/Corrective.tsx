@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Wrench, AlertTriangle, PenTool, X, Search, Loader2, Save, Activity, Calendar } from 'lucide-react';
+import { Wrench, AlertTriangle, X, Search, Loader2, Activity, Calendar } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -8,7 +8,6 @@ const Corrective = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchEq, setSearchEq] = useState('');
   const [selectedEq, setSelectedEq] = useState<any | null>(null);
-  const [loadingSearch, setLoadingSearch] = useState(false);
   const [inventoryResults, setInventoryResults] = useState<any[]>([]);
   const [saving, setSaving] = useState(false);
   
@@ -21,7 +20,6 @@ const Corrective = () => {
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
       if (searchEq.length >= 2) {
-        setLoadingSearch(true);
         const { data, error } = await supabase
           .from('equipments')
           .select('*')
@@ -29,7 +27,6 @@ const Corrective = () => {
           .limit(5);
 
         if (!error) setInventoryResults(data || []);
-        setLoadingSearch(false);
       } else {
         setInventoryResults([]);
       }

@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Plus, Search, Filter, X, Download, ShieldCheck, Wrench, Activity, Layers, Edit, Save, Loader2, RefreshCw } from 'lucide-react';
+import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const Inventory = () => {
