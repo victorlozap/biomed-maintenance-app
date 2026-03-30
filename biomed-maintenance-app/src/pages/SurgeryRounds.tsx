@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ClipboardCheck, Download, CheckSquare, Settings2, Activity, Zap, Settings, X, Edit3, Calendar, Stethoscope } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -82,6 +82,45 @@ export default function SurgeryRounds() {
   });
   const [selectedSala, setSelectedSala] = useState<number | null>(null);
   const dateInputRef = useRef<HTMLInputElement>(null);
+  // State to cache logo and signature data for PDF generation
+  const [logoData, setLogoData] = useState<string | null>(null);
+  // Preload logo and signature on component mount
+  useEffect(() => {
+    const loadAssets = async () => {
+      try {
+        const resLogo = await fetch('/imagenes/logo-san-jorge.jpg');
+        if (resLogo.ok) {
+          const blob = await resLogo.blob();
+          const dataUrl = await new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          });
+          setLogoData(dataUrl);
+          const ct = resLogo.headers.get('content-type');
+          setLogoFormat(ct && ct.includes('jpeg') ? 'JPEG' : 'PNG');
+        }
+      } catch (e) { /* ignore */ }
+      try {
+        const resFirma = await fetch('/imagenes/firma-victor-lopez.png');
+        if (resFirma.ok) {
+          const blob = await resFirma.blob();
+          const dataUrl = await new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          });
+          setFirmaData(dataUrl);
+          const ct = resFirma.headers.get('content-type');
+          setFirmaFormat(ct && ct.includes('jpeg') ? 'JPEG' : 'PNG');
+        }
+      } catch (e) { /* ignore */ }
+    };
+    loadAssets();
+  }, []);
+  const [logoFormat, setLogoFormat] = useState<'PNG' | 'JPEG'>('PNG');
+  const [firmaData, setFirmaData] = useState<string | null>(null);
+  const [firmaFormat, setFirmaFormat] = useState<'PNG' | 'JPEG'>('PNG');
   
   // Encabezado Global de la ronda
   const [globalData, setGlobalData] = useState({
@@ -103,15 +142,8 @@ export default function SurgeryRounds() {
     setData(prev => ({ ...prev, [sala]: { ...(prev[sala] || {}), [equipo]: { ...((prev[sala] || {})[equipo] || {}), observaciones: value } } }));
   };
 
-  const generatePDF = async () => {
-    let logoData: string | null = null;
-    try {
-       const res = await fetch('/imagenes/logo-san-jorge.jpg');
-       if(res.ok) {
-           const blob = await res.blob();
-           logoData = await new Promise((r) => { const reader = new FileReader(); reader.onloadend = () => r(reader.result as string); reader.readAsDataURL(blob); });
-       }
-    } catch(e) {}
+  const generatePDF = () => {
+    // Logo and signature are preloaded in useEffect; no need to fetch here.
 
     const doc = new jsPDF({ format: 'letter', orientation: 'landscape' });
     const GRAY = [230, 230, 230] as [number, number, number];
@@ -124,7 +156,7 @@ export default function SurgeryRounds() {
       
       docObj.rect(10, 10, 45, 18);
       if (logoData) {
-        docObj.addImage(logoData, 'JPEG', 15, 12, 30, 14);
+        docObj.addImage(logoData, logoFormat, 15, 12, 30, 14);
       }
       
       docObj.rect(55, 10, 160, 18);
@@ -225,6 +257,11 @@ export default function SurgeryRounds() {
     };
 
     const drawCellHook = (data: any) => {
+       if (data.row.index === 1 && data.column.index === 0 && firmaData) {
+         const sigW = 32;
+         const sigH = 12;
+         doc.addImage(firmaData, firmaFormat, data.cell.x + (data.cell.width - sigW) / 2, data.cell.y + 4, sigW, sigH);
+       }
        if (data.cell.raw && data.cell.raw.content === '{v}') {
           doc.setDrawColor(15, 20, 25);
           doc.setLineWidth(0.6);
@@ -346,7 +383,16 @@ export default function SurgeryRounds() {
       }
     });
 
-    doc.save(`Formato_Rondas_Cirugia_HUSJ_${formattedDate}.pdf`);
+    // Manual download to preserve user gesture
+    const blob = doc.output('blob');
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Formato_Rondas_Cirugia_HUSJ_${formattedDate}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   return (
