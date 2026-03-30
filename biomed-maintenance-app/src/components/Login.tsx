@@ -34,7 +34,7 @@ const Login = () => {
       <div className="absolute -bottom-24 -right-24 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[100px]"></div>
       
       {/* Login Card */}
-      <div className="relative w-full max-w-md bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+      <div className="relative w-full max-w-md bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-4 md:p-6 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
         {/* Glow behind logo */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-48 bg-orange-400/20 blur-[80px] -z-10 rounded-full"></div>
         
@@ -42,10 +42,10 @@ const Login = () => {
           <div className="inline-flex p-4 bg-gradient-to-br from-orange-500/20 to-amber-500/5 rounded-3xl border border-orange-500/20 shadow-[0_0_20px_rgba(245,158,11,0.2)] mb-6">
             <Activity className="text-orange-400 w-10 h-10" />
           </div>
-          <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-500 drop-shadow-[0_0_10px_rgba(253,224,71,0.2)] tracking-tight">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-500 drop-shadow-[0_0_10px_rgba(253,224,71,0.2)] tracking-tight">
             BioMed HUSJ
           </h2>
-          <p className="text-white/40 mt-3 font-light tracking-wide italic">"Estandarización y Precisión Biomédica"</p>
+          <p className="text-sm md:text-base lg:text-lg text-white/40 mt-3 font-light tracking-wide italic">"Estandarización y Precisión Biomédica"</p>
         </header>
 
         <form onSubmit={handleAuth} className="space-y-6">
