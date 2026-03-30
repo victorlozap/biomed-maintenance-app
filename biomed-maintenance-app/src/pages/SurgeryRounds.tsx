@@ -383,16 +383,19 @@ export default function SurgeryRounds() {
       }
     });
 
-    // Manual download to preserve user gesture
-    const blob = doc.output('blob');
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Formato_Rondas_Cirugia_HUSJ_${formattedDate}.pdf`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      // Manual download with fallback: open PDF in a new tab first to ensure permission, then trigger download
+      const blob = doc.output('blob');
+      const url = URL.createObjectURL(blob);
+      // Open in new tab (user can manually save if automatic download is blocked)
+      window.open(url, '_blank');
+      // Trigger automatic download as before
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Formato_Rondas_Cirugia_HUSJ_${formattedDate}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
   };
 
   return (
