@@ -10,60 +10,77 @@ const monthsNames = [
     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
 ];
 
-async function updateRealExecution() {
-    console.log('📈 INICIANDO CONCILIACIÓN DE EJECUCIÓN REAL 2026...');
+async function updateFromMonthlyReports() {
+    console.log('🔄 REFRESCANDO CRONOGRAMA 2026 DESDE REPORTES MENSUALES...');
+
+    // 1. Obtener todos los equipos (Paginado)
+    let allEquipments = [];
+    let from = 0;
+    while (true) {
+        const { data: page, error } = await supabase.from('equipments').select('id, id_unico').range(from, from + 999);
+        if (error || !page || page.length === 0) break;
+        allEquipments = allEquipments.concat(page);
+        from += 1000;
+    }
+    const equipmentMap = new Map();
+    allEquipments.forEach(e => {
+        if (e.id_unico) equipmentMap.set(String(e.id_unico).trim(), e.id);
+    });
 
     for (let mIdx = 0; mIdx < 12; mIdx++) {
         const monthNum = mIdx + 1;
         const fileName = `../Mantenimientos/${monthNum}. Preventivo ${monthsNames[mIdx]} 2026.xlsx`;
         
         try {
-            console.log(`\n📂 Procesando: ${fileName}...`);
+            console.log(`\n📂 Procesando: ${fileName} (Limpiando base anterior)...`);
+            
+            // Borrar lo previo de este mes para evitar duplicados y desajustes de base
+            await supabase.from('maintenance_plans').delete().eq('year', 2026).eq('month', monthNum);
+
             const workbook = xlsx.readFile(fileName);
-            // La mayoría tienen una sola hoja, o se llaman como el mes
             const sheet = workbook.Sheets[workbook.SheetNames[0]];
             const data = xlsx.utils.sheet_to_json(sheet, {header: 1});
 
-            let monthlyCompletions = 0;
-            const updateIDs = [];
+            const tasksToInsert = [];
 
-            // Empezar desde fila 10 (donde vimos los datos antes)
-            for (let i = 1; i < data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 const row = data[i];
-                if (!row || row.length < 9) continue;
+                if (!row || !row[4]) continue;
 
-                const idUnico = String(row[4] || '').trim();
-                const status = String(row[8] || '').trim().toUpperCase();
+                const idUnico = String(row[4]).trim();
+                if (idUnico === 'CODIGO EQUIPO' || idUnico === 'undefined' || idUnico === 'CODIGO') continue;
 
-                if (idUnico && status.includes('EJECUTADO')) {
-                    updateIDs.push(idUnico);
+                const eqId = equipmentMap.get(idUnico);
+                if (eqId) {
+                    const statusEjecucion = String(row[9] || '').trim().toUpperCase();
+                    const isDone = statusEjecucion === 'EJECUTADO' || statusEjecucion === 'EJECUTADO ';
+                    
+                    tasksToInsert.push({
+                        equipment_id: eqId,
+                        id_unico: idUnico,
+                        year: 2026,
+                        month: monthNum,
+                        periodicidad: 'ANUAL',
+                        status: isDone ? 'COMPLETED' : 'PENDING'
+                    });
                 }
             }
 
-            if (updateIDs.length > 0) {
-                console.log(`⚡ Marcando ${updateIDs.length} equipos como EJECUTADOS en el mes ${monthNum}...`);
-                
-                // Actualizar en Supabase en lotes
-                const chunkSize = 50;
-                for (let i = 0; i < updateIDs.length; i += chunkSize) {
-                    const chunk = updateIDs.slice(i, i + chunkSize);
-                    const { error } = await supabase
-                        .from('maintenance_plans')
-                        .update({ status: 'COMPLETED' })
-                        .eq('year', 2026)
-                        .eq('month', monthNum)
-                        .in('id_unico', chunk);
-                    
-                    if (!error) monthlyCompletions += chunk.length;
+            if (tasksToInsert.length > 0) {
+                console.log(`📊 Mes ${monthNum}: ${tasksToInsert.length} totales detectados.`);
+                const chunkSize = 100;
+                for (let i = 0; i < tasksToInsert.length; i += chunkSize) {
+                    await supabase.from('maintenance_plans').insert(tasksToInsert.slice(i, i + chunkSize));
                 }
-                console.log(`✅ Mes ${monthNum} finalizado con ${monthlyCompletions} tareas completadas.`);
+                const doneCount = tasksToInsert.filter(t => t.status === 'COMPLETED').length;
+                console.log(`✅ Mes ${monthNum}: ${doneCount} / ${tasksToInsert.length} (${((doneCount/tasksToInsert.length)*100).toFixed(2)}%)`);
             }
 
         } catch (err) {
-            console.error(`⚠️ No se pudo procesar el archivo del mes ${monthNum}:`, err.message);
+            console.error(`⚠️ No se pudo procesar el mes ${monthNum}:`, err.message);
         }
     }
-    console.log('\n🌟 CONCILIACIÓN COMPLETA FINALIZADA.');
+    console.log('\n🌟 SINCRONIZACIÓN DEFINITIVA 2026 COMPLETADA.');
 }
 
-updateRealExecution();
+updateFromMonthlyReports();
