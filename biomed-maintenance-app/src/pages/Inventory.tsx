@@ -15,11 +15,47 @@ const Inventory = () => {
   });
   const fileInputRef = useMemo(() => ({ current: null as HTMLInputElement | null }), []);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      alert(`Simulando subida de: ${file.name}\nDestino: Supabase Storage / Public Assets`);
-      // Implementación real de subida aquí cuando Storage esté listo
+    if (!file || !selectedEquipment) return;
+    
+    setLoading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${selectedEquipment.id_unico}_${Date.now()}.${fileExt}`;
+      const filePath = `photos/${fileName}`;
+
+      // 1. Subir al Storage de Supabase (Bucket: 'equipment-images')
+      const { error: uploadError } = await supabase.storage
+        .from('equipment-images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // 2. Obtener URL pública
+      const { data: { publicUrl } } = supabase.storage
+        .from('equipment-images')
+        .getPublicUrl(filePath);
+
+      // 3. Actualizar la base de datos con la nueva URL
+      const { error: dbError } = await supabase
+        .from('equipments')
+        .update({ foto_url: publicUrl })
+        .eq('id', selectedEquipment.id);
+
+      if (dbError) throw dbError;
+
+      // 4. Actualizar estado local
+      const updatedEq = { ...selectedEquipment, foto_url: publicUrl };
+      setSelectedEquipment(updatedEq);
+      setLocalInventory(prev => prev.map(item => item.id === updatedEq.id ? updatedEq : item));
+      
+      alert('¡Foto cargada y guardada correctamente en Supabase!');
+    } catch (error: any) {
+      console.error('Error uploading image:', error);
+      alert('Error al subir la imagen: ' + (error.message || 'Verifica que el bucket "equipment-images" esté creado en Supabase.'));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -307,7 +343,7 @@ const Inventory = () => {
                 <div className="space-y-4 md:space-y-6">
                    <div 
                     onClick={() => document.getElementById('file-input-id')?.click()}
-                    className="bg-white/5 border border-white/5 rounded-3xl p-4 md:p-6 h-full min-h-[220px] flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer hover:border-orange-500/40 transition-all duration-300"
+                    className="bg-white/5 border border-white/5 rounded-3xl p-4 md:p-6 h-full min-h-[220px] flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer hover:border-orange-500/40 transition-all duration-300 shadow-xl"
                    >
                       <input 
                         id="file-input-id"
@@ -317,11 +353,29 @@ const Inventory = () => {
                         onChange={handleImageUpload}
                       />
                       <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent pointer-events-none"></div>
-                      <div className="relative z-10 w-24 h-24 rounded-full bg-black/40 border border-white/10 flex items-center justify-center mb-4 text-white/20 group-hover:scale-110 group-hover:text-orange-400 group-hover:border-orange-500/50 transition-all duration-500 shadow-[0_0_20px_rgba(0,0,0,0.4)]">
-                         <Activity size={40} className="transition-opacity" />
+                      
+                      {selectedEquipment.foto_url ? (
+                        <img 
+                          src={selectedEquipment.foto_url} 
+                          alt={selectedEquipment.equipo} 
+                          className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100" 
+                        />
+                      ) : (
+                        <div className="relative z-10 w-24 h-24 rounded-full bg-black/40 border border-white/10 flex items-center justify-center mb-4 text-white/20 group-hover:scale-110 group-hover:text-orange-400 group-hover:border-orange-500/50 transition-all duration-500 shadow-[0_0_20px_rgba(0,0,0,0.4)]">
+                          <Activity size={40} className="transition-opacity" />
+                        </div>
+                      )}
+
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                      
+                      <div className="relative z-20 flex flex-col items-center">
+                        <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest text-center group-hover:text-white transition-colors drop-shadow-md">
+                          {selectedEquipment.foto_url ? 'Imagen de Equipo' : 'Sin Imagen BioMed'}
+                        </p>
+                        <button className="mt-4 px-4 py-1.5 bg-black/60 hover:bg-orange-500 border border-white/10 group-hover:border-white/30 rounded-lg text-[9px] text-white uppercase font-bold tracking-wider transition-all backdrop-blur-md">
+                          {selectedEquipment.foto_url ? 'Cambiar Foto' : 'Cargar Foto'}
+                        </button>
                       </div>
-                      <p className="relative z-10 text-white/40 text-[10px] uppercase font-bold tracking-widest text-center group-hover:text-white/60 transition-colors">Imagen del Activo</p>
-                      <button className="mt-4 px-4 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[9px] text-white/50 group-hover:text-white uppercase font-bold tracking-wider transition-all">Subir Foto BioMed</button>
                    </div>
                 </div>
 
