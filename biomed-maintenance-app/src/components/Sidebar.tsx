@@ -8,7 +8,8 @@ import {
   Settings, 
   LogOut,
   Hospital,
-  ShieldCheck
+  ShieldCheck,
+  BarChart3
 } from 'lucide-react';
 
 import { useAuth } from '../contexts/AuthContext';
@@ -49,6 +50,7 @@ const Sidebar = ({ onItemClick }: SidebarProps) => {
         <SidebarItem to="/preventive" icon={<ClipboardList size={22} />} label="Preventivos" iconColor="green" onClick={onItemClick} />
         <SidebarItem to="/corrective" icon={<Wrench size={22} />} label="Correctivos" iconColor="purple" onClick={onItemClick} />
         <SidebarItem to="/surgery-rounds" icon={<ShieldCheck size={22} />} label="Rondas Cirugía" iconColor="blue" onClick={onItemClick} />
+        <SidebarItem to="/kpis" icon={<BarChart3 size={22} />} label="Gestión KPIs" iconColor="cyan" onClick={onItemClick} />
         
         <div className="mt-10 mb-4">
           <p className="px-3 text-[10px] font-semibold text-white/40 uppercase tracking-[0.2em] mb-2">Sistema</p>
