@@ -80,7 +80,7 @@ const AppContent = () => {
         isOpen={isMobileMenuOpen}
         onClose={closeMenu}
       >
-        <Sidebar />
+        <Sidebar onItemClick={closeMenu} />
       </MobileDrawerOverlay>
       
       <div className="flex-1 h-screen overflow-hidden z-10 flex flex-col">

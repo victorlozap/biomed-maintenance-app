@@ -434,116 +434,179 @@ export default function SurgeryRounds() {
         </div>
       </header>
 
-      {/* Grid de Salas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6 mb-12">
+      {/* Accordion de Salas */}
+      <div className="space-y-4 md:space-y-6 mb-12 max-w-5xl mx-auto">
         {[1, 2, 3, 4, 5, 6, 7, 8].map(sala => (
-          <button
-            key={sala}
-            onClick={() => setSelectedSala(sala)}
-            className={`p-3 md:p-4 lg:p-6 rounded-3xl border transition-all text-left relative overflow-hidden group ${
-              selectedSala === sala 
-                ? 'bg-teal-500/20 border-teal-400 shadow-[0_0_25px_rgba(45,212,191,0.2)]' 
-                : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/30'
-            }`}
-          >
-            <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-[50px] transition-all opacity-50 ${selectedSala === sala ? 'bg-teal-500' : 'bg-zinc-600 group-hover:bg-teal-500/30'}`}></div>
-            <div className="relative z-10 flex justify-between items-start mb-2">
-               <h3 className={`text-2xl font-bold ${selectedSala === sala ? 'text-teal-300' : 'text-white'}`}>SALA #{sala}</h3>
-               <Stethoscope size={28} className={`transition-all ${selectedSala === sala ? 'text-teal-400 scale-110 drop-shadow-[0_0_10px_rgba(45,212,191,0.6)]' : 'text-white/20 group-hover:text-white/40 group-hover:scale-110'}`} />
-            </div>
-            <p className="text-white/40 font-light mt-2 relative z-10 flex items-center gap-2">
-              <ClipboardCheck size={14} /> Seleccionar quirófano
-            </p>
-          </button>
-        ))}
-      </div>
+          <div key={sala} className="overflow-hidden">
+            <button
+              onClick={() => setSelectedSala(selectedSala === sala ? null : sala)}
+              className={`w-full p-4 md:p-6 lg:p-8 rounded-[2rem] border transition-all text-left relative overflow-hidden group flex items-center justify-between ${
+                selectedSala === sala 
+                  ? 'bg-teal-500/20 border-teal-400 shadow-[0_0_40px_rgba(45,212,191,0.15)] ring-1 ring-teal-400/30' 
+                  : 'bg-white/5 border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+              }`}
+            >
+              <div className={`absolute top-0 right-0 w-48 h-48 rounded-full blur-[80px] transition-all duration-700 opacity-40 ${selectedSala === sala ? 'bg-teal-500/60' : 'bg-transparent group-hover:bg-teal-500/20'}`}></div>
+              
+              <div className="relative z-10 flex items-center gap-6 md:gap-8">
+                 <div className={`w-14 h-14 md:w-16 md:h-16 rounded-3xl flex items-center justify-center transition-all duration-500 ${selectedSala === sala ? 'bg-teal-500 text-white shadow-lg' : 'bg-white/5 text-white/40 group-hover:bg-teal-500/20 group-hover:text-teal-400'}`}>
+                    <Stethoscope size={selectedSala === sala ? 32 : 28} className="transition-transform duration-500" />
+                 </div>
+                 <div>
+                    <h3 className={`text-2xl md:text-3xl font-black tracking-tight ${selectedSala === sala ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>SALA #{sala}</h3>
+                    <p className="text-white/40 text-[10px] md:text-xs uppercase font-bold tracking-widest mt-1 flex items-center gap-2">
+                      <div className={`w-1.5 h-1.5 rounded-full ${selectedSala === sala ? 'bg-teal-400 animate-pulse' : 'bg-white/20'}`}></div>
+                      {selectedSala === sala ? 'Auditando ahora' : 'Quirófano disponible'}
+                    </p>
+                 </div>
+              </div>
+              
+              <div className="relative z-10 hidden sm:flex flex-col items-end gap-2 pr-2">
+                 <div className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${selectedSala === sala ? 'bg-teal-500/40 border-teal-400 text-white rotate-180' : 'bg-white/5 border-white/10 text-white/30 group-hover:border-white/30'}`}>
+                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M4.5 6.75L9 11.25L13.5 6.75" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                   </svg>
+                 </div>
+              </div>
+            </button>
 
-      {/* Editor de la Sala Seleccionada */}
-      {selectedSala && (
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-6 lg:p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <h3 className="text-xl md:text-2xl lg:text-3xl text-teal-300 font-bold mb-8 flex items-center gap-3 border-b border-white/10 pb-4">
-            <CheckSquare size={28} /> Auditando SALA #{selectedSala}
-          </h3>
-
-          <div className="space-y-8">
-            {EQUIPOS.map((eq) => {
-              const eqData = data[selectedSala]?.[eq.id] || {};
-              const Icon = eq.icon;
-              return (
-                <div key={eq.id} className="bg-black/20 rounded-2xl p-3 md:p-4 lg:p-6 border border-white/5">
-                  <div className="flex justify-between items-center mb-6">
-                    <h4 className="text-lg text-white font-medium flex items-center gap-3">
-                      <div className="p-2 bg-teal-500/20 rounded-lg text-teal-400 border border-teal-500/20">
-                        <Icon size={18} />
-                      </div>
-                      <span className="tracking-wide">{eq.name}</span>
-                    </h4>
-                    <div className="flex items-center gap-3">
-                      <span className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Activo Fijo:</span>
-                      <input 
-                        type="text" 
-                        value={eqData.activoFijo || ''} 
-                        onChange={e => updateActivo(selectedSala, eq.id, e.target.value)}
-                        placeholder="Ej: 541392"
-                        className="bg-black/40 border border-teal-500/30 rounded-lg px-4 py-2 text-teal-200 text-sm focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 transition-all font-mono"
-                      />
+            {/* Contenido de la Sala (Toggle Inline) */}
+            {selectedSala === sala && (
+              <div className="mt-4 md:mt-6 bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-4 md:p-8 lg:p-10 backdrop-blur-3xl animate-in fade-in slide-in-from-top-4 duration-500 shadow-2xl relative">
+                  <div className="absolute top-0 left-10 w-px h-10 bg-gradient-to-b from-teal-500/50 to-transparent"></div>
+                  
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12 border-b border-white/5 pb-8">
+                    <h3 className="text-2xl md:text-3xl text-teal-300 font-bold flex items-center gap-4">
+                      <CheckSquare size={32} className="text-teal-400" />
+                      Auditoría Quirúrgica
+                    </h3>
+                    <div className="px-5 py-2 bg-teal-500/10 border border-teal-500/20 rounded-full text-teal-400 text-[10px] font-black uppercase tracking-[0.2em] shadow-inner">
+                      SALA #{sala} - BioMed HUSJ
                     </div>
                   </div>
 
-                  <div className="bg-white/5 rounded-xl border border-white/5 overflow-hidden">
-                    <table className="w-full text-left">
-                      <thead className="bg-[#111827] border-b border-white/10">
-                        <tr>
-                          <th className="py-3 px-5 text-white/50 text-[10px] font-bold uppercase tracking-widest w-2/3">Requerimiento HUSJ</th>
-                          <th className="py-3 px-5 text-emerald-400/80 text-[10px] font-bold uppercase tracking-widest text-center">CUMPLE</th>
-                          <th className="py-3 px-5 text-orange-400/80 text-[10px] font-bold uppercase tracking-widest text-center">NC</th>
-                          <th className="py-3 px-5 text-white/40 text-[10px] font-bold uppercase tracking-widest text-center">N/A</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-white/5">
-                        {eq.items.map((item, idx) => {
-                          const val = eqData.checks?.[idx];
-                          return (
-                            <tr key={idx} className="hover:bg-white/5 transition-colors">
-                              <td className="py-4 px-5 text-white/80 text-xs font-light tracking-wide leading-relaxed">{item}</td>
-                              <td className="py-4 px-5 text-center align-middle">
-                                <button onClick={() => updateCheck(selectedSala, eq.id, idx, 'C')} className={`w-7 h-7 rounded-md flex items-center justify-center border transition-all mx-auto ${val === 'C' ? 'bg-emerald-500 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]' : 'border-white/10 bg-black/20 text-transparent hover:border-emerald-400/50'}`}>
-                                  {val === 'C' && <CheckSquare size={16} />}
-                                </button>
-                              </td>
-                              <td className="py-4 px-5 text-center align-middle">
-                                <button onClick={() => updateCheck(selectedSala, eq.id, idx, 'NC')} className={`w-7 h-7 rounded-md flex items-center justify-center border transition-all mx-auto ${val === 'NC' ? 'bg-orange-500 border-orange-400 text-white shadow-[0_0_15px_rgba(249,115,22,0.4)]' : 'border-white/10 bg-black/20 text-transparent hover:border-orange-400/50'}`}>
-                                  {val === 'NC' && <X size={16} />}
-                                </button>
-                              </td>
-                              <td className="py-4 px-5 text-center align-middle">
-                                <button onClick={() => updateCheck(selectedSala, eq.id, idx, 'NA')} className={`w-7 h-7 rounded-md flex items-center justify-center border transition-all mx-auto ${val === 'NA' ? 'bg-slate-600 border-slate-400 text-white shadow-[0_0_15px_rgba(71,85,105,0.4)]' : 'border-white/10 bg-black/20 text-transparent hover:border-slate-400/50'}`}>
-                                  {val === 'NA' && <span className="text-[10px] font-bold">NA</span>}
-                                </button>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                  <div className="space-y-12 md:space-y-16">
+                    {EQUIPOS.map((eq) => {
+                      const eqData = data[selectedSala]?.[eq.id] || {};
+                      const Icon = eq.icon;
+                      return (
+                        <div key={eq.id} className="relative group/eq">
+                          {/* Header Equipo - Responsive Refactor */}
+                          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 md:gap-6 mb-8 bg-white/[0.03] p-4 md:p-6 rounded-3xl border border-white/5 transition-all group-hover/eq:border-teal-500/20 shadow-md">
+                            <h4 className="text-xl md:text-2xl text-white font-bold flex items-center gap-4">
+                              <div className="p-3 md:p-4 bg-teal-500/15 rounded-2xl text-teal-400 border border-teal-500/20 group-hover/eq:scale-110 transition-transform shadow-lg">
+                                <Icon size={24} />
+                              </div>
+                              <span className="tracking-tight">{eq.name}</span>
+                            </h4>
+                            <div className="flex items-center gap-4 w-full lg:w-auto bg-black/40 p-2 pl-4 rounded-2xl border border-white/5">
+                              <span className="text-white/30 text-[9px] md:text-[10px] uppercase font-black tracking-widest whitespace-nowrap">Activo Fijo:</span>
+                              <input 
+                                type="text" 
+                                value={eqData.activoFijo || ''} 
+                                onChange={e => updateActivo(selectedSala, eq.id, e.target.value)}
+                                placeholder="Ej: 541392"
+                                className="bg-transparent border-none text-teal-200 text-base md:text-lg focus:outline-none w-full lg:w-32 font-bold font-mono placeholder:text-white/10"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Desktop Tablet Table */}
+                          <div className="hidden md:block bg-black/30 rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+                            <table className="w-full text-left">
+                              <thead className="bg-white/5 border-b border-white/10">
+                                <tr>
+                                  <th className="py-5 px-8 text-white/50 text-[10px] font-black uppercase tracking-[0.2em] w-3/5">Parámetro de Verificación</th>
+                                  <th className="py-5 px-4 text-emerald-400/80 text-[10px] font-black uppercase tracking-[0.2em] text-center">CUMPLE</th>
+                                  <th className="py-5 px-4 text-orange-400/80 text-[10px] font-black uppercase tracking-[0.2em] text-center">NO CUMPLE</th>
+                                  <th className="py-5 px-4 text-white/30 text-[10px] font-black uppercase tracking-[0.2em] text-center">N/A</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-white/5">
+                                {eq.items.map((item, idx) => {
+                                  const val = eqData.checks?.[idx];
+                                  return (
+                                    <tr key={idx} className="hover:bg-white/[0.04] transition-colors group/row">
+                                      <td className="py-6 px-8 text-white/80 text-sm font-light tracking-wide leading-relaxed pr-10">{item}</td>
+                                      <td className="py-6 px-4 text-center align-middle">
+                                        <button onClick={() => updateCheck(selectedSala, eq.id, idx, 'C')} className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all mx-auto ${val === 'C' ? 'bg-emerald-500 border-emerald-400 text-white shadow-lg scale-110' : 'border-white/10 bg-black/20 text-transparent hover:border-emerald-400/50 hover:bg-emerald-500/10'}`}>
+                                          <CheckSquare size={20} className={val === 'C' ? 'opacity-100' : 'opacity-0'} />
+                                        </button>
+                                      </td>
+                                      <td className="py-6 px-4 text-center align-middle">
+                                        <button onClick={() => updateCheck(selectedSala, eq.id, idx, 'NC')} className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all mx-auto ${val === 'NC' ? 'bg-orange-600 border-orange-400 text-white shadow-lg scale-110' : 'border-white/10 bg-black/20 text-transparent hover:border-orange-400/50 hover:bg-orange-500/10'}`}>
+                                          <X size={20} className={val === 'NC' ? 'opacity-100' : 'opacity-0'} />
+                                        </button>
+                                      </td>
+                                      <td className="py-6 px-4 text-center align-middle">
+                                        <button onClick={() => updateCheck(selectedSala, eq.id, idx, 'NA')} className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all mx-auto ${val === 'NA' ? 'bg-slate-600 border-slate-400 text-white shadow-lg scale-110' : 'border-white/10 bg-black/20 text-transparent hover:border-slate-400/50'}`}>
+                                          <span className={`text-[11px] font-black ${val === 'NA' ? 'opacity-100' : 'opacity-0'}`}>NA</span>
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+
+                          {/* Mobile View - Card based checklist */}
+                          <div className="md:hidden space-y-4">
+                             {eq.items.map((item, idx) => {
+                               const val = eqData.checks?.[idx];
+                               return (
+                                 <div key={idx} className="bg-black/30 p-5 rounded-3xl border border-white/10 space-y-5">
+                                    <p className="text-white/80 text-sm font-light leading-relaxed">{item}</p>
+                                    <div className="grid grid-cols-3 gap-3">
+                                       <button 
+                                          onClick={() => updateCheck(selectedSala, eq.id, idx, 'C')}
+                                          className={`flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all ${val === 'C' ? 'bg-emerald-500/20 border-emerald-400 text-emerald-400 shadow-inner' : 'bg-white/5 border-white/10 text-white/30'}`}
+                                       >
+                                          <CheckSquare size={20} />
+                                          <span className="text-[10px] font-black uppercase">Cumple</span>
+                                       </button>
+                                       <button 
+                                          onClick={() => updateCheck(selectedSala, eq.id, idx, 'NC')}
+                                          className={`flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all ${val === 'NC' ? 'bg-orange-500/20 border-orange-400 text-orange-400 shadow-inner' : 'bg-white/5 border-white/10 text-white/30'}`}
+                                       >
+                                          <X size={20} />
+                                          <span className="text-[10px] font-black uppercase">No NC</span>
+                                       </button>
+                                       <button 
+                                          onClick={() => updateCheck(selectedSala, eq.id, idx, 'NA')}
+                                          className={`flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all ${val === 'NA' ? 'bg-slate-500/20 border-slate-400 text-slate-300 shadow-inner' : 'bg-white/5 border-white/10 text-white/30'}`}
+                                       >
+                                          <span className="text-sm font-black">NA</span>
+                                          <span className="text-[10px] font-black uppercase">N/A</span>
+                                       </button>
+                                    </div>
+                                 </div>
+                               );
+                             })}
+                          </div>
+                          
+                          {/* Observaciones extra box por equipo */}
+                          <div className="mt-6 flex flex-col md:flex-row items-start gap-4 p-5 border border-white/10 border-dashed rounded-[2rem] bg-white/[0.02] hover:bg-white/[0.04] transition-all">
+                             <div className="flex items-center gap-3 text-teal-400">
+                                <Edit3 size={18} />
+                                <span className="text-[11px] font-black uppercase tracking-widest">Observaciones</span>
+                             </div>
+                             <textarea 
+                                className="w-full bg-transparent border-none outline-none text-white/70 text-base font-light resize-none h-16 custom-scrollbar placeholder:text-white/10 mt-1"
+                                placeholder="..."
+                                value={eqData.observaciones || ''}
+                                onChange={e => updateObs(selectedSala, eq.id, e.target.value)}
+                             />
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                  
-                  {/* Observaciones extra box por equipo */}
-                  <div className="mt-4 flex items-start gap-4 p-4 border border-white/10 border-dashed rounded-xl bg-white/[0.02]">
-                     <Edit3 size={16} className="text-white/30 mt-1" />
-                     <textarea 
-                        className="w-full bg-transparent border-none outline-none text-white/70 text-sm font-light resize-none h-10 custom-scrollbar placeholder:text-white/20"
-                        placeholder="Observaciones de esta sala..."
-                        value={eqData.observaciones || ''}
-                        onChange={e => updateObs(selectedSala, eq.id, e.target.value)}
-                     />
-                  </div>
-                </div>
-              );
-            })}
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 }

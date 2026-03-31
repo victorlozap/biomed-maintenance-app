@@ -13,8 +13,17 @@ import {
 
 import { useAuth } from '../contexts/AuthContext';
 
-const Sidebar = () => {
+interface SidebarProps {
+  onItemClick?: () => void;
+}
+
+const Sidebar = ({ onItemClick }: SidebarProps) => {
   const { signOut } = useAuth();
+
+  const handleSignOut = () => {
+    signOut();
+    if (onItemClick) onItemClick();
+  };
 
   return (
     <aside className="w-72 bg-white/[0.03] backdrop-blur-[24px] border-r border-white/10 flex flex-col h-screen sticky top-0 shadow-[4px_0_24px_rgba(0,0,0,0.3)]">
@@ -35,22 +44,22 @@ const Sidebar = () => {
       <nav className="flex-1 px-5 py-8 space-y-2 overflow-y-auto">
         <p className="px-3 text-[10px] font-semibold text-white/40 uppercase tracking-[0.2em] mb-4">Principal</p>
         
-        <SidebarItem to="/" icon={<Home size={22} />} label="Dashboard" iconColor="cyan" />
-        <SidebarItem to="/inventory" icon={<Activity size={22} />} label="Inventario" iconColor="orange" />
-        <SidebarItem to="/preventive" icon={<ClipboardList size={22} />} label="Preventivos" iconColor="green" />
-        <SidebarItem to="/corrective" icon={<Wrench size={22} />} label="Correctivos" iconColor="purple" />
-        <SidebarItem to="/surgery-rounds" icon={<ShieldCheck size={22} />} label="Rondas Cirugía" iconColor="blue" />
+        <SidebarItem to="/" icon={<Home size={22} />} label="Dashboard" iconColor="cyan" onClick={onItemClick} />
+        <SidebarItem to="/inventory" icon={<Activity size={22} />} label="Inventario" iconColor="orange" onClick={onItemClick} />
+        <SidebarItem to="/preventive" icon={<ClipboardList size={22} />} label="Preventivos" iconColor="green" onClick={onItemClick} />
+        <SidebarItem to="/corrective" icon={<Wrench size={22} />} label="Correctivos" iconColor="purple" onClick={onItemClick} />
+        <SidebarItem to="/surgery-rounds" icon={<ShieldCheck size={22} />} label="Rondas Cirugía" iconColor="blue" onClick={onItemClick} />
         
         <div className="mt-10 mb-4">
           <p className="px-3 text-[10px] font-semibold text-white/40 uppercase tracking-[0.2em] mb-2">Sistema</p>
         </div>
         
-        <SidebarItem to="/settings" icon={<Settings size={22} />} label="Configuración" iconColor="slate" />
+        <SidebarItem to="/settings" icon={<Settings size={22} />} label="Configuración" iconColor="slate" onClick={onItemClick} />
       </nav>
 
       <div className="p-6 border-t border-white/10 bg-gradient-to-t from-black/20 to-transparent">
         <button 
-          onClick={() => signOut()}
+          onClick={handleSignOut}
           className="flex items-center gap-3 px-4 py-3 w-full text-white/70 hover:text-rose-400 hover:bg-rose-500/10 rounded-2xl transition-all duration-300 group border border-transparent hover:border-rose-500/30"
         >
           <LogOut size={20} className="group-hover:text-rose-400 drop-shadow-[0_0_8px_rgba(244,63,94,0)] group-hover:drop-shadow-[0_0_8px_rgba(244,63,94,0.6)] transition-all" />
@@ -66,9 +75,10 @@ interface ItemProps {
   icon: React.ReactNode;
   label: string;
   iconColor: 'cyan' | 'orange' | 'green' | 'purple' | 'slate' | 'blue';
+  onClick?: () => void;
 }
 
-const SidebarItem = ({ to, icon, label, iconColor }: ItemProps) => {
+const SidebarItem = ({ to, icon, label, iconColor, onClick }: ItemProps) => {
   const getIconColor = () => {
     switch(iconColor) {
       case 'cyan': return 'text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]';
@@ -83,6 +93,7 @@ const SidebarItem = ({ to, icon, label, iconColor }: ItemProps) => {
   return (
     <NavLink 
       to={to} 
+      onClick={onClick}
       className={({ isActive }) => `flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group relative overflow-hidden ${
         isActive 
           ? 'bg-white/10 border border-white/20 shadow-[0_8px_20px_rgba(0,0,0,0.2)]' 

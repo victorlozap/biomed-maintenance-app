@@ -316,11 +316,9 @@ const Inventory = () => {
                   <Activity className="text-orange-400 w-5 h-5 md:w-7 md:h-7" />
                 </div>
                 <div className="overflow-hidden flex-1">
-                  <h3 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white/90 truncate pr-4">{selectedEquipment.equipo}</h3>
-                  <p className="text-white/40 text-[10px] md:text-sm mt-0.5 md:mt-1 font-light tracking-wide flex items-center gap-2 truncate">
-                    <span className="text-amber-200/50">Activo:</span> {selectedEquipment.id_unico} 
-                    <span className="hidden xs:inline text-white/20 px-2">|</span> 
-                    <span className="hidden xs:inline text-amber-200/50">Servicio:</span> <span className="hidden xs:inline">{selectedEquipment.servicio || 'N/A'}</span>
+                  <h3 className="text-sm md:text-2xl lg:text-3xl font-bold tracking-tight text-white/90 truncate pr-4 leading-tight">{selectedEquipment.equipo}</h3>
+                  <p className="text-white/40 text-[9px] md:text-sm mt-0.5 md:mt-1 font-light tracking-wide flex items-center gap-2 truncate">
+                    <span className="text-orange-500/80 font-bold">ACTIVO:</span> {selectedEquipment.id_unico}
                   </p>
                 </div>
               </div>
@@ -372,7 +370,14 @@ const Inventory = () => {
                         <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest text-center group-hover:text-white transition-colors drop-shadow-md">
                           {selectedEquipment.foto_url ? 'Imagen de Equipo' : 'Sin Imagen BioMed'}
                         </p>
-                        <button className="mt-4 px-4 py-1.5 bg-black/60 hover:bg-orange-500 border border-white/10 group-hover:border-white/30 rounded-lg text-[9px] text-white uppercase font-bold tracking-wider transition-all backdrop-blur-md">
+                        <button 
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            document.getElementById('file-input-id')?.click();
+                          }}
+                          className="mt-4 px-4 py-1.5 bg-black/60 hover:bg-orange-500 border border-white/10 group-hover:border-white/30 rounded-lg text-[9px] text-white uppercase font-bold tracking-wider transition-all backdrop-blur-md pointer-events-auto"
+                        >
                           {selectedEquipment.foto_url ? 'Cambiar Foto' : 'Cargar Foto'}
                         </button>
                       </div>
@@ -405,12 +410,12 @@ const Inventory = () => {
                    <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-3xl p-4 md:p-5 lg:p-6 h-full flex flex-col">
                       <h4 className="text-indigo-400 text-xs tracking-widest uppercase mb-5 pb-3 border-b border-white/5 font-bold">Ubicación y Riesgo</h4>
                       <div className="space-y-4 flex-1">
-                        <div className="bg-black/30 p-3.5 rounded-2xl border border-indigo-500/10">
-                          <p className="text-indigo-300/50 text-[10px] uppercase font-bold tracking-wider mb-1">Servicio</p>
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-indigo-500/10 flex flex-col items-start gap-1">
+                          <p className="text-indigo-300/50 text-[10px] uppercase font-bold tracking-wider">Servicio</p>
                           <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.servicio || 'N/A'}</p>
                         </div>
-                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
-                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Ubicación</p>
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5 flex flex-col items-start gap-1">
+                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider">Ubicación</p>
                           <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.ubicacion || 'Sala 8'}</p>
                         </div>
                         <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
@@ -426,8 +431,8 @@ const Inventory = () => {
                    <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-3xl p-4 md:p-5 lg:p-6 h-full flex flex-col">
                       <h4 className="text-emerald-400 text-xs tracking-widest uppercase mb-5 pb-3 border-b border-white/5 font-bold">Gestión HUSJ</h4>
                       <div className="space-y-4 flex-1">
-                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
-                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Frecuencia Mtto.</p>
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5 flex flex-col items-start gap-1">
+                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider">Frecuencia Mtto.</p>
                           <p className="text-white text-base font-medium leading-tight">{selectedEquipment.frecuencia_mantenimiento || 'Semestral'}</p>
                         </div>
                         <div className="bg-emerald-400/5 p-3.5 rounded-2xl border border-emerald-500/20 shadow-[inset_0_0_20px_rgba(52,211,153,0.05)]">

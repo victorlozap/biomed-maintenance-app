@@ -48,11 +48,27 @@ Este documento registra la evolución tecnológica de la aplicación de mantenim
 
 ---
 
-### �📊 Resumen Estadístico del Día
-- **Registros Migrados:** 2,923 equipos únicos.
-- **Archivos Modificados:** 12 archivos clave de la lógica interna.
-- **Nuevas Funcionalidades:** LogIn corporativo, persistencia de sesión, sincronización en tiempo real.
-- **Estado de Seguridad:** Row Level Security (RLS) habilitado en el servidor para proteger contra accesos no autorizados.
+### 📱 Hito 6: Optimización Responsiva y Gestión de Activos Visuales (Media Storage)
+**Objetivo:** Transformar la experiencia de usuario para el uso en terreno (móvil) y permitir la carga de evidencias fotográficas de los equipos.
+- **Acción: Diseño Mobile-First:** Reestructuración completa de `Inventory.tsx`, `Dashboard.tsx`, `Preventive.tsx`, `Corrective.tsx` y `SurgeryRounds.tsx` para ser 100% responsivos. Introducción de un **layout de tarjetas (Card-based)** en móviles para reemplazar tablas complejas de inventario.
+- **Acción: Integración de Supabase Storage:** Configuración del bucket `equipment-images` para almacenar fotografías reales de los equipos. Implementación de lógica de subida directa desde el navegador (PC/Móvil) y vinculación automática con el campo `foto_url` en la base de datos SQL.
+- **Acción: Estandarización de Interfaz (Boxed Style):** Rediseño de la ficha técnica del equipo utilizando un sistema de "casillas" premium (labels superiores y valores inferiores), eliminando solapamientos de texto y mejorando la legibilidad en pantallas pequeñas.
+- **Acción: Editor Global Dinámico:** Expansión del modal de edición para mapear automáticamente **todas las columnas** del inventario original (Excel), habilitando la modificación de cualquier parámetro técnico desde la nube.
+- **Acción: Normalización de Calibración:** Implementación de helper `formatDate` para corregir la visualización de fechas en formato numérico de Excel, convirtiéndolas en fechas legibles (DD/MM/AAAA).
+- **Acción: Refuerzo de Responsividad Móvil:** Ajuste de tipografía dinámica en el encabezado del modal para evitar desbordamientos en pantallas pequeñas (`text-sm` en móvil). Implementación de un sistema de **stacking vertical forzado** (`flex-col items-start`) en todas las casillas de datos para garantizar que las etiquetas y valores nunca se solapen, independientemente del ancho del dispositivo.
+- **Acción: Reparación de Carga Multimedia en Móvil:** Corrección del disparador del selector de archivos mediante `e.stopPropagation()` y `pointer-events-auto`, asegurando que el botón "Cargar Foto" sea funcional en navegadores táctiles de smartphones.
+- **Acción: Mejora de Navegación UX:** Implementación de cierre automático del menú hamburguesa tras seleccionar un módulo. Se añadió un callback `onItemClick` a la `Sidebar` para sincronizar el estado del drawer con la navegación de React Router.
+- **Acción: Refactorización de Rondas de Cirugía (Accordion Mode):** Transformación del selector de salas en un sistema de acordeón expansivo. Ahora, al seleccionar una sala, el formulario técnico se despliega directamente debajo, eliminando desplazamientos innecesarios. Se rediseñó la tabla de chequeo para móviles, convirtiéndola en un sistema de tarjetas táctiles que evita desbordamientos de texto y mejora la precisión en campo.
+- **Resultado:** Plataforma 100% operativa en campo, permitiendo a los biomédicos realizar rondas quirúrgicas y gestionar inventarios con un flujo de trabajo optimizado para dispositivos móviles y una interfaz libre de errores visuales.
+
+---
+
+### 📊 Resumen Estadístico Actualizado
+- **Equipos Certificados en Cloud:** 2,923 registros únicos.
+- **Almacenamiento:** Bucket `equipment-images` activo para gestión de fotos.
+- **Compatibilidad:** 100% Responsive (Desktop, Tablet, Mobile).
+- **Consolidación:** Sincronización bidireccional entre Excel de origen y base de datos Supabase a través del Editor Global.
 
 ---
 **Elaborado por:** BioMed HUSJ + Antigravity Engineering Toolkit 🩺📡🚀
+**Última actualización:** 31 de Marzo 2026 - 02:45 AM
