@@ -13,6 +13,21 @@ const Inventory = () => {
   const [newEqData, setNewEqData] = useState({ 
     equipo: '', marca: '', modelo: '', numero_serie: '', id_unico: '', ubicacion: '', servicio: '', estado: 'BUENO', riesgo: 'I' 
   });
+
+  // Helper para formatear fechas (incluyendo fechas de Excel)
+  const formatDate = (val: any) => {
+    if (!val || val === 'N/A' || val === 'No Aplica') return 'No Aplica';
+    if (typeof val === 'number' || (!isNaN(val) && !val.toString().includes('-'))) {
+      const excelDate = parseFloat(val as string);
+      const date = new Date((excelDate - 25569) * 86400 * 1000);
+      return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+    if (typeof val === 'string' && val.includes('-')) {
+      const [year, month, day] = val.split('-');
+      return `${day}/${month}/${year}`;
+    }
+    return val;
+  };
   
   // Cargar datos desde Supabase
   const fetchEquipments = async () => {
@@ -250,28 +265,28 @@ const Inventory = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-0 md:p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" onClick={() => setSelectedEquipment(null)}></div>
           <div className="relative bg-[#0a0f1a] w-full h-full md:h-[85vh] md:max-w-6xl md:rounded-[2rem] border-t md:border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-300">
-            <div className="relative z-10 p-4 md:p-6 md:px-10 border-b border-white/5 flex justify-between items-center bg-white/5 backdrop-blur-md">
-              <div className="flex items-center gap-3 md:gap-4">
+            <div className="relative z-10 p-4 md:p-6 md:px-10 border-b border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/5 backdrop-blur-md">
+              <div className="flex items-center gap-3 md:gap-4 overflow-hidden w-full">
                 <div className="p-2 md:p-3 bg-gradient-to-br from-orange-500/20 to-amber-500/5 rounded-2xl border border-orange-500/20 shadow-[0_0_15px_rgba(245,158,11,0.2)] flex-none">
                   <Activity className="text-orange-400 w-5 h-5 md:w-7 md:h-7" />
                 </div>
-                <div className="overflow-hidden">
-                  <h3 className="text-xl md:text-3xl font-bold tracking-tight text-white/90 truncate">{selectedEquipment.equipo}</h3>
+                <div className="overflow-hidden flex-1">
+                  <h3 className="text-lg md:text-2xl lg:text-3xl font-bold tracking-tight text-white/90 truncate pr-4">{selectedEquipment.equipo}</h3>
                   <p className="text-white/40 text-[10px] md:text-sm mt-0.5 md:mt-1 font-light tracking-wide flex items-center gap-2 truncate">
                     <span className="text-amber-200/50">Activo:</span> {selectedEquipment.id_unico} 
-                    <span className="hidden sm:inline text-white/20 px-2">|</span> 
-                    <span className="hidden sm:inline text-amber-200/50">Servicio:</span> <span className="hidden sm:inline">{selectedEquipment.servicio || 'N/A'}</span>
+                    <span className="hidden xs:inline text-white/20 px-2">|</span> 
+                    <span className="hidden xs:inline text-amber-200/50">Servicio:</span> <span className="hidden xs:inline">{selectedEquipment.servicio || 'N/A'}</span>
                   </p>
                 </div>
               </div>
-              <div className="flex gap-2 shrink-0">
-                <button onClick={() => { setEditEqData(selectedEquipment); setIsEditModalOpen(true); }} className="p-2 md:px-6 md:py-2.5 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl text-sm font-semibold hover:scale-105 transition-all flex items-center gap-2">
-                  <Edit size={16} /> <span className="hidden md:inline">Editar</span>
+              <div className="flex gap-2 shrink-0 w-full sm:w-auto justify-end">
+                <button onClick={() => { setEditEqData(selectedEquipment); setIsEditModalOpen(true); }} className="flex-1 sm:flex-none p-2 md:px-6 md:py-2.5 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl text-sm font-semibold hover:scale-105 transition-all flex items-center justify-center gap-2">
+                  <Edit size={16} /> <span className="hidden sm:inline">Editar</span>
                 </button>
-                <button onClick={handleDownloadPDF} className="p-2 md:px-6 md:py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl text-sm font-semibold hover:scale-105 transition-all flex items-center gap-2">
-                  <Download size={18} /> <span className="hidden md:inline">PDF</span>
+                <button onClick={handleDownloadPDF} className="flex-1 sm:flex-none p-2 md:px-6 md:py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl text-sm font-semibold hover:scale-105 transition-all flex items-center justify-center gap-2">
+                  <Download size={18} /> <span className="hidden sm:inline">PDF</span>
                 </button>
-                <button onClick={() => setSelectedEquipment(null)} className="p-2 md:p-3 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white rounded-xl transition-colors border border-white/5">
+                <button onClick={() => setSelectedEquipment(null)} className="p-2 md:p-3 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white rounded-xl transition-colors border border-white/5 flex-none">
                   <X size={20} />
                 </button>
               </div>
@@ -343,8 +358,12 @@ const Inventory = () => {
                           <p className="text-white text-sm">{selectedEquipment.frecuencia_mantenimiento || 'Semestral'}</p>
                         </div>
                         <div className="bg-black/20 p-3 rounded-xl border border-white/5">
-                          <p className="text-white/30 text-[10px] uppercase font-light mb-1">Calibración</p>
-                          <p className="text-rose-400 font-mono text-base font-bold">{selectedEquipment.fecha_vencimiento_calibracion || 'No Aplica'}</p>
+                          <p className="text-white/30 text-[10px] uppercase font-light mb-1">Última Calibración</p>
+                          <p className="text-emerald-400 font-mono text-sm font-bold">{formatDate(selectedEquipment.fecha_calibracion)}</p>
+                        </div>
+                        <div className="bg-black/20 p-3 rounded-xl border border-white/5">
+                          <p className="text-white/30 text-[10px] uppercase font-light mb-1">Vcto. Calibración</p>
+                          <p className="text-rose-400 font-mono text-base font-bold">{formatDate(selectedEquipment.fecha_vencimiento_calibracion)}</p>
                         </div>
                         <div>
                           <p className="text-white/30 text-[10px] uppercase font-light">Garantía</p>
