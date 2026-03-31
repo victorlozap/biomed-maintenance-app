@@ -13,6 +13,15 @@ const Inventory = () => {
   const [newEqData, setNewEqData] = useState({ 
     equipo: '', marca: '', modelo: '', numero_serie: '', id_unico: '', ubicacion: '', servicio: '', estado: 'BUENO', riesgo: 'I' 
   });
+  const fileInputRef = useMemo(() => ({ current: null as HTMLInputElement | null }), []);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      alert(`Simulando subida de: ${file.name}\nDestino: Supabase Storage / Public Assets`);
+      // Implementación real de subida aquí cuando Storage esté listo
+    }
+  };
 
   // Helper para formatear fechas (incluyendo fechas de Excel)
   const formatDate = (val: any) => {
@@ -296,13 +305,23 @@ const Inventory = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
                 {/* Visual Identity / Image Placeholder */}
                 <div className="space-y-4 md:space-y-6">
-                   <div className="bg-white/5 border border-white/5 rounded-3xl p-4 md:p-6 h-full min-h-[220px] flex flex-col items-center justify-center relative overflow-hidden group">
+                   <div 
+                    onClick={() => document.getElementById('file-input-id')?.click()}
+                    className="bg-white/5 border border-white/5 rounded-3xl p-4 md:p-6 h-full min-h-[220px] flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer hover:border-orange-500/40 transition-all duration-300"
+                   >
+                      <input 
+                        id="file-input-id"
+                        type="file" 
+                        className="hidden" 
+                        accept="image/*" 
+                        onChange={handleImageUpload}
+                      />
                       <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent pointer-events-none"></div>
-                      <div className="relative z-10 w-24 h-24 rounded-full bg-black/40 border border-white/10 flex items-center justify-center mb-4 text-white/20 group-hover:scale-110 transition-all duration-500 shadow-[0_0_20px_rgba(0,0,0,0.4)]">
-                         <Activity size={40} className="opacity-50" />
+                      <div className="relative z-10 w-24 h-24 rounded-full bg-black/40 border border-white/10 flex items-center justify-center mb-4 text-white/20 group-hover:scale-110 group-hover:text-orange-400 group-hover:border-orange-500/50 transition-all duration-500 shadow-[0_0_20px_rgba(0,0,0,0.4)]">
+                         <Activity size={40} className="transition-opacity" />
                       </div>
-                      <p className="relative z-10 text-white/40 text-[10px] uppercase font-bold tracking-widest text-center">Imagen del Activo</p>
-                      <button className="mt-4 px-4 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[9px] text-white/50 uppercase font-bold tracking-wider transition-all">Subir Foto</button>
+                      <p className="relative z-10 text-white/40 text-[10px] uppercase font-bold tracking-widest text-center group-hover:text-white/60 transition-colors">Imagen del Activo</p>
+                      <button className="mt-4 px-4 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[9px] text-white/50 group-hover:text-white uppercase font-bold tracking-wider transition-all">Subir Foto BioMed</button>
                    </div>
                 </div>
 
@@ -425,16 +444,17 @@ const Inventory = () => {
                   </button>
                </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-10 custom-scrollbar relative z-10">
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
-                  {Object.keys(newEqData).map((key) => (
-                    <div key={key}>
-                       <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-1.5 block">{key.replace('_',' ')}</label>
+            <div className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 custom-scrollbar relative z-10">
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
+                  {Object.keys(editEqData).filter(k => k !== 'id' && k !== 'created_at').map((key) => (
+                    <div key={key} className="space-y-2">
+                       <label className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] block ml-1">{key.replace(/_/g,' ')}</label>
                        <input 
                           type="text" 
                           value={editEqData[key] || ''} 
                           onChange={e => setEditEqData({...editEqData, [key]: e.target.value.toUpperCase()})} 
-                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-indigo-500 transition-all font-light" 
+                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white text-sm focus:border-indigo-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-white/10"
+                          placeholder="..."
                        />
                     </div>
                   ))}
