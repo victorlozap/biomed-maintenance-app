@@ -14,10 +14,10 @@ async function syncMaster() {
         const row = data[i];
         if (!row || row.length < 7) continue;
 
-        const id_unico = String(row[6] || '').trim();
+        const id_unico = String(row[0] || '').trim();
         const name = String(row[1] || '').trim();
 
-        if (!id_unico || id_unico === 'ID' || id_unico === 'undefined' || name === '') continue;
+        if (!id_unico || id_unico === 'Id_Unico' || id_unico === 'undefined' || name === '') continue;
 
         equipments.push({
             id_unico: id_unico,

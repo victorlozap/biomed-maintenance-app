@@ -145,7 +145,7 @@ export default function SurgeryRounds() {
   const generatePDF = () => {
     // Logo and signature are preloaded in useEffect; no need to fetch here.
 
-    const doc = new jsPDF({ format: 'letter', orientation: 'landscape' });
+    const doc = new jsPDF({ format: 'a4', orientation: 'landscape' });
     const GRAY = [230, 230, 230] as [number, number, number];
     
     // ----------- CABECERAS -----------
@@ -154,26 +154,27 @@ export default function SurgeryRounds() {
       docObj.setTextColor(0);
       docObj.setFont('helvetica', 'bold');
       
-      docObj.rect(10, 10, 45, 18);
+      // La suma de anchos de rectangulos: 45 + 160 + 54.4 = 259.4.
+      // Para A4 Landscape (297mm), el margen para que este centrado es (297 - 259.4) / 2 = 18.8mm
+      const startX = 18.8;
+      docObj.rect(startX, 10, 45, 18);
       if (logoData) {
-        docObj.addImage(logoData, logoFormat, 15, 12, 30, 14);
+        docObj.addImage(logoData, logoFormat, startX + 5, 12, 30, 14);
       }
       
-      docObj.rect(55, 10, 160, 18);
+      docObj.rect(startX + 45, 10, 160, 18);
       docObj.setFontSize(10);
-      docObj.text('EMPRESA SOCIAL DEL ESTADO', 135, 15, { align: 'center' });
-      docObj.text('HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA', 135, 20, { align: 'center' });
-      docObj.text('VERIFICACIÓN DIARIA DE SALAS DE CIRUGIA', 135, 25, { align: 'center' });
+      docObj.text('EMPRESA SOCIAL DEL ESTADO', startX + 125, 15, { align: 'center' });
+      docObj.text('HOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA', startX + 125, 20, { align: 'center' });
+      docObj.text('VERIFICACIÓN DIARIA DE SALAS DE CIRUGIA', startX + 125, 25, { align: 'center' });
       
-      // La suma de anchos de rectangulos: 45 + 160 = 205.
-      // El origen es 10 + 205 = 215. Queremos llegar a 10+259.4 = 269.4. Asi que el ancho es 54.4
-      docObj.rect(215, 10, 54.4, 18);
+      docObj.rect(startX + 45 + 160, 10, 54.4, 18);
       docObj.setFont('helvetica', 'normal');
       docObj.setFontSize(7);
-      docObj.text('CÓDIGO: GRF3MAN-FR25', 217, 14);
-      docObj.text('VERSIÓN: 1.0', 217, 18);
-      docObj.text(`FECHA: 02-05-2025`, 217, 22);
-      docObj.text(`PÁGINA: ${pageNum} DE ${totalPages}`, 217, 26);
+      docObj.text('CÓDIGO: GRF3MAN-FR25', startX + 205 + 2, 14);
+      docObj.text('VERSIÓN: 1.0', startX + 205 + 2, 18);
+      docObj.text(`FECHA: 02-05-2025`, startX + 205 + 2, 22);
+      docObj.text(`PÁGINA: ${pageNum} DE ${totalPages}`, startX + 205 + 2, 26);
     };
 
     const buildEqRows = (eqIdxStart: number, eqIdxEnd: number) => {
@@ -304,15 +305,15 @@ export default function SurgeryRounds() {
     bodyDataPage1.push(...buildEqRows(0, 3)); // 0 = Maquina, 1 = Monitor, 2 = Mesa
 
     autoTable(doc, {
-      startY: 32, // Just below the hospital header rects
-      margin: { left: 10, right: 10 },
+      startY: 32, 
+      margin: { left: 18.8, right: 18.8 },
       tableWidth: 259.4,
       body: bodyDataPage1,
       theme: 'grid',
       styles: { fontSize: 6, cellPadding: 0.8, textColor: 0, lineColor: 0, lineWidth: 0.1 },
       columnStyles: {
-         0: { cellWidth: 70 }, // Texto items / Cabeceras Izquierdas
-         25: { cellWidth: 35 } // Observaciones
+         0: { cellWidth: 70 }, 
+         25: { cellWidth: 35 } 
       },
       didParseCell: parseCellHook,
       didDrawCell: drawCellHook
@@ -336,7 +337,7 @@ export default function SurgeryRounds() {
 
     autoTable(doc, {
       startY: 32,
-      margin: { left: 10, right: 10 },
+      margin: { left: 18.8, right: 18.8 },
       tableWidth: 259.4,
       body: bodyDataPage2,
       theme: 'grid',
@@ -354,7 +355,7 @@ export default function SurgeryRounds() {
     // --- PIE DE PÁGINA FIX ---
     autoTable(doc, {
       startY: lastYPage2,
-      margin: { left: 10, right: 10 },
+      margin: { left: 18.8, right: 18.8 },
       tableWidth: 259.4,
       body: [
           [
@@ -384,6 +385,8 @@ export default function SurgeryRounds() {
     });
 
       // Manual download with fallback: open PDF in a new tab first to ensure permission, then trigger download
+      // Add auto-print instruction
+      doc.autoPrint();
       const blob = doc.output('blob');
       const url = URL.createObjectURL(blob);
       // Open in new tab (user can manually save if automatic download is blocked)
