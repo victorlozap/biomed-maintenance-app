@@ -28,8 +28,8 @@ interface MaintenancePlan {
 const MaintenanceKPIs = () => {
   const [loading, setLoading] = useState(true);
   const [plans, setPlans] = useState<MaintenancePlan[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [selectedYear] = useState(2025);
+  const [selectedMonth, setSelectedMonth] = useState(1); // Empezar en Enero 2026
+  const [selectedYear, setSelectedYear] = useState(2026);
   const [searchTerm, setSearchTerm] = useState('');
 
   const months = [
@@ -119,13 +119,25 @@ const MaintenanceKPIs = () => {
             <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
           </button>
           
-          <div className="relative group">
-            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cyan-400" />
-            <select 
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(Number(e.target.value))}
-              className="pl-10 pr-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white appearance-none focus:outline-none focus:ring-2 focus:ring-cyan-500/50 min-w-[200px]"
-            >
+            <div className="relative group">
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cyan-400" />
+              <select 
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                className="pl-10 pr-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white appearance-none focus:outline-none focus:ring-2 focus:ring-cyan-500/50 min-w-[120px]"
+              >
+                <option value={2025} className="bg-gray-900">2025</option>
+                <option value={2026} className="bg-gray-900">2026</option>
+              </select>
+            </div>
+            
+            <div className="relative group">
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cyan-400" />
+              <select 
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                className="pl-10 pr-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white appearance-none focus:outline-none focus:ring-2 focus:ring-cyan-500/50 min-w-[200px]"
+              >
               {months.map((m, idx) => (
                 <option key={m} value={idx + 1} className="bg-gray-900">{m}</option>
               ))}
