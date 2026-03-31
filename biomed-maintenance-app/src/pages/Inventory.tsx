@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -13,7 +13,6 @@ const Inventory = () => {
   const [newEqData, setNewEqData] = useState({ 
     equipo: '', marca: '', modelo: '', numero_serie: '', id_unico: '', ubicacion: '', servicio: '', estado: 'BUENO', riesgo: 'I' 
   });
-  const fileInputRef = useMemo(() => ({ current: null as HTMLInputElement | null }), []);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

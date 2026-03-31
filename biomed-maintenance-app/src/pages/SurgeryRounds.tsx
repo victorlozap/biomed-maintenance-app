@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ClipboardCheck, Download, CheckSquare, Settings2, Activity, Zap, Settings, X, Edit3, Calendar, Stethoscope } from 'lucide-react';
+import { Download, CheckSquare, Settings2, Activity, Zap, Settings, X, Edit3, Calendar, Stethoscope } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
