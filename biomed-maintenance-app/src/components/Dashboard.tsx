@@ -49,18 +49,18 @@ const Dashboard = () => {
     return (
         <div className="flex-1 p-4 md:p-6 lg:p-10 overflow-y-auto h-screen relative z-10 custom-scrollbar">
             {/* Header section with glassmorphism */}
-            <header className="mb-12 flex justify-between items-end animate-in fade-in slide-in-from-top duration-700">
+            <header className="mb-8 md:mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 animate-in fade-in slide-in-from-top duration-700 backdrop-blur-sm">
                 <div>
                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-amber-400 to-orange-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-tight">
-                        BioMed HUSJ <span className="text-white/20 font-light mx-2">|</span> Dashboard
+                        BioMed HUSJ <span className="text-white/20 font-light mx-2 hidden md:inline">|</span> Dashboard
                     </h2>
-                    <p className="text-white/60 font-light mt-3 text-lg tracking-wide uppercase flex items-center gap-2">
+                    <p className="text-white/60 font-light mt-2 md:mt-3 text-base md:text-lg tracking-wide uppercase flex items-center gap-2">
                        <Activity size={16} className="text-orange-400 animate-pulse" /> Estado de Gestión Cloud
                     </p>
                 </div>
-                <div className="flex bg-white/5 border border-white/10 rounded-2xl p-1 backdrop-blur-2xl">
-                    <button className="px-5 py-2 rounded-xl bg-orange-500 text-white font-medium shadow-[0_0_20px_rgba(245,158,11,0.3)]">Global</button>
-                    <button className="px-5 py-2 rounded-xl text-white/50 hover:text-white transition-all">Servicios</button>
+                <div className="flex bg-white/5 border border-white/10 rounded-2xl p-1 backdrop-blur-2xl w-full md:w-auto overflow-hidden">
+                    <button className="flex-1 md:flex-none px-5 py-2 rounded-xl bg-orange-500 text-white font-medium shadow-[0_0_20px_rgba(245,158,11,0.3)] text-sm md:text-base">Global</button>
+                    <button className="flex-1 md:flex-none px-5 py-2 rounded-xl text-white/50 hover:text-white transition-all text-sm md:text-base">Servicios</button>
                 </div>
             </header>
 

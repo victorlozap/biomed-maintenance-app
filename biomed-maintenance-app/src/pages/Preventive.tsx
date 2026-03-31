@@ -130,13 +130,15 @@ const Preventive = () => {
 
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-10 overflow-y-auto h-screen relative z-10">
-      <header className="mb-12">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-wide">
-          Protocolos Preventivos
-        </h2>
-        <p className="text-white/60 font-light mt-3 text-lg tracking-wide uppercase flex items-center gap-2">
-            <Activity size={16} className="text-emerald-400" /> Sincronización centralizada HUSJ
-        </p>
+      <header className="mb-8 md:mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 backdrop-blur-sm">
+        <div>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-amber-500 drop-shadow-[0_0_15px_rgba(253,224,71,0.3)] tracking-wide">
+            Protocolos Preventivos
+          </h2>
+          <p className="text-white/60 font-light mt-2 md:mt-3 text-base md:text-lg tracking-wide uppercase flex items-center gap-2">
+              <Activity size={16} className="text-emerald-400" /> Sincronización HUSJ
+          </p>
+        </div>
       </header>
 
       <div className="flex flex-col justify-center items-center text-center group bg-white/5 border border-white/10 rounded-3xl p-4 md:p-8 lg:p-12 backdrop-blur-2xl max-w-4xl mx-auto shadow-2xl min-h-[350px]">

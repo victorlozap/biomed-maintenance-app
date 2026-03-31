@@ -400,18 +400,18 @@ export default function SurgeryRounds() {
 
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-10 overflow-y-auto h-screen relative z-10 custom-scrollbar">
-      <header className="mb-12 flex justify-between items-end backdrop-blur-sm">
+      <header className="mb-8 md:mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 backdrop-blur-sm">
         <div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-500 drop-shadow-[0_0_15px_rgba(52,211,153,0.3)] tracking-wide">
             Rondas Quirófanos
           </h2>
-          <p className="text-white/60 font-light mt-3 text-lg tracking-wide">
+          <p className="text-white/60 font-light mt-2 md:mt-3 text-base md:text-lg tracking-wide">
             Lista de chequeo verificación y parámetros técnicos
           </p>
         </div>
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4 w-full md:w-auto">
           <div 
-            className="bg-black/40 border border-teal-500/30 rounded-2xl px-4 py-3 flex items-center gap-3 hover:border-teal-400 transition-all cursor-pointer"
+            className="bg-black/40 border border-teal-500/30 rounded-2xl px-4 py-3 flex items-center gap-3 hover:border-teal-400 transition-all cursor-pointer flex-1 md:flex-none"
             onClick={() => {
                try { dateInputRef.current?.showPicker(); } catch(e) { dateInputRef.current?.focus(); }
             }}
@@ -422,14 +422,14 @@ export default function SurgeryRounds() {
                type="date"
                value={globalData.fecha}
                onChange={(e) => setGlobalData(prev => ({ ...prev, fecha: e.target.value }))}
-               className="bg-transparent text-white focus:outline-none w-32 text-sm font-mono tracking-wide [&::-webkit-calendar-picker-indicator]:opacity-50 hover:[&::-webkit-calendar-picker-indicator]:opacity-100 cursor-pointer"
+               className="bg-transparent text-white focus:outline-none w-full md:w-32 text-sm font-mono tracking-wide [&::-webkit-calendar-picker-indicator]:opacity-50 hover:[&::-webkit-calendar-picker-indicator]:opacity-100 cursor-pointer"
              />
           </div>
           <button 
             onClick={generatePDF}
-            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium hover:scale-105 transition-all shadow-[0_0_20px_rgba(20,184,166,0.4)] border border-teal-300/50 flex items-center gap-2 cursor-pointer"
+            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium hover:scale-105 transition-all shadow-[0_0_20px_rgba(20,184,166,0.4)] border border-teal-300/50 flex items-center justify-center gap-2 cursor-pointer flex-1 md:flex-none"
           >
-            <Download size={18} /> Exportar Formato HUSJ
+            <Download size={18} /> <span className="text-sm md:text-base">Exportar Acta</span>
           </button>
         </div>
       </header>

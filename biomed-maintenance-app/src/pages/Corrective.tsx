@@ -67,14 +67,14 @@ const Corrective = () => {
 
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-10 overflow-y-auto h-screen relative z-10">
-      <header className="mb-12 flex justify-between items-end">
+      <header className="mb-8 md:mb-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 backdrop-blur-sm">
         <div>
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-500 drop-shadow-[0_0_15px_rgba(167,139,250,0.3)] tracking-wide">
             Mantenimiento Correctivo
           </h2>
-          <p className="text-white/60 font-light mt-3 text-lg tracking-wide">Órdenes de Servicio y Fallas HUSJ.</p>
+          <p className="text-white/60 font-light mt-2 md:mt-3 text-base md:text-lg tracking-wide tracking-wide">Órdenes de Servicio y Fallas HUSJ.</p>
         </div>
-        <button onClick={() => setIsModalOpen(true)} className="px-6 py-3 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold hover:scale-105 transition-all shadow-lg flex items-center gap-2">
+        <button onClick={() => setIsModalOpen(true)} className="w-full md:w-auto px-6 py-3 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold hover:scale-105 transition-all shadow-lg flex items-center justify-center gap-2">
            <AlertTriangle size={18} /> Reportar Daño
         </button>
       </header>

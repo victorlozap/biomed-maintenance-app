@@ -17,7 +17,7 @@ const Sidebar = () => {
   const { signOut } = useAuth();
 
   return (
-    <aside className="hidden lg:block w-72 bg-white/[0.03] backdrop-blur-[24px] border-r border-white/10 flex flex-col h-screen sticky top-0 shadow-[4px_0_24px_rgba(0,0,0,0.3)]">
+    <aside className="w-72 bg-white/[0.03] backdrop-blur-[24px] border-r border-white/10 flex flex-col h-screen sticky top-0 shadow-[4px_0_24px_rgba(0,0,0,0.3)]">
       {/* Logo Section */}
       <div className="p-8 flex items-center gap-4 border-b border-white/10">
         <div className="bg-gradient-to-br from-cyan-400 to-blue-600 p-2.5 rounded-2xl shadow-[0_0_20px_rgba(34,211,238,0.4)] border border-white/20">
