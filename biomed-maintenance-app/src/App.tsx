@@ -38,7 +38,7 @@ const AppContent = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#030712] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-orange-500/20 border-t-orange-500 rounded-full animate-spin"></div>
       </div>
     );
@@ -49,12 +49,14 @@ const AppContent = () => {
   }
 
   return (
-    <div className="flex h-screen bg-[#030712] text-white relative">
-      {/* Background Ambient Glows - Intensified for Vercel */}
-      <div className="absolute inset-0 bg-[#030712] pointer-events-none"></div>
-      <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/10 blur-[120px] pointer-events-none"></div>
-      <div className="absolute top-[20%] left-[20%] w-[30%] h-[30%] rounded-full bg-purple-500/5 blur-[100px] pointer-events-none"></div>
+    <div className="flex h-screen bg-[#0c111d] text-white relative overflow-hidden">
+      {/* Premium Background Layer */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-[#0c111d] to-[#0c111d] pointer-events-none"></div>
+      
+      {/* Background Ambient Glows - Refined for better depth */}
+      <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] rounded-full bg-indigo-500/10 blur-[150px] pointer-events-none"></div>
+      <div className="absolute bottom-[-20%] left-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 blur-[150px] pointer-events-none"></div>
+      <div className="absolute top-[30%] left-[20%] w-[40%] h-[40%] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none"></div>
       
       {/* Hamburger button - visible only on mobile */}
       <button
