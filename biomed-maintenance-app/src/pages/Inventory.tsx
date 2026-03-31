@@ -381,20 +381,20 @@ const Inventory = () => {
 
                 {/* Info Básica */}
                 <div className="space-y-4 md:space-y-6">
-                   <div className="bg-white/5 border border-white/5 rounded-3xl p-4 md:p-5 lg:p-6 h-full">
+                   <div className="bg-white/5 border border-white/5 rounded-3xl p-4 md:p-5 lg:p-6 h-full flex flex-col">
                       <h4 className="text-xs uppercase tracking-widest text-white/40 mb-5 pb-3 border-b border-white/10 font-bold">Identificación Técnica</h4>
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-white/30 text-[10px] uppercase font-light">Marca</p>
-                          <p className="text-white font-medium text-lg">{selectedEquipment.marca || 'N/A'}</p>
+                      <div className="space-y-4 flex-1">
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
+                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Marca</p>
+                          <p className="text-white font-medium text-lg leading-tight">{selectedEquipment.marca || 'N/A'}</p>
                         </div>
-                        <div>
-                          <p className="text-white/30 text-[10px] uppercase font-light">Modelo</p>
-                          <p className="text-white font-medium text-lg">{selectedEquipment.modelo || 'N/A'}</p>
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
+                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Modelo</p>
+                          <p className="text-white font-medium text-lg leading-tight">{selectedEquipment.modelo || 'N/A'}</p>
                         </div>
-                        <div>
-                          <p className="text-white/30 text-[10px] uppercase font-light">Serial</p>
-                          <p className="text-orange-300 font-mono text-lg">{selectedEquipment.numero_serie || 'N/A'}</p>
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
+                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Serial</p>
+                          <p className="text-orange-300 font-mono text-lg leading-tight">{selectedEquipment.numero_serie || 'N/A'}</p>
                         </div>
                       </div>
                    </div>
@@ -402,20 +402,20 @@ const Inventory = () => {
 
                 {/* Localización y Riesgo */}
                 <div className="space-y-4 md:space-y-6">
-                   <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-3xl p-4 md:p-5 lg:p-6 h-full">
+                   <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-3xl p-4 md:p-5 lg:p-6 h-full flex flex-col">
                       <h4 className="text-indigo-400 text-xs tracking-widest uppercase mb-5 pb-3 border-b border-white/5 font-bold">Ubicación y Riesgo</h4>
-                      <div className="space-y-4">
-                        <div className="flex justify-between">
-                          <span className="text-white/40 text-sm italic md:not-italic">Servicio</span>
-                          <span className="text-white text-sm font-medium">{selectedEquipment.servicio || 'N/A'}</span>
+                      <div className="space-y-4 flex-1">
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-indigo-500/10">
+                          <p className="text-indigo-300/50 text-[10px] uppercase font-bold tracking-wider mb-1">Servicio</p>
+                          <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.servicio || 'N/A'}</p>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-white/40 text-sm italic md:not-italic">Ubicación</span>
-                          <span className="text-white text-sm font-medium">{selectedEquipment.ubicacion || 'Sala 8'}</span>
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
+                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Ubicación</p>
+                          <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.ubicacion || 'Sala 8'}</p>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-white/40 text-sm italic md:not-italic">Riesgo</span>
-                          <span className={`${getRiskStyle(selectedEquipment.riesgo)} text-sm`}>{selectedEquipment.riesgo || 'N/A'}</span>
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
+                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Clase de Riesgo</p>
+                          <p className={`${getRiskStyle(selectedEquipment.riesgo)} text-lg uppercase font-bold`}>{selectedEquipment.riesgo || 'N/A'}</p>
                         </div>
                       </div>
                    </div>
@@ -423,24 +423,24 @@ const Inventory = () => {
 
                 {/* Calibración y Mantenimiento */}
                 <div className="space-y-4 md:space-y-6">
-                   <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-3xl p-4 md:p-5 lg:p-6 h-full">
+                   <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-3xl p-4 md:p-5 lg:p-6 h-full flex flex-col">
                       <h4 className="text-emerald-400 text-xs tracking-widest uppercase mb-5 pb-3 border-b border-white/5 font-bold">Gestión HUSJ</h4>
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-white/30 text-[10px] uppercase font-light">Frecuencia Mtto.</p>
-                          <p className="text-white text-sm">{selectedEquipment.frecuencia_mantenimiento || 'Semestral'}</p>
+                      <div className="space-y-4 flex-1">
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
+                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Frecuencia Mtto.</p>
+                          <p className="text-white text-base font-medium leading-tight">{selectedEquipment.frecuencia_mantenimiento || 'Semestral'}</p>
                         </div>
-                        <div className="bg-black/20 p-3 rounded-xl border border-white/5">
-                          <p className="text-white/30 text-[10px] uppercase font-light mb-1">Última Calibración</p>
-                          <p className="text-emerald-400 font-mono text-sm font-bold">{formatDate(selectedEquipment.fecha_calibracion)}</p>
+                        <div className="bg-emerald-400/5 p-3.5 rounded-2xl border border-emerald-500/20 shadow-[inset_0_0_20px_rgba(52,211,153,0.05)]">
+                          <p className="text-emerald-300/40 text-[10px] uppercase font-bold tracking-wider mb-1">Última Calibración</p>
+                          <p className="text-emerald-400 font-mono text-base font-bold leading-tight">{formatDate(selectedEquipment.fecha_calibracion)}</p>
                         </div>
-                        <div className="bg-black/20 p-3 rounded-xl border border-white/5">
-                          <p className="text-white/30 text-[10px] uppercase font-light mb-1">Vcto. Calibración</p>
-                          <p className="text-rose-400 font-mono text-base font-bold">{formatDate(selectedEquipment.fecha_vencimiento_calibracion)}</p>
+                        <div className="bg-rose-400/5 p-3.5 rounded-2xl border border-rose-500/20 shadow-[inset_0_0_20px_rgba(244,63,94,0.05)]">
+                          <p className="text-rose-300/40 text-[10px] uppercase font-bold tracking-wider mb-1">Vcto. Calibración</p>
+                          <p className="text-rose-400 font-mono text-lg font-bold leading-tight">{formatDate(selectedEquipment.fecha_vencimiento_calibracion)}</p>
                         </div>
-                        <div>
-                          <p className="text-white/30 text-[10px] uppercase font-light">Garantía</p>
-                          <p className="text-white text-sm font-light">{selectedEquipment.garantia || 'Expirada'}</p>
+                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
+                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Garantía</p>
+                          <p className="text-white text-base font-light leading-tight">{selectedEquipment.garantia || 'Expirada'}</p>
                         </div>
                       </div>
                    </div>
