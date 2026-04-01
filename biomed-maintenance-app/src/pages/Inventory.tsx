@@ -357,8 +357,7 @@ const Inventory = () => {
                 {/* Visual Identity / Image Placeholder */}
                 <div className="space-y-4 md:space-y-6">
                    <div 
-                    onClick={() => document.getElementById('file-input-id')?.click()}
-                    className="bg-white/5 border border-white/5 rounded-3xl p-4 md:p-6 h-full min-h-[220px] flex flex-col items-center justify-center relative overflow-hidden group cursor-pointer hover:border-orange-500/40 transition-all duration-300 shadow-xl"
+                    className="bg-white/5 border border-white/5 rounded-3xl h-full min-h-[350px] flex flex-col items-center relative overflow-hidden group hover:border-orange-500/40 transition-all duration-300 shadow-xl"
                    >
                       <input 
                         id="file-input-id"
@@ -370,30 +369,34 @@ const Inventory = () => {
                       <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent pointer-events-none"></div>
                       
                       {selectedEquipment.foto_url ? (
-                        <img 
-                          src={selectedEquipment.foto_url} 
-                          alt={selectedEquipment.equipo} 
-                          className="w-full h-full object-cover absolute inset-0 group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100" 
-                        />
+                        <div className="w-full h-[300px] p-4 flex items-center justify-center">
+                          <img 
+                            src={selectedEquipment.foto_url} 
+                            alt={selectedEquipment.equipo} 
+                            className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(0,0,0,0.4)]" 
+                          />
+                        </div>
                       ) : (
-                        <div className="relative z-10 w-24 h-24 rounded-full bg-black/40 border border-white/10 flex items-center justify-center mb-4 text-white/20 group-hover:scale-110 group-hover:text-orange-400 group-hover:border-orange-500/50 transition-all duration-500 shadow-[0_0_20px_rgba(0,0,0,0.4)]">
-                          <Activity size={40} className="transition-opacity" />
+                        <div className="flex-1 flex flex-col items-center justify-center">
+                          <div className="w-24 h-24 rounded-full bg-black/40 border border-white/10 flex items-center justify-center mb-4 text-white/20 group-hover:scale-110 group-hover:text-orange-400 transition-all duration-500 shadow-[0_0_20px_rgba(0,0,0,0.4)]">
+                            <Activity size={40} />
+                          </div>
+                          <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest text-center group-hover:text-white transition-colors">Sin Imagen BioMed</p>
                         </div>
                       )}
 
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
-                      
-                      <div className="relative z-20 flex flex-col items-center">
-                        <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest text-center group-hover:text-white transition-colors drop-shadow-md">
-                          {selectedEquipment.foto_url ? 'Imagen de Equipo' : 'Sin Imagen BioMed'}
-                        </p>
+                      {/* Footer de la tarjeta con el botón */}
+                      <div className="mt-auto w-full p-4 bg-black/40 backdrop-blur-md border-t border-white/5 flex flex-col items-center gap-2">
+                        {selectedEquipment.foto_url && (
+                           <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest text-center">Imagen de Equipo</p>
+                        )}
                         <button 
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             document.getElementById('file-input-id')?.click();
                           }}
-                          className="mt-4 px-4 py-1.5 bg-black/60 hover:bg-orange-500 border border-white/10 group-hover:border-white/30 rounded-lg text-[9px] text-white uppercase font-bold tracking-wider transition-all backdrop-blur-md pointer-events-auto"
+                          className="w-full max-w-[150px] py-2 bg-white/10 hover:bg-orange-500 border border-white/10 rounded-xl text-[9px] text-white uppercase font-bold tracking-wider transition-all"
                         >
                           {selectedEquipment.foto_url ? 'Cambiar Foto' : 'Cargar Foto'}
                         </button>
