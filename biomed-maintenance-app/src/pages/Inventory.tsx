@@ -134,7 +134,7 @@ const Inventory = () => {
   };
   
   const filteredData = useMemo(() => {
-    if (!searchTerm) return localInventory.slice(0, 150);
+    if (!searchTerm) return localInventory.slice(0, 5000);
     
     const lowerTheme = searchTerm.toLowerCase();
     return localInventory.filter(item => 
@@ -144,7 +144,7 @@ const Inventory = () => {
       String(item.modelo || '').toLowerCase().includes(lowerTheme) ||
       String(item.ubicacion || '').toLowerCase().includes(lowerTheme) ||
       String(item.servicio || '').toLowerCase().includes(lowerTheme)
-    ).slice(0, 150);
+    ).slice(0, 5000);
   }, [searchTerm, localInventory]);
 
   const getStatusStyle = (estado: string) => {
