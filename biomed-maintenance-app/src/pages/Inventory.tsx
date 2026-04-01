@@ -76,16 +76,34 @@ const Inventory = () => {
   // Cargar datos desde Supabase
   const fetchEquipments = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('equipments')
-      .select('*')
-      .order('id_unico', { ascending: true });
+    let allData: any[] = [];
+    let page = 0;
+    const pageSize = 1000;
+    let hasMore = true;
 
-    if (error) {
-      console.error('Error fetching equipments:', error);
-    } else {
-      setLocalInventory(data || []);
+    while (hasMore) {
+      const { data, error } = await supabase
+        .from('equipments')
+        .select('*')
+        .range(page * pageSize, (page + 1) * pageSize - 1)
+        .order('id_unico', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching equipments:', error);
+        hasMore = false;
+      } else if (data && data.length > 0) {
+        allData = [...allData, ...data];
+        if (data.length < pageSize) {
+          hasMore = false;
+        } else {
+          page++;
+        }
+      } else {
+        hasMore = false;
+      }
     }
+
+    setLocalInventory(allData);
     setLoading(false);
   };
 
