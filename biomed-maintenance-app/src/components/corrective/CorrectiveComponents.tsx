@@ -3,7 +3,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip, 
   LineChart, Line, PieChart, Pie, Cell 
 } from "recharts";
-import { X, Search } from "lucide-react";
+import { X, Search, Activity, FileText } from "lucide-react";
 import { useState } from "react";
 
 // --- Tooltips ---
@@ -160,100 +160,112 @@ export function FilterBar({ onApplyFilter, estados, tecnicos }: any) {
 
 // --- Details Drawer ---
 export function DetailsDrawer({ open, onClose, item }: { open: boolean; onClose: () => void; item: Correctivo | null }) {
-  if (!open || !item) return null;
+  // Console log para depuración en Vercel
+  if (open) console.log("Abriendo DetailsDrawer para:", item?.no_reporte);
 
-  // Renderizado seguro para evitar crasheos en producción
+  if (!open) return null;
+
   return (
-    <div className="fixed inset-0 z-[60] flex justify-end overflow-hidden">
+    <div className="fixed inset-0 z-[9999] flex justify-end">
+      {/* Overlay - Negro al 60% */}
       <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose} 
       />
-      <div className="relative w-full max-w-lg h-full bg-[#0c111d] border-l border-white/10 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
+      
+      {/* Panel - Blanco/Azul oscuro con borde para visibilidad */}
+      <div className="relative w-full max-w-lg h-full bg-[#0c111d] border-l border-white/20 flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-right duration-300">
         
-        {/* Header - Seguro */}
+        {/* Cabecera Segura */}
         <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
           <div className="max-w-[85%]">
-            <div className="text-[10px] uppercase font-bold tracking-widest text-white/40">Reporte Correctivo</div>
-            <h3 className="text-xl font-bold text-white mt-1 break-words">
-              #{item?.no_reporte || '—'} — {item?.equipo || "Equipo N/A"}
+            <span className="text-[10px] uppercase font-bold tracking-widest text-violet-400">Expediente Clínico de Equipo</span>
+            <h3 className="text-xl font-bold text-white mt-1">
+              #{item?.no_reporte || "SIN ID"} — {item?.equipo || "Equipo Desconocido"}
             </h3>
-            <p className="text-sm text-violet-300/80 truncate">
-              {item?.servicio || "Sin Servicio"} • {item?.ubicacion || "Sin Ubicación"}
+            <p className="text-sm text-white/50 truncate">
+              {item?.servicio || "—"} • {item?.ubicacion || "—"}
             </p>
           </div>
           <button 
             onClick={onClose} 
-            className="p-2 bg-white/5 hover:bg-white/10 rounded-full text-white/50 transition-colors"
+            className="p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all hover:rotate-90"
           >
             <X size={20} />
           </button>
         </div>
 
-        {/* Content - Seguro */}
-        <div className="p-6 overflow-y-auto flex-1 space-y-6 custom-scrollbar bg-gradient-to-b from-transparent to-black/20">
+        {/* Cuerpo del reporte con scroll independiente */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-transparent to-black/30">
           
-          <section>
-             <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Descripción del Daño</h4>
-             <div className="p-4 bg-black/40 rounded-xl border border-white/5 text-sm text-white/90 whitespace-pre-wrap leading-relaxed">
-               {item?.descripcion || "Sin descripción registrada."}
-             </div>
+          <section className="space-y-4">
+            <div>
+              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/30 mb-2">Descripción de la Falla</h4>
+              <div className="p-4 bg-black/40 rounded-2xl border border-white/5 text-sm text-white/90 leading-relaxed font-light">
+                {item?.descripcion || "No se registró descripción del daño."}
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/30 mb-2">Protocolo de Intervención</h4>
+              <div className="p-4 bg-violet-500/5 rounded-2xl border border-violet-500/10 text-sm text-violet-100 font-medium leading-relaxed italic shadow-inner">
+                {item?.accion || "Pendiente por documentar acción técnica."}
+              </div>
+            </div>
           </section>
 
-          <section>
-             <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Acción Realizada</h4>
-             <div className="p-4 bg-black/40 rounded-xl border border-white/5 text-sm text-white/90 whitespace-pre-wrap leading-relaxed shadow-inner">
-               {item?.accion || "Sin acciones registradas aún."}
-             </div>
-
-             <div className="grid grid-cols-2 gap-3 mt-4">
-               {[
-                 { label: "Marca", value: item?.marca, color: "text-violet-100" },
-                 { label: "Modelo", value: item?.modelo, color: "text-violet-100" },
-                 { label: "Técnico", value: item?.tecnico },
-                 { label: "Causa", value: item?.causa },
-                 { label: "Fecha Creación", value: item?.fecha_creacion, color: "text-emerald-300" },
-                 { label: "Fecha Cierre", value: item?.fecha_cierre, color: "text-emerald-300" }
-               ].map((box, i) => (
-                 <div key={i} className="p-3 bg-white/5 rounded-xl border border-white/5">
-                    <span className="text-[9px] uppercase font-bold tracking-widest text-white/30">{box.label}</span>
-                    <p className={`text-xs font-semibold mt-1 truncate ${box.color || "text-white/80"}`}>
-                      {box.value || "—"}
-                    </p>
-                 </div>
-               ))}
-
-                <div className="p-3 bg-white/5 rounded-xl border border-white/5 col-span-2">
-                  <span className="text-[9px] uppercase font-bold tracking-widest text-white/30">Estado Equipo</span>
-                  <div className="flex items-center mt-1">
-                    <span className="inline-block w-2 h-2 rounded-full bg-amber-400 mr-2 animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.5)]"></span>
-                    <p className="text-xs font-semibold text-amber-300">{item?.estado_equipo || "—"}</p>
-                  </div>
+          {/* Grid de especificaciones */}
+          <section className="grid grid-cols-2 gap-3">
+             {[
+               { label: "Marca", value: item?.marca },
+               { label: "Modelo", value: item?.modelo },
+               { label: "Técnico Realizador", value: item?.tecnico },
+               { label: "Causa Identificada", value: item?.causa },
+               { label: "Fecha Reporte", value: item?.fecha_creacion, color: "text-emerald-400" },
+               { label: "Fecha Cierre", value: item?.fecha_cierre, color: "text-emerald-400" }
+             ].map((box, idx) => (
+               <div key={idx} className="p-3 bg-white/5 rounded-xl border border-white/5">
+                 <span className="text-[9px] uppercase font-bold tracking-widest text-white/30">{box.label}</span>
+                 <p className={`text-xs font-semibold mt-1 truncate ${box.color || "text-white/80"}`}>
+                   {box.value || "—"}
+                 </p>
                </div>
+             ))}
+             
+             <div className="col-span-2 p-3 bg-fuchsia-500/10 rounded-xl border border-fuchsia-500/20 flex items-center justify-between">
+                <div>
+                   <span className="text-[9px] uppercase font-bold tracking-widest text-fuchsia-300">Estado Diagnóstico</span>
+                   <p className="text-xs font-bold text-white uppercase">{item?.estado_equipo || "SIN REGISTRO"}</p>
+                </div>
+                <div className="h-8 w-8 rounded-full bg-fuchsia-500/20 flex items-center justify-center animate-pulse">
+                   <Activity size={16} className="text-fuchsia-400" />
+                </div>
              </div>
           </section>
 
-          <section className="space-y-4 pt-2">
-            <div>
-              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Serie / Identificador</h4>
-              <div className="p-3 bg-white/5 rounded-xl border border-white/5 text-xs font-mono text-violet-200 break-all">
-                {item?.serie || "N/A"}
-              </div>
-            </div>
+          {/* Información técnica profunda */}
+          <section className="space-y-4 pt-4 border-t border-white/5">
+             <div className="flex justify-between items-center bg-black/40 p-4 rounded-2xl border border-white/5">
+                <div>
+                   <span className="text-[9px] uppercase font-bold tracking-widest text-white/30">N. de Serie</span>
+                   <p className="text-sm font-mono text-violet-300 font-bold tracking-tighter">{item?.serie || "SIN SERIE"}</p>
+                </div>
+                <FileText size={20} className="text-white/10" />
+             </div>
 
-            <div>
-              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Observaciones / Repuestos</h4>
-              <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-sm text-white/70 leading-relaxed italic">
-                {item?.observaciones || "No se registraron repuestos."}
-              </div>
-            </div>
+             <div>
+                <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/30 mb-2">Inventario de Repuestos / Observaciones</h4>
+                <div className="p-4 bg-white/5 rounded-2xl border border-white/5 text-sm text-white/70 leading-relaxed italic">
+                   {item?.observaciones || "No se registra uso de repuestos adicionales."}
+                </div>
+             </div>
 
-            <div>
-              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Comentarios Adicionales</h4>
-              <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-sm text-white/70 leading-relaxed">
-                {item?.comentarios || "Sin comentarios."}
-              </div>
-            </div>
+             <div>
+                <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/30 mb-2">Bitácora de Seguimiento</h4>
+                <div className="p-4 bg-white/5 rounded-2xl border border-white/5 text-sm text-white/70 leading-relaxed font-light">
+                   {item?.comentarios || "Sin comentarios de seguimiento para este reporte."}
+                </div>
+             </div>
           </section>
         </div>
       </div>
