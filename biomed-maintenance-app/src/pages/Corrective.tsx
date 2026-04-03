@@ -244,7 +244,21 @@ const Corrective = () => {
              </div>
           </div>
           
-          <DetailsDrawer open={!!selectedCorrectivo} item={selectedCorrectivo} onClose={() => setSelectedCorrectivo(null)} />
+          <DetailsDrawer 
+            open={selectedCorrectivo !== null} 
+            item={selectedCorrectivo} 
+            onClose={() => {
+              console.log("Cerrando drawer");
+              setSelectedCorrectivo(null);
+            }} 
+          />
+        </div>
+      )}
+
+      {/* Debug Visual para Producción */}
+      {selectedCorrectivo && (
+        <div className="fixed bottom-4 right-4 z-[9999] bg-red-600 text-white p-2 rounded text-[8px] animate-pulse">
+            DEBUG: Drawer Activo para #{selectedCorrectivo.no_reporte}
         </div>
       )}
 
