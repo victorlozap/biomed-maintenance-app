@@ -183,17 +183,17 @@ const Corrective = () => {
                 <h3 className="font-bold text-white tracking-widest text-xs md:text-sm uppercase">Registros Detallados</h3>
                 <span className="text-[10px] text-white/40 font-normal uppercase tracking-widest">({filteredData.length} records)</span>
              </div>
-             <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs md:text-sm whitespace-nowrap">
+             <div className="overflow-x-auto custom-scrollbar">
+                <table className="w-full text-left text-xs md:text-sm border-collapse min-w-[800px] lg:min-w-full">
                   <thead className="bg-black/40 text-white/40 text-[8px] md:text-[10px] uppercase font-bold tracking-widest border-b border-white/5">
                     <tr>
-                      <th className="px-3 md:px-6 py-4 w-12 md:w-auto">Ticket</th>
-                      <th className="px-3 md:px-6 py-4 w-20 md:w-auto">Fecha</th>
-                      <th className="px-3 md:px-6 py-4">Equipo / Activo</th>
-                      <th className="px-3 md:px-6 py-4 hidden md:table-cell">Servicio</th>
-                      <th className="px-3 md:px-6 py-4 hidden lg:table-cell">Falla</th>
-                      <th className="px-3 md:px-6 py-4 text-center md:text-left">Estado</th>
-                      <th className="px-3 md:px-6 py-4 w-10 md:w-auto">Ver</th>
+                      <th className="px-4 py-4 w-[8%]">Ticket</th>
+                      <th className="px-4 py-4 w-[12%]">Fecha</th>
+                      <th className="px-4 py-4 w-[25%]">Equipo / Activo</th>
+                      <th className="px-4 py-4 w-[15%] hidden md:table-cell">Servicio</th>
+                      <th className="px-4 py-4 w-[20%] hidden lg:table-cell">Falla</th>
+                      <th className="px-4 py-4 w-[12%] text-center">Estado</th>
+                      <th className="px-4 py-4 w-[8%] text-right">Ver</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
@@ -203,21 +203,29 @@ const Corrective = () => {
                         onClick={() => setSelectedCorrectivo(r)}
                         className="hover:bg-white/5 transition-colors cursor-pointer group"
                       >
-                        <td className="px-3 md:px-6 py-4 text-violet-300 font-mono text-[9px] md:text-xs">#{r.no_reporte}</td>
-                        <td className="px-3 md:px-6 py-4 text-white/50 text-[9px] md:text-xs">{r.fecha_creacion}</td>
-                        <td className="px-3 md:px-6 py-4">
-                           <div className="max-w-[80px] md:max-w-none truncate font-bold text-white/90 text-[10px] md:text-sm">
+                        <td className="px-4 py-4 text-violet-300 font-mono text-[9px] md:text-xs">
+                          #{r.no_reporte}
+                        </td>
+                        <td className="px-4 py-4 text-white/50 text-[9px] md:text-xs">
+                          {r.fecha_creacion}
+                        </td>
+                        <td className="px-4 py-4">
+                           <div className="font-bold text-white/90 text-[10px] md:text-sm truncate max-w-[180px]">
                              {r.equipo || "—"}
                            </div>
                            <div className="text-[7px] md:text-[10px] font-normal text-white/40 truncate">
                              {r.activo_fijo || "N/A"}
                            </div>
                         </td>
-                        <td className="px-3 md:px-6 py-4 text-white/70 hidden md:table-cell">{r.servicio || "—"}</td>
-                        <td className="px-3 md:px-6 py-4 text-white/70 hidden lg:table-cell max-w-[150px] truncate">{r.descripcion || "—"}</td>
-                        <td className="px-3 md:px-6 py-4 text-center md:text-left">
-                          <div className="flex justify-center md:justify-start">
-                            <span className={`px-2 py-0.5 md:px-3 md:py-1 rounded-full border text-[7px] md:text-[9px] font-bold tracking-wider inline-flex items-center justify-center min-w-[50px] md:min-w-[90px] ${
+                        <td className="px-4 py-4 text-white/70 hidden md:table-cell">
+                          <div className="truncate max-w-[120px]">{r.servicio || "—"}</div>
+                        </td>
+                        <td className="px-4 py-4 text-white/50 hidden lg:table-cell">
+                          <div className="truncate max-w-[200px] italic font-light">{r.descripcion || "—"}</div>
+                        </td>
+                        <td className="px-4 py-4">
+                          <div className="flex justify-center">
+                            <span className={`px-2 py-0.5 md:px-3 md:py-1 rounded-full border text-[7px] md:text-[9px] font-bold tracking-wider inline-flex items-center justify-center min-w-[70px] md:min-w-[90px] ${
                               r.estado_norm === 'CERRADO' ? 'text-emerald-400 border-emerald-400/20 bg-emerald-400/10' :
                               r.estado_norm === 'TRABAJANDO' ? 'text-amber-400 border-amber-400/20 bg-amber-400/10' :
                               'text-red-400 border-red-400/20 bg-red-400/10'
@@ -226,9 +234,9 @@ const Corrective = () => {
                             </span>
                           </div>
                         </td>
-                        <td className="px-3 md:px-6 py-4 text-right">
+                        <td className="px-4 py-4 text-right">
                           <button className="p-1 md:px-4 md:py-2 bg-white/5 group-hover:bg-violet-600/30 text-white/80 rounded-lg md:rounded-xl transition-all text-[8px] md:text-xs font-bold uppercase tracking-widest border border-white/10">
-                             <div className="hidden md:block">Detalle</div>
+                             <div className="hidden md:block">Abrir</div>
                              <div className="md:hidden">➕</div>
                           </button>
                         </td>
