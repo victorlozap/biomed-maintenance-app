@@ -184,7 +184,7 @@ const Corrective = () => {
                 <span className="text-[10px] text-white/40 font-normal uppercase tracking-widest">({filteredData.length} records)</span>
              </div>
              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs md:text-sm whitespace-nowrap table-fixed md:table-auto">
+                <table className="w-full text-left text-xs md:text-sm whitespace-nowrap">
                   <thead className="bg-black/40 text-white/40 text-[8px] md:text-[10px] uppercase font-bold tracking-widest border-b border-white/5">
                     <tr>
                       <th className="px-3 md:px-6 py-4 w-12 md:w-auto">Ticket</th>

@@ -166,64 +166,64 @@ export function DetailsDrawer({ open, onClose, item }: { open: boolean; onClose:
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-lg h-full bg-slate-900 border-l border-white/10 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
         <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
-          <div>
+          <div className="max-w-[85%]">
             <div className="text-[10px] uppercase font-bold tracking-widest text-white/40">Reporte Correctivo</div>
-            <h3 className="text-xl font-bold text-white mt-1">#{item.no_reporte} — {item.equipo || "N/A"}</h3>
-            <p className="text-sm text-violet-300/80">{item.servicio || "—"} • {item.ubicacion || "—"}</p>
+            <h3 className="text-xl font-bold text-white mt-1 break-words">#{item?.no_reporte} — {item?.equipo || "N/A"}</h3>
+            <p className="text-sm text-violet-300/80 truncate">{item?.servicio || "—"} • {item?.ubicacion || "—"}</p>
           </div>
           <button onClick={onClose} className="p-2 bg-white/5 hover:bg-white/10 rounded-full text-white/50 transition-colors">
             <X size={20} />
           </button>
         </div>
-        <div className="p-6 overflow-y-auto flex-1 space-y-6">
+        <div className="p-6 overflow-y-auto flex-1 space-y-6 custom-scrollbar">
           <div>
              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Descripción del Daño</h4>
              <div className="p-4 bg-black/40 rounded-xl border border-white/5 text-sm text-white/90 whitespace-pre-wrap leading-relaxed">
-               {item.descripcion || "Sin descripción registrada."}
+               {item?.descripcion || "Sin descripción registrada."}
              </div>
           </div>
           <div>
              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Acción Realizada</h4>
              <div className="p-4 bg-black/40 rounded-xl border border-white/5 text-sm text-white/90 whitespace-pre-wrap leading-relaxed">
-               {item.accion || "Sin acciones registradas aún."}
+               {item?.accion || "Sin acciones registradas aún."}
              </div>
              <div className="grid grid-cols-2 gap-4 mt-4">
                <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Marca</span>
-                  <p className="text-sm font-semibold mt-1 text-violet-100">{item.marca || "—"}</p>
+                  <p className="text-sm font-semibold mt-1 text-violet-100">{item?.marca || "—"}</p>
                </div>
                <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Modelo</span>
-                  <p className="text-sm font-semibold mt-1 text-violet-100">{item.modelo || "—"}</p>
+                  <p className="text-sm font-semibold mt-1 text-violet-100">{item?.modelo || "—"}</p>
                </div>
                <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Técnico</span>
-                 <p className="text-sm font-semibold mt-1">{item.tecnico || "—"}</p>
+                 <p className="text-sm font-semibold mt-1">{item?.tecnico || "—"}</p>
                </div>
                <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Causa</span>
-                 <p className="text-sm font-semibold mt-1">{item.causa || "—"}</p>
+                 <p className="text-sm font-semibold mt-1">{item?.causa || "—"}</p>
                </div>
                <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Fecha Creación</span>
-                  <p className="text-sm font-semibold mt-1 text-emerald-300">{item.fecha_creacion || "—"}</p>
+                  <p className="text-sm font-semibold mt-1 text-emerald-300">{item?.fecha_creacion || "—"}</p>
                </div>
                <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Fecha Cierre</span>
-                  <p className="text-sm font-semibold mt-1 text-emerald-300">{item.fecha_cierre || "—"}</p>
+                  <p className="text-sm font-semibold mt-1 text-emerald-300">{item?.fecha_cierre || "—"}</p>
                </div>
                 <div className="p-4 bg-white/5 rounded-xl border border-white/5 col-span-2">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Estado Equipo</span>
-                  <p className="text-sm font-semibold mt-1 text-amber-300">
+                  <p className="text-sm font-semibold mt-1 text-amber-300 items-center flex">
                     <span className="inline-block w-2 h-2 rounded-full bg-amber-400 mr-2 animate-pulse"></span>
-                    {item.estado_equipo || "—"}
+                    {item?.estado_equipo || "—"}
                   </p>
                </div>
              </div>
           </div>
 
           <div className="space-y-4 pt-2">
-            {item.serie && (
+            {item?.serie && (
               <div>
                 <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Serie</h4>
                 <div className="p-3 bg-white/5 rounded-xl border border-white/5 text-sm font-mono text-violet-200">
@@ -231,7 +231,7 @@ export function DetailsDrawer({ open, onClose, item }: { open: boolean; onClose:
                 </div>
               </div>
             )}
-            {item.observaciones && (
+            {item?.observaciones && (
               <div>
                 <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Observaciones / Repuestos</h4>
                 <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-sm text-white/80 leading-relaxed italic">
@@ -239,7 +239,7 @@ export function DetailsDrawer({ open, onClose, item }: { open: boolean; onClose:
                 </div>
               </div>
             )}
-            {item.comentarios && (
+            {item?.comentarios && (
               <div>
                 <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Comentarios Adicionales</h4>
                 <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-sm text-white/80 leading-relaxed">
