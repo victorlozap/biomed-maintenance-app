@@ -78,14 +78,14 @@ export function StatusPie({ data }: { data: { name: string; value: number; fill:
             </PieChart>
           </ResponsiveContainer>
         </div>
-        <div className="md:col-span-2 flex flex-col justify-center gap-2">
-          {data.sort((a, b) => b.value - a.value).map((d) => (
+        <div className="md:col-span-2 flex flex-col justify-center gap-2 overflow-y-auto max-h-[180px] custom-scrollbar pr-1">
+          {[...data].sort((a, b) => b.value - a.value).map((d) => (
             <div key={d.name} className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 px-3 py-2">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ background: d.fill }} />
-                <span className="text-xs text-white/80">{d.name}</span>
+              <div className="flex items-center gap-2 truncate">
+                <span className="h-2.5 w-2.5 rounded-full flex-shrink-0" style={{ background: d.fill }} />
+                <span className="text-[10px] md:text-xs text-white/80 truncate">{d.name}</span>
               </div>
-              <span className="text-sm font-bold text-white/90">{d.value}</span>
+              <span className="text-xs md:text-sm font-bold text-white/90 ml-2">{d.value}</span>
             </div>
           ))}
         </div>
