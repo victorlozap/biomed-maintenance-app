@@ -161,93 +161,100 @@ export function FilterBar({ onApplyFilter, estados, tecnicos }: any) {
 // --- Details Drawer ---
 export function DetailsDrawer({ open, onClose, item }: { open: boolean; onClose: () => void; item: Correctivo | null }) {
   if (!open || !item) return null;
+
+  // Renderizado seguro para evitar crasheos en producción
   return (
-    <div className="fixed inset-0 z-[60] flex justify-end">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-lg h-full bg-slate-900 border-l border-white/10 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
+    <div className="fixed inset-0 z-[60] flex justify-end overflow-hidden">
+      <div 
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+        onClick={onClose} 
+      />
+      <div className="relative w-full max-w-lg h-full bg-[#0c111d] border-l border-white/10 flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
+        
+        {/* Header - Seguro */}
         <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
           <div className="max-w-[85%]">
             <div className="text-[10px] uppercase font-bold tracking-widest text-white/40">Reporte Correctivo</div>
-            <h3 className="text-xl font-bold text-white mt-1 break-words">#{item?.no_reporte} — {item?.equipo || "N/A"}</h3>
-            <p className="text-sm text-violet-300/80 truncate">{item?.servicio || "—"} • {item?.ubicacion || "—"}</p>
+            <h3 className="text-xl font-bold text-white mt-1 break-words">
+              #{item?.no_reporte || '—'} — {item?.equipo || "Equipo N/A"}
+            </h3>
+            <p className="text-sm text-violet-300/80 truncate">
+              {item?.servicio || "Sin Servicio"} • {item?.ubicacion || "Sin Ubicación"}
+            </p>
           </div>
-          <button onClick={onClose} className="p-2 bg-white/5 hover:bg-white/10 rounded-full text-white/50 transition-colors">
+          <button 
+            onClick={onClose} 
+            className="p-2 bg-white/5 hover:bg-white/10 rounded-full text-white/50 transition-colors"
+          >
             <X size={20} />
           </button>
         </div>
-        <div className="p-6 overflow-y-auto flex-1 space-y-6 custom-scrollbar">
-          <div>
+
+        {/* Content - Seguro */}
+        <div className="p-6 overflow-y-auto flex-1 space-y-6 custom-scrollbar bg-gradient-to-b from-transparent to-black/20">
+          
+          <section>
              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Descripción del Daño</h4>
              <div className="p-4 bg-black/40 rounded-xl border border-white/5 text-sm text-white/90 whitespace-pre-wrap leading-relaxed">
                {item?.descripcion || "Sin descripción registrada."}
              </div>
-          </div>
-          <div>
+          </section>
+
+          <section>
              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Acción Realizada</h4>
-             <div className="p-4 bg-black/40 rounded-xl border border-white/5 text-sm text-white/90 whitespace-pre-wrap leading-relaxed">
+             <div className="p-4 bg-black/40 rounded-xl border border-white/5 text-sm text-white/90 whitespace-pre-wrap leading-relaxed shadow-inner">
                {item?.accion || "Sin acciones registradas aún."}
              </div>
-             <div className="grid grid-cols-2 gap-4 mt-4">
-               <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Marca</span>
-                  <p className="text-sm font-semibold mt-1 text-violet-100">{item?.marca || "—"}</p>
-               </div>
-               <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Modelo</span>
-                  <p className="text-sm font-semibold mt-1 text-violet-100">{item?.modelo || "—"}</p>
-               </div>
-               <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                 <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Técnico</span>
-                 <p className="text-sm font-semibold mt-1">{item?.tecnico || "—"}</p>
-               </div>
-               <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                 <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Causa</span>
-                 <p className="text-sm font-semibold mt-1">{item?.causa || "—"}</p>
-               </div>
-               <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Fecha Creación</span>
-                  <p className="text-sm font-semibold mt-1 text-emerald-300">{item?.fecha_creacion || "—"}</p>
-               </div>
-               <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Fecha Cierre</span>
-                  <p className="text-sm font-semibold mt-1 text-emerald-300">{item?.fecha_cierre || "—"}</p>
-               </div>
-                <div className="p-4 bg-white/5 rounded-xl border border-white/5 col-span-2">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-white/40">Estado Equipo</span>
-                  <p className="text-sm font-semibold mt-1 text-amber-300 items-center flex">
-                    <span className="inline-block w-2 h-2 rounded-full bg-amber-400 mr-2 animate-pulse"></span>
-                    {item?.estado_equipo || "—"}
-                  </p>
+
+             <div className="grid grid-cols-2 gap-3 mt-4">
+               {[
+                 { label: "Marca", value: item?.marca, color: "text-violet-100" },
+                 { label: "Modelo", value: item?.modelo, color: "text-violet-100" },
+                 { label: "Técnico", value: item?.tecnico },
+                 { label: "Causa", value: item?.causa },
+                 { label: "Fecha Creación", value: item?.fecha_creacion, color: "text-emerald-300" },
+                 { label: "Fecha Cierre", value: item?.fecha_cierre, color: "text-emerald-300" }
+               ].map((box, i) => (
+                 <div key={i} className="p-3 bg-white/5 rounded-xl border border-white/5">
+                    <span className="text-[9px] uppercase font-bold tracking-widest text-white/30">{box.label}</span>
+                    <p className={`text-xs font-semibold mt-1 truncate ${box.color || "text-white/80"}`}>
+                      {box.value || "—"}
+                    </p>
+                 </div>
+               ))}
+
+                <div className="p-3 bg-white/5 rounded-xl border border-white/5 col-span-2">
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-white/30">Estado Equipo</span>
+                  <div className="flex items-center mt-1">
+                    <span className="inline-block w-2 h-2 rounded-full bg-amber-400 mr-2 animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.5)]"></span>
+                    <p className="text-xs font-semibold text-amber-300">{item?.estado_equipo || "—"}</p>
+                  </div>
                </div>
              </div>
-          </div>
+          </section>
 
-          <div className="space-y-4 pt-2">
-            {item?.serie && (
-              <div>
-                <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Serie</h4>
-                <div className="p-3 bg-white/5 rounded-xl border border-white/5 text-sm font-mono text-violet-200">
-                  {item.serie}
-                </div>
+          <section className="space-y-4 pt-2">
+            <div>
+              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Serie / Identificador</h4>
+              <div className="p-3 bg-white/5 rounded-xl border border-white/5 text-xs font-mono text-violet-200 break-all">
+                {item?.serie || "N/A"}
               </div>
-            )}
-            {item?.observaciones && (
-              <div>
-                <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Observaciones / Repuestos</h4>
-                <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-sm text-white/80 leading-relaxed italic">
-                  {item.observaciones}
-                </div>
+            </div>
+
+            <div>
+              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Observaciones / Repuestos</h4>
+              <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-sm text-white/70 leading-relaxed italic">
+                {item?.observaciones || "No se registraron repuestos."}
               </div>
-            )}
-            {item?.comentarios && (
-              <div>
-                <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Comentarios Adicionales</h4>
-                <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-sm text-white/80 leading-relaxed">
-                  {item.comentarios}
-                </div>
+            </div>
+
+            <div>
+              <h4 className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2">Comentarios Adicionales</h4>
+              <div className="p-4 bg-white/5 rounded-xl border border-white/5 text-sm text-white/70 leading-relaxed">
+                {item?.comentarios || "Sin comentarios."}
               </div>
-            )}
-          </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
