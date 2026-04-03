@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #070A1A;
+  --color-gold: #F7C948;
+  --color-glass: rgba(255, 255, 255, 0.1);
+  --color-glass-border: rgba(255, 255, 255, 0.18);
+  --color-neon-cyan: #22D3EE;
+  --color-neon-teal: #14B8A6;
+  --color-neon-violet: #8B5CF6;
+  
+  --shadow-glass: 0 20px 60px rgba(0, 0, 0, 0.45);
+  --shadow-glow-gold: 0 0 18px rgba(247, 201, 72, 0.55);
+  --shadow-glow-cyan: 0 0 18px rgba(34, 211, 238, 0.4);
+}
+
+/* Fondo con “noise” suave + look cinematográfico */
+.bg-cinematic {
+  position: relative;
+  overflow: hidden;
+  background-color: #070A1A;
+}
+
+.bg-cinematic::before {
+  content: "";
+  position: absolute;
+  inset: -60px;
+  background:
+    radial-gradient(900px 500px at 15% 20%, rgba(34,211,238,0.20), transparent 55%),
+    radial-gradient(800px 450px at 70% 25%, rgba(139,92,246,0.18), transparent 60%),
+    radial-gradient(900px 500px at 55% 85%, rgba(20,184,166,0.18), transparent 60%);
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.bg-cinematic::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
+  opacity: 0.25;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Scrollbar discreta */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.14); border-radius: 999px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.22); }
+
+/* Texto “glow” dorado */
+.text-gold-glow {
+  color: #F7C948;
+  text-shadow:
+    0 0 14px rgba(247,201,72,0.55),
+    0 0 32px rgba(247,201,72,0.25);
+}
+
+:root {
+  font-family: 'Outfit', 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: #070A1A;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}

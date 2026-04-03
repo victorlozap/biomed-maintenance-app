@@ -1,0 +1,7 @@
+{'message': 'ON CONFLICT DO UPDATE command cannot affect row a second time', 'code': '21000', 'hint': 'Ensure that no rows proposed for insertion within the same command have duplicate constrained values.', 'details': None}
+{'message': "Could not find the 'comentarios' column of 'correctivos_husj' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}
+{'message': "Could not find the 'comentarios' column of 'correctivos_husj' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}
+{'message': "Could not find the 'comentarios' column of 'correctivos_husj' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}
+{'message': "Could not find the 'comentarios' column of 'correctivos_husj' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}
+{'message': "Could not find the 'comentarios' column of 'correctivos_husj' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}
+{'message': "Could not find the 'comentarios' column of 'correctivos_husj' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}

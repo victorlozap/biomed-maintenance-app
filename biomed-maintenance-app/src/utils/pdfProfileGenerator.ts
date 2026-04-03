@@ -78,14 +78,14 @@ export const generateProfilePDF = async (equipment: any) => {
     },
     body: [
       [{ content: 'INFORMACIÓN GENERAL', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
-      ['NOMBRE', equipment['Equipo'] || '', 'FECHA DE COMPRA', ''],
-      ['CÓDIGO EQUIPO', equipment['Id_Unico'] || '', 'COMPRA DE INSTALACIÓN', ''],
-      ['SERVICIO', equipment['Servicio'] || '', 'FORMA DE ADQUISICIÓN', ''],
-      ['MARCA', equipment['Marca'] || '', 'REPRESENTANTE', ''],
-      ['MODELO', equipment['Modelo'] || '', 'DIRECCIÓN', ''],
-      ['SERIE', equipment['NumeroSerie'] || '', 'CIUDAD', ''],
+      ['NOMBRE', equipment.equipo || '', 'FECHA DE COMPRA', ''],
+      ['CÓDIGO EQUIPO', equipment.id_unico || '', 'COMPRA DE INSTALACIÓN', ''],
+      ['SERVICIO', equipment.servicio || '', 'FORMA DE ADQUISICIÓN', ''],
+      ['MARCA', equipment.marca || '', 'REPRESENTANTE', ''],
+      ['MODELO', equipment.modelo || '', 'DIRECCIÓN', ''],
+      ['SERIE', equipment.numero_serie || '', 'CIUDAD', ''],
       ['VALOR ADQUISICIÓN', '', 'TELÉFONO', ''],
-      ['', '', 'GARANTÍA HASTA', equipment['GARANTÍA'] || '']
+      ['', '', 'GARANTÍA HASTA', equipment.garantia || '']
     ]
   });
 
@@ -104,7 +104,7 @@ export const generateProfilePDF = async (equipment: any) => {
     body: [
       [{ content: 'TECNOVIGILANCIA', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
       ['CLASIFICACIÓN TECNOVIGILANCIA', '', 'PERMISO COMERCIALIZACIÓN', ''],
-      ['REGISTRO SANITARIO', equipment['REG. INVIMA'] || '', 'TECNOLOGÍA CONTROLADA', '']
+      ['REGISTRO SANITARIO', equipment.registro_invima || '', 'TECNOLOGÍA CONTROLADA', '']
     ]
   });
 
@@ -122,10 +122,10 @@ export const generateProfilePDF = async (equipment: any) => {
     },
     body: [
       [{ content: 'CARACTERISTICAS TÉCNICAS Y CONDICIONES DE CALIDAD', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
-      ['VOLTAJE', '', 'EQUIPO', equipment['Equipo'] || ''],
+      ['VOLTAJE', '', 'EQUIPO', equipment.equipo || ''],
       ['CORRIENTE', '', 'TECNOLOGÍA', ''],
-      ['POTENCIA', '', 'PERIODICIDAD DE MTTO.', equipment['FRECUENCIA DE MANTENIMIENTO'] || ''],
-      ['FRECUENCIA', '', 'CALIBRACIÓN', equipment['¿REQUIERE CALIBRACIÓN?'] || ''],
+      ['POTENCIA', '', 'PERIODICIDAD DE MTTO.', equipment.frecuencia_mantenimiento || ''],
+      ['FRECUENCIA', '', 'CALIBRACIÓN', equipment.requiere_calibracion || ''],
       [{ content: 'CLASIFICACIÓN BIOMÉDICA:', colSpan: 4, styles: { fontStyle: 'bold', fillColor: GRAY } }]
     ]
   });
@@ -175,5 +175,5 @@ export const generateProfilePDF = async (equipment: any) => {
     ]
   });
 
-  doc.save(`Hoja_Vida_${equipment['Id_Unico'] || 'Equipo'}.pdf`);
+  doc.save(`Hoja_Vida_${equipment.id_unico || 'Equipo'}.pdf`);
 };

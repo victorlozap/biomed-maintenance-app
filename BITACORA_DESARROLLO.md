@@ -1,3 +1,18 @@
+# 📝## [2026-04-03] 📊 Integración del Dashboard de Correctivos y Automatización de Datos
+
+### Logros del Día:
+*   **Módulo de Correctivos (Dual-Tab):** Se implementó una interfaz de pestañas que separa la creación de **Órdenes de Servicio** manuales del nuevo **Dashboard Analítico** avanzado.
+*   **Visualización de Datos (KPIs):** Integración de `recharts` para mostrar la evolución semanal de fallas, distribución por estado (Cerrado/Trabajando/Pendiente) y top 10 de causas más frecuentes.
+*   **Filtrado Inteligente:** Sistema de búsqueda multi-criterio (Técnico, Estado, Rango de Fechas) con ejecución explícita mediante botón "Buscar" y reset global.
+*   **Detalle Expandido (Pop-up):** Implementación de un panel lateral (*Details Drawer*) que muestra la hoja de ruta completa del correctivo: descripción del daño, acción realizada, repuestos/observaciones y datos técnicos del equipo (Marca, Modelo, Serie).
+*   **Pipeline de Datos Automático (`sync_correctivos.py`):**
+    *   Sincronización robusta desde archivos Excel mensuales localizados en `C:\Correctivos_Sync`.
+    *   Lógica de limpieza de datos: deduplicación de reportes, normalización de nombres de técnicos y estandarización de estados institucionales ("CONFIRMADO" y "PTE POR CONFIRMAR" -> CERRADO).
+    *   Ingesta exitosa de **565 reportes únicos** correspondientes al Q1 2026 (Enero, Febrero, Marzo).
+*   **Optimización UI Escalar:** Rediseño responsivo de la tabla de registros para visualización óptima en dispositivos móviles, ocultando columnas secundarias y utilizando micro-interacciones.
+
+---
+
 # 📝## [2026-03-31] 🎨 Rediseño Estético y Escalabilidad de Inventario (3,023 equipos)
 
 ### Logros del Día:
