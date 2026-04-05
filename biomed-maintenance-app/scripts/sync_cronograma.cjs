@@ -6,18 +6,23 @@ const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 async function synchronize() {
-    console.log('🔄 INICIANDO CARGA COMPLETA Y LIMPIA DEL CRONOGRAMA 2025...');
+    const defaultPath = '../formatos/GRF3MAN-FR57 VERSION 10 CRONOGRAMA DE MANTENIMIENTO DE EQUIPO BIOMEDICO 2026.xlsx';
+    const filePath = process.argv[2] || defaultPath;
+    
+    console.log(`🔄 INICIANDO CARGA DEL CRONOGRAMA DESDE: ${filePath}`);
     
     // 0. Limpiar tabla previa para evitar duplicados
     console.log('🗑️ Limpiando datos previos de mantenimiento...');
+    // Nota: El borrado masivo puede ser peligroso si solo querés actualizar uno, 
+    // pero para el cronograma maestro anual (que pisa todo) está bien.
     const { error: deleteError } = await supabase
         .from('maintenance_plans')
         .delete()
-        .neq('id_unico', 'ZZZ_DUMMY_ZZZ'); // Borra todo de forma segura
+        .neq('id_unico', 'ZZZ_DUMMY_ZZZ'); 
     
     if (deleteError) console.error('⚠️ Advertencia al limpiar:', deleteError.message);
 
-    const workbook = xlsx.readFile('../formatos/GRF3MAN-FR57 VERSION 10 CRONOGRAMA DE MANTENIMIENTO DE EQUIPO BIOMEDICO 2025.xlsx');
+    const workbook = xlsx.readFile(filePath);
     const sheet = workbook.Sheets['CRONOGRAMA MTTO'];
     const data = xlsx.utils.sheet_to_json(sheet, {header: 1});
 

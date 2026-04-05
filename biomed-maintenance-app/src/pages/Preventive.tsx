@@ -48,7 +48,7 @@ const Preventive = () => {
     if (selectedEq) {
       const eqName = String(selectedEq.equipo || '').toUpperCase();
       let matched = null;
-      if (eqName.includes('MONITOR')) {
+      if (eqName.includes('MONITOR') || eqName.includes('ELECTROCARDIOGRAFO')) {
         matched = protocols['MONITOR'];
       } else if (eqName.includes('DESFIBRILADOR')) {
         matched = protocols['DESFIBRILADOR'];
@@ -68,6 +68,18 @@ const Preventive = () => {
         eqName.includes('OXIGENO')
       ) {
         matched = protocols['FLUJOMETRO'];
+      } else if (eqName.includes('BASCULA') || eqName.includes('BALANZA')) {
+        matched = protocols['BASCULA'];
+      } else if (eqName.includes('CAMA') || eqName.includes('CUNA') || eqName.includes('SILLA ELECTRICA')) {
+        matched = protocols['CAMA'];
+      } else if (eqName.includes('ELECTROBISTURI') || eqName.includes('ELECTROCAUTERIO')) {
+        matched = protocols['ELECTROBISTURI'];
+      } else if (eqName.includes('INCUBADORA')) {
+        matched = protocols['INCUBADORA'];
+      } else if (eqName.includes('LARINGOSCOPIO')) {
+        matched = protocols['LARINGOSCOPIO'];
+      } else if (eqName.includes('LAMPARA')) {
+        matched = protocols['LAMPARA_QUIRURGICA'];
       }
       
       if (matched) {

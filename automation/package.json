@@ -1,0 +1,14 @@
+{
+  "name": "biomed-sync-automation",
+  "version": "1.0.0",
+  "description": "Real-time synchronization between OneDrive Excel files and Supabase",
+  "main": "watcher.js",
+  "scripts": {
+    "start": "node watcher.js"
+  },
+  "dependencies": {
+    "chokidar": "^4.0.3",
+    "dotenv": "^16.6.1",
+    "kleur": "^4.1.5"
+  }
+}

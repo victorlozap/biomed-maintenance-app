@@ -4,6 +4,8 @@ import math
 from supabase import create_client, Client
 from dotenv import load_dotenv
 
+import sys
+
 # 1. Cargar Variables de Entorno
 # 1. Configuración de Supabase
 # Se han colocado las mismas credenciales que usa la app en frontend
@@ -12,8 +14,8 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# 2. Configuración de la Carpeta Local
-SYNC_FOLDER = r"C:\Correctivos_Sync"
+# 2. Configuración de la Carpeta Local (Fallback)
+DEFAULT_SYNC_FOLDER = r"C:\Correctivos_Sync"
 
 # Diccionario para mapear nombres de meses a números
 MESES = {
@@ -39,7 +41,10 @@ def find_column(df, *keywords):
     return None
 
 def main():
-    print(f"🚀 Iniciando Sincronización Automática desde: {SYNC_FOLDER}")
+    # Detectar si se pasó un archivo o carpeta por argumento
+    target_path = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_SYNC_FOLDER
+    
+    print(f"🚀 Iniciando Sincronización Automática desde: {target_path}")
     
     # --- PASO A: Descargar mapeo completo de Equipos de Supabase ---
     print("📚 Descargando mapa de activos fijos de Supabase para emparejamiento...")
@@ -58,18 +63,22 @@ def main():
 
     print(f"✅ {len(eq_map)} activos fijos enlazados en memoria.")
 
-    # --- PASO B: Procesar cada archivo en la carpeta ---
-    if not os.path.exists(SYNC_FOLDER):
-        print(f"❌ La carpeta {SYNC_FOLDER} no existe.")
+    # --- PASO B: Procesar cada archivo en la carpeta o el archivo individual ---
+    if not os.path.exists(target_path):
+        print(f"❌ La ruta {target_path} no existe.")
         return
 
-    archivos = [f for f in os.listdir(SYNC_FOLDER) if f.endswith(".xlsx") and not f.startswith("~")]
+    if os.path.isdir(target_path):
+        archivos_raw = [os.path.join(target_path, f) for f in os.listdir(target_path) if f.endswith(".xlsx") and not f.startswith("~")]
+    else:
+        archivos_raw = [target_path] if target_path.endswith(".xlsx") and not os.path.basename(target_path).startswith("~") else []
     
-    if not archivos:
-        print("ℹ️ No se encontraron archivos Excel en la carpeta.")
+    if not archivos_raw:
+        print("ℹ️ No se encontraron archivos Excel válidos para procesar.")
         return
 
-    for archivo in archivos:
+    for ruta_completa in archivos_raw:
+        archivo = os.path.basename(ruta_completa)
         print(f"\n📄 Analizando: {archivo}")
         
         # Inferir PERIODO desde el nombre del archivo (Ej: "MARZO 2026.xlsx" -> "2026-03")

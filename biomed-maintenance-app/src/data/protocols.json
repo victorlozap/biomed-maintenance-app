@@ -788,5 +788,189 @@
       "forceSecondPageBeforeElectric": false,
       "forceObservationsToNextPage": true
     }
+  },
+  "BASCULA": {
+    "title": "LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO BASCULAS Y BALANZAS",
+    "code": "GRF3MAN-FR52",
+    "version": "5.0",
+    "date": "03-02-2025",
+    "items": [
+      { "id": "ba1", "category": "ACTIVIDADES REALIZADAS", "label": "Asegurece de que el equipo se encuentre limpio, sin humedad , sin objetos extraños y etiquetas en buen estado", "type": "check" },
+      { "id": "ba2", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de indicadores y display", "type": "check" },
+      { "id": "ba3", "category": "ACTIVIDADES REALIZADAS", "label": "Funcionamiento de los pulsadores", "type": "check" },
+      { "id": "ba4", "category": "ACTIVIDADES REALIZADAS", "label": "Tarjetas electronicas", "type": "check" },
+      { "id": "ba5", "category": "ACTIVIDADES REALIZADAS", "label": "Estado de la bateria", "type": "check" },
+      { "id": "ba6", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de la bandeja", "type": "check" },
+      { "id": "ba7", "category": "ACTIVIDADES REALIZADAS", "label": "Pruebas funcionales", "type": "check" },
+      { "id": "ba8", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión del clamp", "type": "check" },
+      { "id": "ba9", "category": "ACTIVIDADES REALIZADAS", "label": "Chequeo de puesta a cero", "type": "check" },
+      { "id": "ba10", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión y ajuste de partes mecanicas", "type": "check" },
+      { "id": "ba11", "category": "ACTIVIDADES REALIZADAS", "label": "Limpieza general", "type": "check" },
+      { "id": "ba12", "category": "ACTIVIDADES REALIZADAS", "label": "Verificacion de tallimetro", "type": "check" }
+    ],
+    "numeric_items": [
+      { "id": "bn1", "category": "VERIFICACIÓN DE PESAJE", "label": "Peso patron 200g", "type": "text" },
+      { "id": "bn2", "category": "VERIFICACIÓN DE PESAJE", "label": "Peso patron 500g", "type": "text" },
+      { "id": "bn3", "category": "VERIFICACIÓN DE PESAJE", "label": "Peso patron 1Kg", "type": "text" },
+      { "id": "bn4", "category": "VERIFICACIÓN DE PESAJE", "label": "Peso patron 5Kg", "type": "text" },
+      { "id": "bn5", "category": "VERIFICACIÓN DE PESAJE", "label": "Peso patron 10Kg", "type": "text" },
+      { "id": "bn6", "category": "VERIFICACIÓN DE PESAJE", "label": "Peso patron 20Kg", "type": "text" },
+      { "id": "bn7", "category": "VERIFICACIÓN DE PESAJE", "label": "Peso patron 35Kg", "type": "text" },
+      { "id": "sn1", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-L2 (VAC)", "type": "text" },
+      { "id": "sn2", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-gnd (VAC)", "type": "text" },
+      { "id": "sn3", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L2-gnd (VAC)", "type": "text" },
+      { "id": "sn4", "category": "SEGURIDAD ELECTRICA", "label": "Resistencia cable de poder EBP (≤ 0,2 Ω)", "type": "text" },
+      { "id": "sn5", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)", "type": "text" },
+      { "id": "sn6", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Normal (≤ 500 µA)", "type": "text" },
+      { "id": "sn7", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Normal (≤ 100 µA)", "type": "text" },
+      { "id": "sn8", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)", "type": "text" },
+      { "id": "sn9", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)", "type": "text" }
+    ]
+  },
+  "CAMA": {
+    "title": "LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE CAMAS, CUNAS Y SILLAS ELECTRICAS",
+    "code": "GRF3MAN-FR41",
+    "version": "4.0",
+    "date": "03-02-2025",
+    "items": [
+      { "id": "ca1", "category": "ACTIVIDADES REALIZADAS", "label": "Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado", "type": "check" },
+      { "id": "ca2", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión general de etiquetas (Que no estén removidas o barradas)", "type": "check" },
+      { "id": "ca3", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión cable de poder, protecciones, fusibles, enchufe y receptáculo", "type": "check" },
+      { "id": "ca4", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de ruedas (Posición libre de juego, giran y ruedan fácilmente, funcionamiento de los frenos)", "type": "check" },
+      { "id": "ca5", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de los diferentes movimientos", "type": "check" },
+      { "id": "ca6", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión del sistema eléctrico (Caja de control, cables de conexión y motores)", "type": "check" },
+      { "id": "ca7", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión sistema mecánico (Anclaje de barandas, freno central, visagras, pines de seguridad y pasadores)", "type": "check" },
+      { "id": "ca8", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión tableros y termoformados", "type": "check" },
+      { "id": "ca9", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión pintura", "type": "check" },
+      { "id": "ca10", "category": "ACTIVIDADES REALIZADAS", "label": "Revision de baterias internas", "type": "check" },
+      { "id": "ca11", "category": "ACTIVIDADES REALIZADAS", "label": "Limpieza y lubricación general", "type": "check" },
+      { "id": "ca12", "category": "ACTIVIDADES REALIZADAS", "label": "Pruebas de funcionamiento", "type": "check" }
+    ],
+    "numeric_items": [
+      { "id": "cn1", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-L2 (VAC)", "type": "text" },
+      { "id": "cn2", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-gnd (VAC)", "type": "text" },
+      { "id": "cn3", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L2-gnd (VAC)", "type": "text" },
+      { "id": "cn4", "category": "SEGURIDAD ELECTRICA", "label": "Resistencia cable de poder EBP (≤ 0,2 Ω)", "type": "text" },
+      { "id": "cn5", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)", "type": "text" },
+      { "id": "cn6", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Normal (≤ 500 µA)", "type": "text" },
+      { "id": "cn7", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Normal (≤ 100 µA)", "type": "text" },
+      { "id": "cn8", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)", "type": "text" },
+      { "id": "cn9", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)", "type": "text" }
+    ]
+  },
+  "ELECTROBISTURI": {
+    "title": "LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE ELECTROBISTURI Y ELECTROCAUTERIO",
+    "code": "GRF3MAN-FR40",
+    "version": "4.0",
+    "date": "03-02-2025",
+    "items": [
+      { "id": "eb1", "category": "ACTIVIDADES REALIZADAS", "label": "Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado.", "type": "check" },
+      { "id": "eb2", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión general de etiquetas (Que no estén removidas o barradas)", "type": "check" },
+      { "id": "eb3", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión estado físico de pulsadores, indicadores, display y swiches", "type": "check" },
+      { "id": "eb4", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión cable de poder, protecciones, fusibles, enchufe y receptáculo.", "type": "check" },
+      { "id": "eb5", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de electrodo neutro", "type": "check" },
+      { "id": "eb6", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión del pedal", "type": "check" },
+      { "id": "eb7", "category": "ACTIVIDADES REALIZADAS", "label": "Test de generador", "type": "check" },
+      { "id": "eb8", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de señales audibles", "type": "check" },
+      { "id": "eb9", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión corte y coagulación", "type": "check" },
+      { "id": "eb10", "category": "ACTIVIDADES REALIZADAS", "label": "Limpieza general", "type": "check" },
+      { "id": "eb11", "category": "ACTIVIDADES REALIZADAS", "label": "Pruebas de funcionamiento", "type": "check" }
+    ],
+    "numeric_items": [
+      { "id": "en1", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-L2 (VAC)", "type": "text" },
+      { "id": "en2", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-gnd (VAC)", "type": "text" },
+      { "id": "en3", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L2-gnd (VAC)", "type": "text" },
+      { "id": "en4", "category": "SEGURIDAD ELECTRICA", "label": "Resistencia cable de poder EBP (≤ 0,2 Ω)", "type": "text" },
+      { "id": "en5", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)", "type": "text" },
+      { "id": "en6", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Normal (≤ 500 µA)", "type": "text" },
+      { "id": "en7", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Normal (≤ 100 µA)", "type": "text" },
+      { "id": "en8", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)", "type": "text" },
+      { "id": "en9", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)", "type": "text" }
+    ]
+  },
+  "INCUBADORA": {
+    "title": "LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE INCUBADORA Y LAMPARAS DE CALOR RADIANTE",
+    "code": "GRF3MAN-FR56",
+    "version": "5.0",
+    "date": "03-02-2025",
+    "items": [
+      { "id": "in1", "category": "ACTIVIDADES REALIZADAS", "label": "Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa y etiquetas en buen estado", "type": "check" },
+      { "id": "in2", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de alarmas y configuración (Hora, fecha y alarmas generales)", "type": "check" },
+      { "id": "in3", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión estado físico de pulsadores, indicadores luminosos, display y swiches", "type": "check" },
+      { "id": "in4", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión cable de poder, protecciones, fusibles, enchufe y receptáculo", "type": "check" },
+      { "id": "in5", "category": "ACTIVIDADES REALIZADAS", "label": "Revision general de accesorios (Sonda de temperatura de piel, cable de balanza)", "type": "check" },
+      { "id": "in6", "category": "ACTIVIDADES REALIZADAS", "label": "Revision de empaques, juntas, visagras, puertas y mangas", "type": "check" },
+      { "id": "in7", "category": "ACTIVIDADES REALIZADAS", "label": "Realización del test", "type": "check" },
+      { "id": "in8", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de balanza", "type": "check" },
+      { "id": "in9", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de gabinete y ruedas", "type": "check" },
+      { "id": "in10", "category": "ACTIVIDADES REALIZADAS", "label": "Revision de resistencia", "type": "check" },
+      { "id": "in11", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de ventilador", "type": "check" },
+      { "id": "in12", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión del sistema de humidificación", "type": "check" },
+      { "id": "in13", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión modulo sensor", "type": "check" },
+      { "id": "in14", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión plataforma colchon y estado del colchon", "type": "check" },
+      { "id": "in15", "category": "ACTIVIDADES REALIZADAS", "label": "Revision de la bateria reeplacela de ser necesario", "type": "check" },
+      { "id": "in16", "category": "ACTIVIDADES REALIZADAS", "label": "Limpieza general", "type": "check" },
+      { "id": "in17", "category": "ACTIVIDADES REALIZADAS", "label": "Pruebas de funcionamiento general", "type": "check" }
+    ],
+    "numeric_items": [
+      { "id": "inn1", "category": "PRUEBA DE BALANZA", "label": "Valor patron 1Kg", "type": "text" },
+      { "id": "inn2", "category": "PRUEBA DE DECIBELES", "label": "Nivel de ruido (≤60dB)", "type": "text" },
+      { "id": "in_sn1", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-L2 (VAC)", "type": "text" },
+      { "id": "in_sn2", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-gnd (VAC)", "type": "text" },
+      { "id": "in_sn3", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L2-gnd (VAC)", "type": "text" },
+      { "id": "in_sn4", "category": "SEGURIDAD ELECTRICA", "label": "Resistencia cable de poder EBP (≤ 0,2 Ω)", "type": "text" },
+      { "id": "in_sn5", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)", "type": "text" },
+      { "id": "in_sn6", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Normal (≤ 500 µA)", "type": "text" },
+      { "id": "in_sn7", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Normal (≤ 100 µA)", "type": "text" },
+      { "id": "in_sn8", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)", "type": "text" },
+      { "id": "in_sn9", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)", "type": "text" }
+    ]
+  },
+  "LARINGOSCOPIO": {
+    "title": "LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE LARINGOSCOPIO",
+    "code": "GRF3MAN-FR45",
+    "version": "3.0",
+    "date": "03-02-2025",
+    "items": [
+      { "id": "lr1", "category": "ACTIVIDADES REALIZADAS", "label": "Asegúrese de que el equipo se encuentra en buen estado físico", "type": "check" },
+      { "id": "lr2", "category": "ACTIVIDADES REALIZADAS", "label": "Estado del bombillo", "type": "check" },
+      { "id": "lr3", "category": "ACTIVIDADES REALIZADAS", "label": "Estado del socket", "type": "check" },
+      { "id": "lr4", "category": "ACTIVIDADES REALIZADAS", "label": "Estado de los resortes", "type": "check" },
+      { "id": "lr5", "category": "ACTIVIDADES REALIZADAS", "label": "Estado de los contactos", "type": "check" },
+      { "id": "lr6", "category": "ACTIVIDADES REALIZADAS", "label": "Estado del acople para valvas", "type": "check" },
+      { "id": "lr7", "category": "ACTIVIDADES REALIZADAS", "label": "Estado de las baterías, reemplazo si es necesario", "type": "check" },
+      { "id": "lr8", "category": "ACTIVIDADES REALIZADAS", "label": "Limpieza general", "type": "check" },
+      { "id": "lr9", "category": "ACTIVIDADES REALIZADAS", "label": "Verifique que los rótulos y etiquetas se encuentren en buen estado y legibles", "type": "check" }
+    ]
+  },
+  "LAMPARA_QUIRURGICA": {
+    "title": "LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO DE LAMPARA CIELITICA, LAMPARA CUELLO DE CISNE, LAMPARA AUXILIAR RODANTE",
+    "code": "GRF3MAN-FR51",
+    "version": "4.0",
+    "date": "03-02-2025",
+    "items": [
+      { "id": "lp1", "category": "ACTIVIDADES REALIZADAS", "label": "Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado", "type": "check" },
+      { "id": "lp2", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión general de etiquetas (Que no estén removidas o borradas)", "type": "check" },
+      { "id": "lp3", "category": "ACTIVIDADES REALIZADAS", "label": "Verificación de indicadores luminosos", "type": "check" },
+      { "id": "lp4", "category": "ACTIVIDADES REALIZADAS", "label": "Estado de interruptores y switches", "type": "check" },
+      { "id": "lp5", "category": "ACTIVIDADES REALIZADAS", "label": "Funcionamiento de los sensores", "type": "check" },
+      { "id": "lp6", "category": "ACTIVIDADES REALIZADAS", "label": "Verificación de bombillería", "type": "check" },
+      { "id": "lp7", "category": "ACTIVIDADES REALIZADAS", "label": "Funcionamiento de la batería", "type": "check" },
+      { "id": "lp8", "category": "ACTIVIDADES REALIZADAS", "label": "Estado de soporte / mango de agarre", "type": "check" },
+      { "id": "lp9", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de ruedas", "type": "check" },
+      { "id": "lp10", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión y ajuste de sistema de frenos", "type": "check" },
+      { "id": "lp11", "category": "ACTIVIDADES REALIZADAS", "label": "Limpieza general", "type": "check" }
+    ],
+    "numeric_items": [
+      { "id": "lpn1", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-L2 (VAC)", "type": "text" },
+      { "id": "lpn2", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-gnd (VAC)", "type": "text" },
+      { "id": "lpn3", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L2-gnd (VAC)", "type": "text" },
+      { "id": "lpn4", "category": "SEGURIDAD ELECTRICA", "label": "Resistencia cable de poder EBP (≤ 0,2 Ω)", "type": "text" },
+      { "id": "lpn5", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)", "type": "text" },
+      { "id": "lpn6", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Normal (≤ 500 µA)", "type": "text" },
+      { "id": "lpn7", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Normal (≤ 100 µA)", "type": "text" },
+      { "id": "lpn8", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)", "type": "text" },
+      { "id": "lpn9", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)", "type": "text" }
+    ]
   }
 }

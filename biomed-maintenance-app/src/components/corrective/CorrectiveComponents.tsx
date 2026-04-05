@@ -22,20 +22,36 @@ export function GlassTooltip({ active, payload, label }: any) {
 // --- Charts ---
 export function DamageTypeBar({ data }: { data: { name: string; value: number }[] }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-[2rem] p-5 lg:p-6 backdrop-blur-xl h-[360px] flex flex-col">
-      <div className="mb-4">
-        <div className="text-sm font-semibold text-violet-300 uppercase tracking-widest">Daños por tipo (Causa)</div>
-        <div className="text-xs text-white/40">Top 10 causas más frecuentes</div>
+    <div className="bg-white/5 border border-white/10 rounded-[2rem] p-5 lg:p-8 backdrop-blur-xl h-[420px] flex flex-col group overflow-hidden">
+      <div className="mb-6">
+        <div className="text-sm font-black text-violet-300 uppercase tracking-[0.2em]">Daños por tipo (Causa)</div>
+        <div className="text-[10px] text-white/30 uppercase tracking-widest mt-1">Análisis de fallas recurrentes</div>
       </div>
-      <ResponsiveContainer width="100%" height="85%">
-        <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
-          <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
-          <XAxis dataKey="name" tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 11 }} interval={0} angle={-20} textAnchor="end" height={60} />
-          <YAxis tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 11 }} />
-          <RechartsTooltip content={<GlassTooltip />} />
-          <Bar dataKey="value" fill="rgba(167, 139, 250, 0.8)" radius={[4, 4, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
+      <div className="flex-1 min-h-0 w-full translate-x-1">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 80 }}>
+            <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
+            <XAxis 
+              dataKey="name" 
+              tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10, fontWeight: 700 }} 
+              interval={0} 
+              angle={-45} 
+              textAnchor="end" 
+              height={100}
+              tickMargin={12}
+            />
+            <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} />
+            <RechartsTooltip content={<GlassTooltip />} />
+            <Bar dataKey="value" fill="url(#barGradient)" radius={[8, 8, 0, 0]} barSize={40} />
+            <defs>
+              <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="rgba(167, 139, 250, 1)" />
+                <stop offset="100%" stopColor="rgba(139, 92, 246, 0.2)" />
+              </linearGradient>
+            </defs>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
@@ -62,30 +78,41 @@ export function ReportsLine({ data }: { data: { date: string; value: number }[] 
 
 export function StatusPie({ data }: { data: { name: string; value: number; fill: string }[] }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-[2rem] p-5 lg:p-6 backdrop-blur-xl h-[360px] flex flex-col">
-      <div className="mb-4">
-        <div className="text-sm font-semibold text-emerald-300 uppercase tracking-widest">Distribución por estado</div>
-        <div className="text-xs text-white/40">Estado general</div>
+    <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-6 md:p-8 backdrop-blur-xl h-[420px] flex flex-col overflow-hidden">
+      <div className="mb-6">
+        <div className="text-sm font-black text-emerald-300 uppercase tracking-[0.2em]">Distribución por estado</div>
+        <div className="text-[10px] text-white/30 uppercase tracking-widest mt-1">Corte actual de órdenes</div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 flex-1">
-        <div className="md:col-span-3 h-full">
+      
+      <div className="flex-1 flex flex-col gap-6 min-h-0">
+        {/* Pie arriba */}
+        <div className="h-[60%] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <RechartsTooltip content={<GlassTooltip />} />
-              <Pie data={data} dataKey="value" nameKey="name" innerRadius={55} outerRadius={85} paddingAngle={3}>
-                {data.map((entry) => <Cell key={entry.name} fill={entry.fill} />)}
+              <Pie 
+                data={data} 
+                dataKey="value" 
+                nameKey="name" 
+                innerRadius="65%" 
+                outerRadius="95%" 
+                paddingAngle={6}
+              >
+                {data.map((entry) => <Cell key={entry.name} fill={entry.fill} stroke="none" />)}
               </Pie>
             </PieChart>
           </ResponsiveContainer>
         </div>
-        <div className="md:col-span-2 flex flex-col justify-center gap-2 overflow-y-auto max-h-[180px] custom-scrollbar pr-1">
+
+        {/* Leyendas abajo en grid de chips */}
+        <div className="h-[40%] grid grid-cols-2 gap-2 overflow-y-auto custom-scrollbar pr-1 content-center">
           {[...data].sort((a, b) => b.value - a.value).map((d) => (
-            <div key={d.name} className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 px-3 py-2">
-              <div className="flex items-center gap-2 truncate">
-                <span className="h-2.5 w-2.5 rounded-full flex-shrink-0" style={{ background: d.fill }} />
-                <span className="text-[10px] md:text-xs text-white/80 truncate">{d.name}</span>
+            <div key={d.name} className="flex flex-col justify-center rounded-xl border border-white/5 bg-white/2 hover:bg-white/5 px-3 py-2 transition-colors">
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <span className="h-2 w-2 rounded-full flex-shrink-0" style={{ background: d.fill }} />
+                <span className="text-[9px] font-black text-white/50 uppercase tracking-widest truncate">{d.name}</span>
               </div>
-              <span className="text-xs md:text-sm font-bold text-white/90 ml-2">{d.value}</span>
+              <span className="text-sm font-black text-white">{d.value}</span>
             </div>
           ))}
         </div>

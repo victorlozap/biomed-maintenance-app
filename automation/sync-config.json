@@ -1,0 +1,43 @@
+{
+  "oneDriveRoot": "C:\\Users\\victo\\OneDrive - E.S.E. Hospital Universitario San Jorge de Pereira\\🏣 HUSJ (METROMEDICA)",
+  "syncRules": [
+    {
+      "name": "Inventario Maestro",
+      "pattern": "1. INVENTARIO HUSJ 🏣/1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx",
+      "command": "node ../biomed-maintenance-app/scripts/sync_master_complete.cjs",
+      "type": "inventory"
+    },
+    {
+      "name": "Correctivos Mensuales",
+      "pattern": "3. CORRECTIVOS 🛠/3- Correctivos 2026/.* - .*/.*2026\\.xlsx$",
+      "command": "python ../biomed-maintenance-app/scripts/sync_correctivos.py",
+      "type": "correctives",
+      "isRegex": true
+    },
+    {
+      "name": "Cronograma Preventivos (Maestro)",
+      "pattern": "2. PREVENTIVOS/2026/CRONOGRAMA MTTO 2026\\.xlsx$",
+      "command": "node ../biomed-maintenance-app/scripts/sync_cronograma.cjs",
+      "type": "preventives_master",
+      "isRegex": true
+    },
+    {
+      "name": "Reportes Preventivos Mensuales",
+      "pattern": "2. PREVENTIVOS/2026/.*Preventivo.*2026\\.xlsx$",
+      "command": "node ../biomed-maintenance-app/scripts/sync_2026_real.cjs",
+      "type": "preventives_monthly",
+      "isRegex": true
+    },
+    {
+      "name": "Metrología / Calibraciones",
+      "pattern": "4. METROLOGÍA 📏/.*\\.xlsx$",
+      "command": "echo 'Sincronización de Metrología no configurada aún'",
+      "type": "metrology",
+      "isRegex": true
+    }
+  ],
+  "settings": {
+    "debounceMs": 5000,
+    "ignoreInitial": true
+  }
+}
