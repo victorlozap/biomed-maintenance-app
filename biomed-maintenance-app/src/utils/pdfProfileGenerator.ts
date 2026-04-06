@@ -27,6 +27,21 @@ export const generateProfilePDF = async (equipment: any) => {
      } catch(e) { }
   }
 
+  // Helper to normalize equipment fields from different data sources
+  const eq = {
+    Equipo: equipment['equipo'] || equipment['Equipo'] || '',
+    Marca: equipment['marca'] || equipment['Marca'] || '',
+    Modelo: equipment['modelo'] || equipment['Modelo'] || '',
+    NumeroSerie: equipment['numero_serie'] || equipment['NumeroSerie'] || equipment['serie'] || '',
+    Id_Unico: equipment['id_unico'] || equipment['Id_Unico'] || equipment['activoFijo'] || '',
+    Servicio: equipment['servicio'] || equipment['Servicio'] || '',
+    Riesgo: equipment['riesgo'] || equipment['Riesgo'] || '',
+    Frecuencia: equipment['frecuencia_mantenimiento'] || equipment['Frecuencia'] || '',
+    Garantia: equipment['garantia'] || equipment['Garantia'] || '',
+    RegistroInvima: equipment['registro_invima'] || equipment['RegistroInvima'] || '',
+    RequiereCalibracion: equipment['requiere_calibracion'] || equipment['RequiereCalibracion'] || ''
+  };
+
   const doc = new jsPDF({ format: 'letter' });
   const GRAY = [230, 230, 230] as [number, number, number];
 
@@ -78,14 +93,14 @@ export const generateProfilePDF = async (equipment: any) => {
     },
     body: [
       [{ content: 'INFORMACIÓN GENERAL', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
-      ['NOMBRE', equipment.equipo || '', 'FECHA DE COMPRA', ''],
-      ['CÓDIGO EQUIPO', equipment.id_unico || '', 'COMPRA DE INSTALACIÓN', ''],
-      ['SERVICIO', equipment.servicio || '', 'FORMA DE ADQUISICIÓN', ''],
-      ['MARCA', equipment.marca || '', 'REPRESENTANTE', ''],
-      ['MODELO', equipment.modelo || '', 'DIRECCIÓN', ''],
-      ['SERIE', equipment.numero_serie || '', 'CIUDAD', ''],
+      ['NOMBRE', eq.Equipo || '', 'FECHA DE COMPRA', ''],
+      ['PLACA (ID ÚNICO)', eq.Id_Unico || '', 'COMPRA DE INSTALACIÓN', ''],
+      ['UBICACIÓN (SERVICIO)', eq.Servicio || '', 'FORMA DE ADQUISICIÓN', ''],
+      ['MARCA', eq.Marca || '', 'REPRESENTANTE', ''],
+      ['MODELO', eq.Modelo || '', 'DIRECCIÓN', ''],
+      ['SERIE', eq.NumeroSerie || '', 'CIUDAD', ''],
       ['VALOR ADQUISICIÓN', '', 'TELÉFONO', ''],
-      ['', '', 'GARANTÍA HASTA', equipment.garantia || '']
+      ['', '', 'GARANTÍA HASTA', eq.Garantia || '']
     ]
   });
 
@@ -104,7 +119,7 @@ export const generateProfilePDF = async (equipment: any) => {
     body: [
       [{ content: 'TECNOVIGILANCIA', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
       ['CLASIFICACIÓN TECNOVIGILANCIA', '', 'PERMISO COMERCIALIZACIÓN', ''],
-      ['REGISTRO SANITARIO', equipment.registro_invima || '', 'TECNOLOGÍA CONTROLADA', '']
+      ['REGISTRO SANITARIO', eq.RegistroInvima || '', 'TECNOLOGÍA CONTROLADA', '']
     ]
   });
 
@@ -122,11 +137,11 @@ export const generateProfilePDF = async (equipment: any) => {
     },
     body: [
       [{ content: 'CARACTERISTICAS TÉCNICAS Y CONDICIONES DE CALIDAD', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
-      ['VOLTAJE', '', 'EQUIPO', equipment.equipo || ''],
+      ['VOLTAJE', '', 'EQUIPO', eq.Equipo || ''],
       ['CORRIENTE', '', 'TECNOLOGÍA', ''],
-      ['POTENCIA', '', 'PERIODICIDAD DE MTTO.', equipment.frecuencia_mantenimiento || ''],
-      ['FRECUENCIA', '', 'CALIBRACIÓN', equipment.requiere_calibracion || ''],
-      [{ content: 'CLASIFICACIÓN BIOMÉDICA:', colSpan: 4, styles: { fontStyle: 'bold', fillColor: GRAY } }]
+      ['POTENCIA', '', 'PERIODICIDAD DE MTTO.', eq.Frecuencia || ''],
+      ['FRECUENCIA', '', 'CALIBRACIÓN', eq.RequiereCalibracion || ''],
+      [{ content: `CLASIFICACIÓN BIOMÉDICA: ${eq.Riesgo || ''}`, colSpan: 4, styles: { fontStyle: 'bold', fillColor: GRAY } }]
     ]
   });
 

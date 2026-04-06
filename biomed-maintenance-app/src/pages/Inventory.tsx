@@ -65,15 +65,24 @@ const Inventory = () => {
   // Helper para formatear fechas (incluyendo fechas de Excel)
   const formatDate = (val: any) => {
     if (!val || val === 'N/A' || val === 'No Aplica') return 'No Aplica';
-    if (typeof val === 'number' || (!isNaN(val) && !val.toString().includes('-'))) {
-      const excelDate = parseFloat(val as string);
-      const date = new Date((excelDate - 25569) * 86400 * 1000);
-      return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    
+    try {
+      // Manejar fechas de Excel (números)
+      if (typeof val === 'number' || (typeof val === 'string' && !isNaN(Number(val)) && !val.includes('-') && !val.includes('/'))) {
+        const excelDate = parseFloat(val as string);
+        const date = new Date((excelDate - 25569) * 86400 * 1000);
+        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
+      }
+
+      // Manejar strings (ISO o similares de Supabase)
+      const date = new Date(val);
+      if (!isNaN(date.getTime())) {
+        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
+      }
+    } catch (e) {
+      console.error("Error formatting date:", e);
     }
-    if (typeof val === 'string' && val.includes('-')) {
-      const [year, month, day] = val.split('-');
-      return `${day}/${month}/${year}`;
-    }
+    
     return val;
   };
   

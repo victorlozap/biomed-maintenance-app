@@ -6,7 +6,7 @@ const normalizeEquipment = (equipment: any) => ({
   Equipo: equipment['equipo'] || equipment['Equipo'] || '',
   Marca: equipment['marca'] || equipment['Marca'] || '',
   Modelo: equipment['modelo'] || equipment['Modelo'] || '',
-  NumeroSerie: equipment['numero_serie'] || equipment['NumeroSerie'] || '',
+  NumeroSerie: equipment['numero_serie'] || equipment['NumeroSerie'] || equipment['serie'] || '',
   Id_Unico: equipment['id_unico'] || equipment['Id_Unico'] || equipment['activoFijo'] || '',
   Servicio: equipment['servicio'] || equipment['Servicio'] || ''
 });

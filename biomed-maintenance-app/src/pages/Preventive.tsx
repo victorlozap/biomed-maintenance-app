@@ -81,7 +81,13 @@ const Preventive = () => {
         matched = protocols['INCUBADORA'];
       } else if (eqName.includes('LARINGOSCOPIO')) {
         matched = protocols['LARINGOSCOPIO'];
-      } else if (eqName.includes('LAMPARA')) {
+      } else if (
+        eqName.includes('LAMPARA') || 
+        eqName.includes('CIELITICA') || 
+        eqName.includes('CUELLO DE CISNE') || 
+        eqName.includes('AUXILIAR') || 
+        eqName.includes('QUIRURGICA')
+      ) {
         matched = protocols['LAMPARA_QUIRURGICA'];
       }
       
