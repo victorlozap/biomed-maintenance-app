@@ -1,16 +1,18 @@
 # 📝## [2026-04-06] 🛠️ Gestión de Historiales y Normalización Técnica HUSJ
 
 ### Logros del Día:
-*   **CRUD de Actividades Técnicas:** Implementación de la capacidad de **editar** y **eliminar** registros del historial de mantenimiento (preventivo y correctivo) directamente desde la Hoja de Vida del equipo. Esto permite depurar registros de prueba y mantener la veracidad institucional de los datos.
-*   **Sincronización Transparente (Supabase):** Conectividad robusta con las tablas del servidor, permitiendo actualizaciones inmediatas en la nube sin pérdida de trazabilidad.
-*   **Estandarización de Protocolos (Lámparas):** Unificación técnica de los protocolos para lámparas quirúrgicas (Cielíticas, Cuello de Cisne, Rodantes) bajo el estándar `LAMPARA_QUIRURGICA`, simplificando la gestión de mantenimiento preventivo.
-*   **Algoritmo de Normalización de Nombres:** Desarrollo de una lógica de limpieza de texto (eliminación de tildes y diacríticos) para garantizar que el sistema asocie correctamente los protocolos JSON con los nombres de los equipos del inventario, independientemente de errores de digitación en la fuente original.
-*   **Optimización Visual del Modal de Equipo:** Rediseño del panel de detalles utilizando un sistema de grid de 4 columnas con estética *Glassmorphism*, mejorando la lectura de parámetros técnicos y el acceso al historial cronológico.
+*   **Gestión de Historiales (CRUD):** Implementación de la capacidad de **editar** y **eliminar** registros de mantenimiento (preventivo y correctivo). Esto permite purgar datos de prueba y corregir errores humanos, asegurando la integridad de la hoja de vida de cada activo.
+*   **Estandarización de Ubicación (Servicio):** Aplicación de la regla institucional: la casilla **"UBICACIÓN"** en todos los reportes PDF (mantenimiento y hoja de vida) ahora muestra estrictamente el **"SERVICIO" (Columna K del Excel original)**. Se ajustaron las etiquetas para que digan "UBICACIÓN (SERVICIO)" garantizando claridad absoluta para auditorías.
+*   **Digitalización de Protocolos Críticos:**
+    *   **Electrobisturí:** Protocolo FR40 (v4.0) integrado y funcional.
+    *   **Lámparas Quirúrgicas:** Protocolo FR51 (v4.0) que cubre **Lámparas Cielíticas, Cuello de Cisne y Auxiliares Rodantes**.
+*   **Detector de Protocolos Inteligente:** Optimización del algoritmo de detección en `Preventive.tsx` para reconocer variaciones de nombre (ej. "CIELITICA", "CUELLO DE CISNE") y asignar automáticamente el formato correcto, reduciendo el error manual.
+*   **Normalización de Datos en PDF:** Implementación de un `normalizeEquipment` universal en los generadores de PDF para manejar inconsistencias de nombres de campos (mayúsculas/minúsculas) provenientes de distintas fuentes de datos.
 
 ### Estado Actual:
-*   Hoja de vida digital 100% editable por el personal de BioMed.
-*   Protocolos de lámparas y equipos críticos (Electrobisturí, etc.) integrados y validados.
-*   Sistema listo para auditoría técnica de historiales.
+*   Reportes PDF 100% alineados con la normativa de ubicación del hospital.
+*   Historial de equipos totalmente gestionable (Editar/Borrar).
+*   Protocolos de lámparas y electrobisturíes listos para ejecución real.
 
 ---
 
