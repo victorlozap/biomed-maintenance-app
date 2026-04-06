@@ -1,3 +1,19 @@
+# 📝## [2026-04-06] 🛠️ Gestión de Historiales y Normalización Técnica HUSJ
+
+### Logros del Día:
+*   **CRUD de Actividades Técnicas:** Implementación de la capacidad de **editar** y **eliminar** registros del historial de mantenimiento (preventivo y correctivo) directamente desde la Hoja de Vida del equipo. Esto permite depurar registros de prueba y mantener la veracidad institucional de los datos.
+*   **Sincronización Transparente (Supabase):** Conectividad robusta con las tablas del servidor, permitiendo actualizaciones inmediatas en la nube sin pérdida de trazabilidad.
+*   **Estandarización de Protocolos (Lámparas):** Unificación técnica de los protocolos para lámparas quirúrgicas (Cielíticas, Cuello de Cisne, Rodantes) bajo el estándar `LAMPARA_QUIRURGICA`, simplificando la gestión de mantenimiento preventivo.
+*   **Algoritmo de Normalización de Nombres:** Desarrollo de una lógica de limpieza de texto (eliminación de tildes y diacríticos) para garantizar que el sistema asocie correctamente los protocolos JSON con los nombres de los equipos del inventario, independientemente de errores de digitación en la fuente original.
+*   **Optimización Visual del Modal de Equipo:** Rediseño del panel de detalles utilizando un sistema de grid de 4 columnas con estética *Glassmorphism*, mejorando la lectura de parámetros técnicos y el acceso al historial cronológico.
+
+### Estado Actual:
+*   Hoja de vida digital 100% editable por el personal de BioMed.
+*   Protocolos de lámparas y equipos críticos (Electrobisturí, etc.) integrados y validados.
+*   Sistema listo para auditoría técnica de historiales.
+
+---
+
 # 📝## [2026-04-05] 🩺 Estandarización de Protocolos y Auditoría Institucional HUSJ
 
 ### Logros del Día:
@@ -123,4 +139,4 @@ Este documento registra la evolución tecnológica de la aplicación de mantenim
 
 ---
 **Elaborado por:** BioMed HUSJ + Antigravity Engineering Toolkit 🩺📡🚀
-**Última actualización:** 31 de Marzo 2026 - 02:45 AM
+**Última actualización:** 06 de Abril 2026 - 01:10 AM
