@@ -77,7 +77,10 @@ const Inventory = () => {
       // Manejar strings (ISO o similares de Supabase)
       const date = new Date(val);
       if (!isNaN(date.getTime())) {
-        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const d = date.getDate().toString().padStart(2, '0');
+        const m = (date.getMonth() + 1).toString().padStart(2, '0');
+        const y = date.getFullYear();
+        return `${d}/${m}/${y}`;
       }
     } catch (e) {
       console.error("Error formatting date:", e);
@@ -555,14 +558,14 @@ const Inventory = () => {
                    <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-3xl p-4 md:p-5 lg:p-6 h-full flex flex-col">
                       <h4 className="text-indigo-400 text-xs tracking-widest uppercase mb-5 pb-3 border-b border-white/5 font-bold">Ubicación y Riesgo</h4>
                       <div className="space-y-4 flex-1">
-                        <div className="bg-black/30 p-3.5 rounded-2xl border border-indigo-500/10 flex flex-col items-start gap-1">
-                          <p className="text-indigo-300/50 text-[10px] uppercase font-bold tracking-wider">Servicio</p>
-                          <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.servicio || 'N/A'}</p>
-                        </div>
-                        <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5 flex flex-col items-start gap-1">
-                          <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider">Ubicación</p>
-                          <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.ubicacion || 'Sala 8'}</p>
-                        </div>
+                         <div className="bg-black/30 p-3.5 rounded-2xl border border-indigo-500/10 flex flex-col items-start gap-1">
+                           <p className="text-indigo-300/50 text-[10px] uppercase font-bold tracking-wider">UBICACIÓN (SERVICIO)</p>
+                           <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.servicio || 'N/A'}</p>
+                         </div>
+                         <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5 flex flex-col items-start gap-1">
+                           <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider">DETALLE FÍSICO</p>
+                           <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.ubicacion || 'N/A'}</p>
+                         </div>
                         <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
                           <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Clase de Riesgo</p>
                           <p className={`${getRiskStyle(selectedEquipment.riesgo)} text-lg uppercase font-bold`}>{selectedEquipment.riesgo || 'N/A'}</p>

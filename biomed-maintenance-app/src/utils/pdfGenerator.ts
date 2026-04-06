@@ -8,7 +8,8 @@ const normalizeEquipment = (equipment: any) => ({
   Modelo: equipment['modelo'] || equipment['Modelo'] || '',
   NumeroSerie: equipment['numero_serie'] || equipment['NumeroSerie'] || equipment['serie'] || '',
   Id_Unico: equipment['id_unico'] || equipment['Id_Unico'] || equipment['activoFijo'] || '',
-  Servicio: equipment['servicio'] || equipment['Servicio'] || ''
+  Servicio: equipment['Servicio'] || equipment['servicio'] || '',
+  Ubicacion: equipment['ubicacion'] || equipment['UBICACIÓN'] || ''
 });
 
 export const generateProtocolPDF = async (
@@ -160,8 +161,8 @@ export const generateProtocolPDF = async (
         [
           { content: 'ACTIVO FIJO', styles: { fillColor: GRAY } }, 
           String(eq.Id_Unico || ''), 
-          { content: 'SERVICIO (UBICACIÓN)', styles: { fillColor: GRAY } }, 
-          String(eq.Servicio || '')
+          { content: 'UBICACIÓN', styles: { fillColor: GRAY } }, 
+          String(eq.Servicio || eq.Ubicacion || '')
         ]
       ]
     });
@@ -178,7 +179,7 @@ export const generateProtocolPDF = async (
     { content: '', rowSpan: 3, styles: { lineWidth: 0, fillColor: [255,255,255] } }, 
     { content: 'FECHA', colSpan: 3, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }
   ]);
-  const formattedMaintDate = maintenanceDate ? maintenanceDate.split('-').reverse().join('/') : '';
+  const formattedMaintDate = maintenanceDate ? maintenanceDate.substring(0, 10).split('-').reverse().join('/') : '';
 
   checkBody.push([
     { content: formattedMaintDate, colSpan: 3, styles: { minCellHeight: dDateH, halign: 'center', valign: 'middle', fontSize: 10, fontStyle: 'bold' } } 
