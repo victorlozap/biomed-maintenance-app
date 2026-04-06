@@ -162,7 +162,7 @@ export const generateProtocolPDF = async (
           { content: 'ACTIVO FIJO', styles: { fillColor: GRAY } }, 
           String(eq.Id_Unico || ''), 
           { content: 'UBICACIÓN', styles: { fillColor: GRAY } }, 
-          String(eq.Servicio || eq.Ubicacion || '').toUpperCase()
+          String(eq.Servicio || '').toUpperCase()
         ]
       ]
     });

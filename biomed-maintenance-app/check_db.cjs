@@ -5,14 +5,18 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function check() {
-  const { count, error } = await supabase
-    .from('equipments')
-    .select('*', { count: 'exact', head: true });
-
+  console.log('--- BUSCANDO TABLAS ---');
+  // Usar una consulta que devuelva algo rápido
+  const { data, error } = await supabase.rpc('get_tables'); // A ver si existe
   if (error) {
-    console.error(error);
+     console.log('RPC get_tables no disponible, probando select simple...');
+     const tables = ['equipments', 'activities', 'protocols', 'maintenance_reports'];
+     for(let t of tables) {
+        const { count, error: err } = await supabase.from(t).select('*', { count: 'exact', head: true });
+        console.log(`Tabla ${t}: ${err ? 'ERR: ' + err.message : count + ' registros'}`);
+     }
   } else {
-    console.log("Total rows in equipments:", count);
+     console.log(data);
   }
 }
 

@@ -71,7 +71,10 @@ const Inventory = () => {
       if (typeof val === 'number' || (typeof val === 'string' && !isNaN(Number(val)) && !val.includes('-') && !val.includes('/'))) {
         const excelDate = parseFloat(val as string);
         const date = new Date((excelDate - 25569) * 86400 * 1000);
-        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const d = String(date.getDate()).padStart(2, '0');
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const y = date.getFullYear();
+        return `${d}/${m}/${y}`;
       }
 
       // Manejar strings (ISO o similares de Supabase)
@@ -762,7 +765,7 @@ const Inventory = () => {
                   {Object.keys(editEqData).filter(k => k !== 'id' && k !== 'created_at').map((key) => (
                     <div key={key} className="space-y-2">
                        <label className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] block ml-1">
-                         {key === 'servicio' ? 'UBICACIÓN INSTITUCIONAL (SERVICIO - COL K)' : (key === 'ubicacion' ? 'DETALLE FÍSICO (UBICACIÓN)' : key.replace(/_/g,' '))}
+                         {key === 'servicio' ? 'UBICACIÓN' : (key === 'ubicacion' ? 'DETALLE FÍSICO' : key.replace(/_/g,' '))}
                        </label>
                        <input 
                           type="text" 
