@@ -277,8 +277,8 @@ export default function SurgeryRounds() {
     drawHospitalHeader(doc, 1, 2);
     const bodyDataPage1: any[] = [];
     
-    // Convertir de YYYY-MM-DD a DD-MM-YYYY
-    const formattedDate = globalData.fecha.split('-').reverse().join('-');
+    // Convertir de YYYY-MM-DD a DD-MM-YYYY con barras
+    const formattedDate = globalData.fecha.split('-').reverse().join('/');
     
     // Fila 1: Ubicación y Fecha combinados
     bodyDataPage1.push([

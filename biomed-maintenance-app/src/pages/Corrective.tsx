@@ -241,14 +241,14 @@ const Corrective = () => {
                             {r.no_reporte}
                           </td>
                           <td className="px-6 py-5 text-white/40 text-[10px] hidden sm:table-cell">
-                            {r.fecha_creacion}
+                            {r.fecha_creacion ? new Date(r.fecha_creacion).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'}
                           </td>
                           <td className="px-4 md:px-6 py-5">
                              <div className="font-bold text-white/90 text-xs md:text-sm truncate max-w-[120px] md:max-w-[220px]">
                                {r.equipo || "UNSPECIFIED"}
                              </div>
                              <div className="text-[8px] font-black text-white/20 uppercase tracking-widest truncate">
-                               {r.fecha_creacion} • S/N: {r.activo_fijo || "NONE"}
+                               {r.fecha_creacion ? new Date(r.fecha_creacion).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '—'} • S/N: {r.activo_fijo || "NONE"}
                              </div>
                           </td>
                           <td className="px-6 py-5 text-white/60 hidden lg:table-cell font-light text-xs">
