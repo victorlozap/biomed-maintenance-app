@@ -9,7 +9,9 @@ const normalizeEquipment = (equipment: any) => ({
   NumeroSerie: equipment['numero_serie'] || equipment['NumeroSerie'] || equipment['serie'] || '',
   Id_Unico: equipment['id_unico'] || equipment['Id_Unico'] || equipment['activoFijo'] || '',
   Servicio: equipment['Servicio'] || equipment['servicio'] || '',
-  Ubicacion: equipment['ubicacion'] || equipment['UBICACIÓN'] || ''
+  Ubicacion: equipment['ubicacion'] || equipment['UBICACIÓN'] || '',
+  Propietario: equipment['propietario'] || equipment['PROPIETARIO'] || '',
+  Estado: equipment['estado'] || equipment['Estado'] || ''
 });
 
 export const generateProtocolPDF = async (

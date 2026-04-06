@@ -562,11 +562,11 @@ const Inventory = () => {
                       <h4 className="text-indigo-400 text-xs tracking-widest uppercase mb-5 pb-3 border-b border-white/5 font-bold">Ubicación y Riesgo</h4>
                       <div className="space-y-4 flex-1">
                          <div className="bg-black/30 p-3.5 rounded-2xl border border-indigo-500/10 flex flex-col items-start gap-1">
-                           <p className="text-indigo-300/50 text-[10px] uppercase font-bold tracking-wider">UBICACIÓN (SERVICIO)</p>
+                           <p className="text-indigo-300/50 text-[10px] uppercase font-bold tracking-wider">SERVICIO</p>
                            <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.servicio || 'N/A'}</p>
                          </div>
                          <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5 flex flex-col items-start gap-1">
-                           <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider">DETALLE FÍSICO</p>
+                           <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider">UBICACIÓN</p>
                            <p className="text-white text-base font-medium leading-relaxed">{selectedEquipment.ubicacion || 'N/A'}</p>
                          </div>
                         <div className="bg-black/30 p-3.5 rounded-2xl border border-white/5">
