@@ -54,7 +54,8 @@ const Corrective = () => {
         const { data: correctivosData, error } = await supabase
           .from('correctivos_husj')
           .select('*')
-          .order('fecha_creacion', { ascending: false });
+          .order('fecha_creacion', { ascending: false })
+          .order('no_reporte', { ascending: false });
 
         if (error) throw error;
         setData(correctivosData as Correctivo[]);
@@ -241,14 +242,14 @@ const Corrective = () => {
                             {r.no_reporte}
                           </td>
                           <td className="px-6 py-5 text-white/40 text-[10px] hidden sm:table-cell">
-                            {r.fecha_creacion ? `${new Date(r.fecha_creacion).getDate().toString().padStart(2, '0')}/${(new Date(r.fecha_creacion).getMonth() + 1).toString().padStart(2, '0')}/${new Date(r.fecha_creacion).getFullYear()}` : '—'}
+                            {r.fecha_creacion ? `${new Date(r.fecha_creacion).getUTCDate().toString().padStart(2, '0')}/${(new Date(r.fecha_creacion).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(r.fecha_creacion).getUTCFullYear()}` : '—'}
                           </td>
                           <td className="px-4 md:px-6 py-5">
                              <div className="font-bold text-white/90 text-xs md:text-sm truncate max-w-[120px] md:max-w-[220px]">
                                {r.equipo || "UNSPECIFIED"}
                              </div>
                              <div className="text-[8px] font-black text-white/20 uppercase tracking-widest truncate">
-                               {r.fecha_creacion ? `${new Date(r.fecha_creacion).getDate().toString().padStart(2, '0')}/${(new Date(r.fecha_creacion).getMonth() + 1).toString().padStart(2, '0')}/${new Date(r.fecha_creacion).getFullYear()}` : '—'} • S/N: {r.activo_fijo || "NONE"}
+                               {r.fecha_creacion ? `${new Date(r.fecha_creacion).getUTCDate().toString().padStart(2, '0')}/${(new Date(r.fecha_creacion).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(r.fecha_creacion).getUTCFullYear()}` : '—'} • S/N: {r.activo_fijo || "NONE"}
                              </div>
                           </td>
                           <td className="px-6 py-5 text-white/60 hidden lg:table-cell font-light text-xs">
@@ -304,7 +305,12 @@ const Corrective = () => {
       <DetailsDrawer 
         open={selectedCorrectivo !== null} 
         item={selectedCorrectivo} 
-        onClose={() => setSelectedCorrectivo(null)} 
+        onClose={() => setSelectedCorrectivo(null)}
+        tecnicos={tecnicosDisponibles}
+        onUpdateItem={(updatedItem) => {
+          setSelectedCorrectivo(updatedItem);
+          setData(prev => prev.map(c => c.no_reporte === updatedItem.no_reporte ? updatedItem : c));
+        }}
       />
 
       <AnimatePresence>
@@ -347,10 +353,12 @@ const Corrective = () => {
                             <div className="absolute top-full left-0 right-0 mt-3 glass-card rounded-2xl overflow-hidden z-20">
                                {inventoryResults.map(item => (
                                  <div key={item.id} onClick={() => setSelectedEq(item)} className="px-8 py-5 hover:bg-fuchsia-500/20 cursor-pointer border-b border-white/5 flex justify-between items-center text-white">
-                                    <div className="flex flex-col">
-                                      <span className="font-bold text-sm tracking-tight">{item.equipo}</span>
-                                      <span className="text-[10px] font-black text-white/20 uppercase">#{item.id_unico}</span>
-                                    </div>
+                                     <div className="flex flex-col">
+                                       <span className="font-bold text-sm tracking-tight">{item.equipo}</span>
+                                       <span className="text-[10px] font-black text-white/20 uppercase">
+                                         #{item.id_unico} • S/N: {item.numero_serie || '---'}
+                                       </span>
+                                     </div>
                                     <span className="text-fuchsia-400 font-black text-[9px] uppercase tracking-widest">{item.servicio}</span>
                                  </div>
                                ))}
@@ -364,7 +372,9 @@ const Corrective = () => {
                           <div>
                              <p className="text-[9px] text-fuchsia-400 font-black mb-1 uppercase tracking-[0.3em]">Unidad Reconocida</p>
                              <h4 className="text-white text-xl font-bold">{selectedEq.equipo}</h4>
-                             <span className="text-white/20 font-black uppercase text-[10px] tracking-widest">Fixed Asset: #{selectedEq.id_unico}</span>
+                             <span className="text-white/20 font-black uppercase text-[10px] tracking-widest">
+                               Fixed Asset: #{selectedEq.id_unico} • S/N: {selectedEq.numero_serie || '---'}
+                             </span>
                           </div>
                           <button onClick={() => setSelectedEq(null)} className="px-4 py-2 bg-white/5 rounded-xl text-white/40 text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors">Volver</button>
                        </div>

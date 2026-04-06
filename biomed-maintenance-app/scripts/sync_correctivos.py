@@ -24,6 +24,10 @@ MESES = {
     "SEPTIEMBRE": "09", "OCTUBRE": "10", "NOVIEMBRE": "11", "DICIEMBRE": "12"
 }
 
+# --- RUTA OFICIAL ONEDRIVE HUSJ ---
+ONEDRIVE_FOLDER = r"C:\Users\victo\OneDrive - E.S.E. Hospital Universitario San Jorge de Pereira\🏣 HUSJ (METROMEDICA)\3. CORRECTIVOS 🛠\3- Correctivos 2026"
+
+
 def safe(val):
     """Limpia valores sucios, nan, nat, etc."""
     if val is None or (isinstance(val, float) and math.isnan(val)):
@@ -95,7 +99,8 @@ def main():
                 anio = parte
                 
         periodo = f"{anio}-{mes_num}"
-        ruta_completa = os.path.join(SYNC_FOLDER, archivo)
+        # Se omite re-asignación fallida (SYNC_FOLDER No existía globalmente)
+        # ruta_completa = os.path.join(target_path, archivo)
         
         try:
             xls = pd.ExcelFile(ruta_completa)
