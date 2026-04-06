@@ -761,7 +761,9 @@ const Inventory = () => {
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
                   {Object.keys(editEqData).filter(k => k !== 'id' && k !== 'created_at').map((key) => (
                     <div key={key} className="space-y-2">
-                       <label className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] block ml-1">{key.replace(/_/g,' ')}</label>
+                       <label className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] block ml-1">
+                         {key === 'servicio' ? 'UBICACIÓN INSTITUCIONAL (SERVICIO - COL K)' : (key === 'ubicacion' ? 'DETALLE FÍSICO (UBICACIÓN)' : key.replace(/_/g,' '))}
+                       </label>
                        <input 
                           type="text" 
                           value={editEqData[key] || ''} 

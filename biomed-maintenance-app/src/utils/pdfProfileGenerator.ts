@@ -96,7 +96,7 @@ export const generateProfilePDF = async (equipment: any) => {
       [{ content: 'INFORMACIÓN GENERAL', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
       ['NOMBRE', eq.Equipo || '', 'FECHA DE COMPRA', ''],
       ['PLACA (ID ÚNICO)', eq.Id_Unico || '', 'COMPRA DE INSTALACIÓN', ''],
-      ['UBICACIÓN', eq.Servicio || eq.Ubicacion || '', 'FORMA DE ADQUISICIÓN', ''],
+      ['UBICACIÓN', String(eq.Servicio || eq.Ubicacion || '').toUpperCase(), 'FORMA DE ADQUISICIÓN', ''],
       ['MARCA', eq.Marca || '', 'REPRESENTANTE', ''],
       ['MODELO', eq.Modelo || '', 'DIRECCIÓN', ''],
       ['SERIE', eq.NumeroSerie || '', 'CIUDAD', ''],

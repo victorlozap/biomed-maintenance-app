@@ -162,7 +162,7 @@ export const generateProtocolPDF = async (
           { content: 'ACTIVO FIJO', styles: { fillColor: GRAY } }, 
           String(eq.Id_Unico || ''), 
           { content: 'UBICACIÓN', styles: { fillColor: GRAY } }, 
-          String(eq.Servicio || eq.Ubicacion || '')
+          String(eq.Servicio || eq.Ubicacion || '').toUpperCase()
         ]
       ]
     });
@@ -179,6 +179,7 @@ export const generateProtocolPDF = async (
     { content: '', rowSpan: 3, styles: { lineWidth: 0, fillColor: [255,255,255] } }, 
     { content: 'FECHA', colSpan: 3, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }
   ]);
+  // Formato forzado DD/MM/YYYY (4 dígitos)
   const formattedMaintDate = maintenanceDate ? maintenanceDate.substring(0, 10).split('-').reverse().join('/') : '';
 
   checkBody.push([
