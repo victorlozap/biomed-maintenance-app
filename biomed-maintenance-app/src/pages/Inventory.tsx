@@ -71,13 +71,13 @@ const Inventory = () => {
       if (typeof val === 'number' || (typeof val === 'string' && !isNaN(Number(val)) && !val.includes('-') && !val.includes('/'))) {
         const excelDate = parseFloat(val as string);
         const date = new Date((excelDate - 25569) * 86400 * 1000);
-        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
+        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
       }
 
       // Manejar strings (ISO o similares de Supabase)
       const date = new Date(val);
       if (!isNaN(date.getTime())) {
-        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' });
+        return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
       }
     } catch (e) {
       console.error("Error formatting date:", e);
