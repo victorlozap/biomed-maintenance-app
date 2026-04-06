@@ -8,6 +8,7 @@
     *   **Lámparas Quirúrgicas:** Protocolo FR51 (v4.0) que cubre **Lámparas Cielíticas, Cuello de Cisne y Auxiliares Rodantes**.
 *   **Detector de Protocolos Inteligente:** Optimización del algoritmo de detección en `Preventive.tsx` para reconocer variaciones de nombre (ej. "CIELITICA", "CUELLO DE CISNE") y asignar automáticamente el formato correcto, reduciendo el error manual.
 *   **Normalización de Datos en PDF:** Implementación de un `normalizeEquipment` universal en los generadores de PDF para manejar inconsistencias de nombres de campos (mayúsculas/minúsculas) provenientes de distintas fuentes de datos.
+*   **Corrección de Vinculación en Correctivos:** Se reparó el error que impedía visualizar el número de serie al vincular un activo fijo desde el inventario. Ahora el sistema mapea correctamente el campo `numero_serie` de la base de datos y lo muestra tanto en la búsqueda como en el resumen de selección del reporte, mejorando la trazabilidad y reduciendo errores de entrada.
 
 ### Estado Actual:
 *   Reportes PDF 100% alineados con la normativa de ubicación del hospital.
@@ -141,4 +142,4 @@ Este documento registra la evolución tecnológica de la aplicación de mantenim
 
 ---
 **Elaborado por:** BioMed HUSJ + Antigravity Engineering Toolkit 🩺📡🚀
-**Última actualización:** 06 de Abril 2026 - 01:10 AM
+**Última actualización:** 06 de Abril 2026 - 06:25 PM
