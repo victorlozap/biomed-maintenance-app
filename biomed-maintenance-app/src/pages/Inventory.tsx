@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save } from 'lucide-react';
+import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save, Calendar } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const Inventory = () => {
@@ -9,6 +9,10 @@ const Inventory = () => {
   const [loading, setLoading] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isEditLogModalOpen, setIsEditLogModalOpen] = useState(false);
+  const [equipmentHistory, setEquipmentHistory] = useState<any[]>([]);
+  const [loadingHistory, setLoadingHistory] = useState(false);
+  const [editLogData, setEditLogData] = useState<any>(null);
   const [editEqData, setEditEqData] = useState<any>({});
   const [newEqData, setNewEqData] = useState({ 
     equipo: '', marca: '', modelo: '', numero_serie: '', id_unico: '', ubicacion: '', servicio: '', estado: 'BUENO', riesgo: 'I' 
@@ -110,6 +114,118 @@ const Inventory = () => {
   useEffect(() => {
     fetchEquipments();
   }, []);
+
+  // Cargar historial al seleccionar equipo
+  useEffect(() => {
+    if (selectedEquipment) {
+      fetchEquipmentHistory(selectedEquipment.id, selectedEquipment.id_unico);
+    } else {
+      setEquipmentHistory([]);
+    }
+  }, [selectedEquipment]);
+
+  const fetchEquipmentHistory = async (eqId: string, idUnico: string) => {
+    setLoadingHistory(true);
+    try {
+      // 1. Logs de mantenimiento (maintenance_logs)
+      const { data: logs, error: logsError } = await supabase
+        .from('maintenance_logs')
+        .select('*')
+        .eq('equipment_id', eqId)
+        .order('executed_at', { ascending: false });
+
+      // 2. Correctivos formales (correctivos_husj)
+      const { data: correctivos, error: corrError } = await supabase
+        .from('correctivos_husj')
+        .select('*')
+        .eq('activo_fijo', idUnico)
+        .order('fecha_creacion', { ascending: false });
+
+      if (logsError || corrError) throw logsError || corrError;
+
+      const combined = [
+        ...(logs || []).map(l => ({ 
+          id: l.id, 
+          table: 'maintenance_logs', 
+          date: l.executed_at, 
+          type: l.checks?.type === 'CORRECTIVE' ? 'CORRECTIVO' : 'PREVENTIVO', 
+          report_id: l.report_id, 
+          technician: 'BIO-CLOUD',
+          action: l.notes || 'Revisión periódica',
+          raw: l
+        })),
+        ...(correctivos || []).map(c => ({ 
+          id: c.id, 
+          table: 'correctivos_husj', 
+          date: c.fecha_creacion, 
+          type: 'CORRECTIVO', 
+          report_id: c.no_reporte, 
+          technician: c.tecnico, 
+          action: c.accion || c.descripcion,
+          raw: c
+        }))
+      ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+      setEquipmentHistory(combined);
+    } catch (err) {
+      console.error("Error cargando historial:", err);
+    } finally {
+      setLoadingHistory(false);
+    }
+  };
+
+  const handleDeleteActivity = async (item: any) => {
+    if (!confirm(`¿Estás seguro de eliminar el reporte #${item.report_id}? Esta acción es irreversible.`)) return;
+    
+    setLoadingHistory(true);
+    try {
+      const { error } = await supabase
+        .from(item.table)
+        .delete()
+        .eq('id', item.id);
+
+      if (error) throw error;
+      
+      setEquipmentHistory(prev => prev.filter(a => a.id !== item.id));
+      alert('Registro eliminado correctamente.');
+    } catch (err: any) {
+      alert('Error al eliminar: ' + err.message);
+    } finally {
+      setLoadingHistory(false);
+    }
+  };
+
+  const handleUpdateLog = async () => {
+    if (!editLogData) return;
+    setLoadingHistory(true);
+    try {
+      const { id, table, action, date } = editLogData;
+      
+      const updatePayload: any = {};
+      if (table === 'maintenance_logs') {
+        updatePayload.notes = action;
+        updatePayload.executed_at = date;
+      } else {
+        updatePayload.accion = action;
+        updatePayload.fecha_creacion = date;
+      }
+
+      const { error } = await supabase
+        .from(table)
+        .update(updatePayload)
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      setEquipmentHistory(prev => prev.map(a => a.id === id ? { ...a, action, date } : a));
+      setIsEditLogModalOpen(false);
+      alert('Registro actualizado.');
+    } catch (err: any) {
+      alert('Error al actualizar: ' + err.message);
+    } finally {
+      setLoadingHistory(false);
+    }
+  };
 
   const handleAddNewEq = async () => {
     if(!newEqData.equipo || !newEqData.id_unico) return;
@@ -446,7 +562,7 @@ const Inventory = () => {
                    </div>
                 </div>
 
-                {/* Calibración y Mantenimiento */}
+                {/* Calibración y Gestión */}
                 <div className="space-y-4 md:space-y-6">
                    <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-3xl p-4 md:p-5 lg:p-6 h-full flex flex-col">
                       <h4 className="text-emerald-400 text-xs tracking-widest uppercase mb-5 pb-3 border-b border-white/5 font-bold">Gestión HUSJ</h4>
@@ -470,8 +586,114 @@ const Inventory = () => {
                       </div>
                    </div>
                 </div>
+
+                {/* HISTORIAL DE MANTENIMIENTO - FULL WIDTH SECTION */}
+                <div className="col-span-1 sm:col-span-2 lg:col-span-4 mt-4">
+                  <div className="bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-6 md:p-8 lg:p-10 backdrop-blur-xl">
+                    <header className="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
+                      <div>
+                        <h4 className="text-lg md:text-xl font-bold text-white tracking-tight flex items-center gap-3">
+                          <Calendar className="text-violet-400" size={24} /> Historial de Actividades Técnicas
+                        </h4>
+                        <p className="text-white/30 text-[10px] uppercase font-black tracking-widest mt-1">Bitácora de vida del activo en tiempo real</p>
+                      </div>
+                      <span className="px-5 py-2 rounded-full bg-violet-600/10 border border-violet-500/20 text-violet-300 text-[10px] font-black uppercase tracking-widest">
+                        {equipmentHistory.length} Registros
+                      </span>
+                    </header>
+
+                    {loadingHistory ? (
+                      <div className="flex justify-center p-12">
+                        <Loader2 className="w-8 h-8 text-orange-400 animate-spin" />
+                      </div>
+                    ) : equipmentHistory.length > 0 ? (
+                      <div className="space-y-4">
+                        {equipmentHistory.map((item, idx) => (
+                          <div key={idx} className="group relative bg-black/20 border border-white/5 hover:border-white/20 rounded-3xl p-5 md:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 transition-all">
+                            <div className="flex-1 space-y-2">
+                              <div className="flex flex-wrap items-center gap-3">
+                                <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase border ${
+                                  item.type === 'CORRECTIVO' ? 'border-rose-500/30 text-rose-300 bg-rose-500/10' : 'border-emerald-500/30 text-emerald-300 bg-emerald-500/10'
+                                }`}>
+                                  {item.type}
+                                </span>
+                                <span className="text-violet-400 font-mono text-sm font-bold tracking-tight">#{item.report_id}</span>
+                                <span className="text-white/20 text-xs font-light">•</span>
+                                <span className="text-white/40 text-xs font-medium uppercase tracking-tight">{formatDate(item.date)}</span>
+                              </div>
+                              <p className="text-white/80 font-normal leading-relaxed text-sm md:text-base pr-12 line-clamp-2 md:line-clamp-none">
+                                {item.action}
+                              </p>
+                              <p className="text-white/20 text-[10px] font-bold uppercase tracking-widest italic pt-1">Ejecutado por: {item.technician}</p>
+                            </div>
+                            
+                            {/* ACCIONES DE HISTORIAL */}
+                            <div className="flex gap-3 self-end md:self-center">
+                              <button 
+                                onClick={() => { setEditLogData(item); setIsEditLogModalOpen(true); }}
+                                className="p-3 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white rounded-2xl border border-white/5 transition-all active:scale-95"
+                                title="Editar registro"
+                              >
+                                <Edit size={16} />
+                              </button>
+                              <button 
+                                onClick={() => handleDeleteActivity(item)}
+                                className="p-3 bg-rose-500/10 hover:bg-rose-500 text-rose-500/60 hover:text-white rounded-2xl border border-rose-500/20 transition-all active:scale-95"
+                                title="Eliminar del historial"
+                              >
+                                <X size={16} />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="p-20 text-center rounded-[2rem] border border-dashed border-white/10">
+                        <Activity size={40} className="text-white/10 mx-auto mb-4" />
+                        <p className="text-white/30 italic font-light">Este equipo aún no registra intervenciones en el servidor.</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Editar Registro de Historial (Log) */}
+      {isEditLogModalOpen && editLogData && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 backdrop-blur-md">
+          <div className="absolute inset-0 bg-black/80" onClick={() => setIsEditLogModalOpen(false)}></div>
+          <div className="relative w-full max-w-lg bg-[#0c111d] border border-white/10 rounded-[2.5rem] p-8 shadow-3xl">
+             <header className="mb-8">
+               <h3 className="text-2xl font-black text-white tracking-tight uppercase">Editar Registro Técnico</h3>
+               <p className="text-violet-400 text-[10px] font-bold tracking-[0.3em] mt-1 italic">#{editLogData.report_id} • {editLogData.type}</p>
+             </header>
+             <div className="space-y-6">
+                <div>
+                   <label className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-2 block">Fecha de Intervención</label>
+                   <input 
+                      type="date" 
+                      value={editLogData.date?.split('T')[0]} 
+                      onChange={e => setEditLogData({...editLogData, date: e.target.value})} 
+                      className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-violet-500 outline-none transition-all" 
+                   />
+                </div>
+                <div>
+                   <label className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-2 block">Descripción de la Actividad</label>
+                   <textarea 
+                      value={editLogData.action} 
+                      onChange={e => setEditLogData({...editLogData, action: e.target.value.toUpperCase()})}
+                      className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white text-sm focus:border-violet-500 h-32 outline-none transition-all resize-none font-light leading-relaxed uppercase" 
+                      placeholder="..."
+                   />
+                </div>
+             </div>
+             <div className="mt-10 flex gap-4">
+                <button onClick={() => setIsEditLogModalOpen(false)} className="flex-1 py-4 text-white/40 font-bold uppercase tracking-widest text-[10px] hover:text-white transition-colors">Cancelar</button>
+                <button onClick={handleUpdateLog} className="flex-1 py-4 bg-violet-600 text-white font-black uppercase tracking-widest text-[10px] rounded-2xl shadow-xl shadow-violet-600/20 active:scale-95 transition-all">Sincronizar Cambios</button>
+             </div>
           </div>
         </div>
       )}

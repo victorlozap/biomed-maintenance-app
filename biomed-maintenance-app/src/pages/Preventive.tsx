@@ -46,7 +46,10 @@ const Preventive = () => {
   // Detector lógico de protocolos
   useEffect(() => {
     if (selectedEq) {
-      const eqName = String(selectedEq.equipo || '').toUpperCase();
+      // Normalizar nombre: eliminar acentos y pasar a mayúsculas
+      const rawName = String(selectedEq.equipo || '').toUpperCase();
+      const eqName = rawName.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      
       let matched = null;
       if (eqName.includes('MONITOR') || eqName.includes('ELECTROCARDIOGRAFO')) {
         matched = protocols['MONITOR'];
