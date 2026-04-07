@@ -1,4 +1,4 @@
-import { X, Search, Activity, Package, Monitor, HardDrive, Zap, ShieldCheck } from 'lucide-react';
+import { X, Search, Activity, Package, Monitor, Zap, ShieldCheck } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
