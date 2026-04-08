@@ -1,4 +1,20 @@
-# 📝## [2026-04-06] 🛠️ Gestión de Historiales y Normalización Técnica HUSJ
+# 📝 Bitácora de Desarrollo
+
+## [2026-04-08] 🚀 Consolidación de Inventario y Sincronización Supabase
+
+- **Objetivo**: Centralizar 431 seriales únicos de bombas de infusión (Comodato) y limpiar la base de datos para auditoría 2026.
+- **Logros**:
+  - **Cruce de Datos Maestro**: Se realizó un *Left Join* masivo entre `Bombas Infusión 2026.xlsx`, `INVENTARIO BOMBAS DE INFUSIÓN ICU MEDICAL.xlsx` y el `Inventario 2025`.
+  - **Estandarización de Ubicaciones**: Se priorizó el campo **"Nueva Ubicación"** del proveedor para asegurar que el sistema refleje la posición física real de los equipos.
+  - **Identidad Única**: Se validaron exactamente **431 equipos**, descartando registros obsoletos y duplicados.
+  - **Migración con Supabase**: Se ejecutó un proceso de sincronización con `service_role` key que eliminó 85 equipos obsoletos de la base de datos y realizó el *upsert* de los 431 activos finales.
+- **Resultado**: Inventario web sincronizado al 100% con el "ADN" de seriales validados para 2026.
+
+---
+
+## [2026-04-07] 🔍 Estandarización de Vista de Inventario y OpenSpec
+
+### Logros del Día:
 
 ### Logros del Día:
 *   **Gestión de Historiales (CRUD):** Implementación de la capacidad de **editar** y **eliminar** registros de mantenimiento (preventivo y correctivo). Esto permite purgar datos de prueba y corregir errores humanos, asegurando la integridad de la hoja de vida de cada activo.
