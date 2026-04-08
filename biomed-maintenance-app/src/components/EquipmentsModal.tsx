@@ -122,13 +122,13 @@ const EquipmentsModal = ({ isOpen, onClose, serviceName, equipments }: Equipment
 
                     <div className="flex items-center gap-3 bg-black/40 p-3 rounded-2xl border border-white/5">
                        <ShieldCheck className="text-emerald-400" size={14} />
-                       <div className="flex-1">
-                          <p className="text-[10px] text-white/30 uppercase font-black tracking-widest">Ubicación y Riesgo</p>
-                          <div className="flex justify-between items-center pr-2">
-                             <p className="text-sm text-white/80 font-semibold uppercase leading-tight truncate">{item.ubicacion || 'General'}</p>
-                             <span className={`text-sm ${getRiskStyle(item.riesgo)} uppercase font-black`}>{item.riesgo}</span>
-                          </div>
-                       </div>
+                        <div className="flex-1">
+                           <p className="text-[10px] text-white/30 uppercase font-black tracking-widest">Servicio / Riesgo</p>
+                           <div className="flex justify-between items-center pr-2">
+                              <p className="text-sm text-white/80 font-semibold uppercase leading-tight truncate">{item.servicio || item.ubicacion || 'General'}</p>
+                              <span className={`text-sm ${getRiskStyle(item.riesgo)} uppercase font-black`}>{item.riesgo}</span>
+                           </div>
+                        </div>
                     </div>
                   </div>
 

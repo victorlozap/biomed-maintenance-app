@@ -353,20 +353,27 @@ const Inventory = () => {
       </header>
 
       {/* Barra de búsqueda */}
-      <div className="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-5 lg:p-6 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-8 flex flex-col md:flex-row gap-4 md:gap-4">
-        <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-orange-400 transition-colors" size={20} />
-          <input 
-            type="text" 
-            placeholder="Buscar por placa, nombre, marca o servicio..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-black/20 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-white font-light placeholder:text-white/30 focus:outline-none focus:border-orange-400/50 focus:ring-1 focus:ring-orange-400/50 transition-all shadow-inner text-sm md:text-base"
-          />
+      <div className="bg-white/5 border border-white/10 rounded-3xl p-4 md:p-5 lg:p-6 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-8 flex flex-col gap-3">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-orange-400 transition-colors" size={20} />
+            <input 
+              type="text" 
+              placeholder="Buscar por placa, nombre, marca o servicio..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-black/20 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-white font-light placeholder:text-white/30 focus:outline-none focus:border-orange-400/50 focus:ring-1 focus:ring-orange-400/50 transition-all shadow-inner text-sm md:text-base"
+            />
+          </div>
+          <button className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white/80 font-light tracking-wide hover:bg-white/10 hover:border-white/30 transition-all flex items-center justify-center gap-2 flex-none">
+            <Filter size={18} className="text-orange-400 drop-shadow-[0_0_8px_rgba(251,146,60,0.8)]" /> Filtros
+          </button>
         </div>
-        <button className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white/80 font-light tracking-wide hover:bg-white/10 hover:border-white/30 transition-all flex items-center justify-center gap-2">
-          <Filter size={18} className="text-orange-400 drop-shadow-[0_0_8px_rgba(251,146,60,0.8)]" /> Filtros
-        </button>
+        {(searchTerm.trim() !== '') && (
+          <div className="text-white/50 text-xs px-2 tracking-wide font-light animate-in fade-in slide-in-from-top-2 duration-300">
+            Se {filteredData.length === 1 ? 'encontró' : 'encontraron'} <span className="text-orange-400 font-semibold">{filteredData.length}</span> {filteredData.length === 1 ? 'equipo' : 'equipos'}.
+          </div>
+        )}
       </div>
 
       {/* Tabla/Cards Principal */}

@@ -1,0 +1,2 @@
+Files: ['Bombas Infusión 2026.xlsx', 'BOMBAS PLUM 360 (150) DAP.xlsx', 'BOMBAS PLUM 360 (150) SWAP UCI.xlsx', 'fix_log_v2.txt', 'INVENTARIO BOMBAS DE INFUSIÓN ICU MEDICAL.xlsx', 'RE-IT-025-A Solicitud de Recolección de Bombas de Infusión (62 PLUM A+-DAP).xlsm', 'Recolección de Bombas de Infusión (50 cajas 47 PLUM A+-DAP mas 3 cajas con manuales).xlsm']
+Error on chdir + read: [Errno 22] Invalid argument

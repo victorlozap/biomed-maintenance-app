@@ -1,0 +1,23 @@
+
+FILE 1: Bombas Infusión 2026.xlsx
+  Sheets: ['Sheet1']
+  Using Sheet: Sheet1
+  Cols: ['Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4', 'Unnamed: 5', 'Unnamed: 6', 'Unnamed: 7', 'Unnamed: 8']
+  R0: nan | nan | nan | Modelo | Serial Number | nan | nan | nan | Ptes por mto 
+  R1: nan | nan | nan | Plum A+ | 21397954 | nan | nan | nan | 50400878
+  R2: nan | nan | nan | Plum 360 | 21436906 | nan | nan | nan | 50401056
+  R3: nan | nan | nan | Plum 360 | 50400783 | nan | nan | nan | 50400952
+  R4: nan | nan | nan | Plum 360 | 50400831 | nan | nan | nan | 50400908
+
+FILE 2: INVENTARIO BOMBAS DE INFUSIÓN ICU MEDICAL.xlsx
+  Error: [Errno 22] Invalid argument
+
+FILE 3: 1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx
+  Sheets: ['BÚSQUEDA 🔎', 'INVENTARIO HUSJ (2025)', 'Notas', 'INVENTARIO HUSJ (2024)', 'Validación', 'EQ. COMODATO', 'FONENDOSCOPIOS', 'EQUIPOS DE BAJA']
+  Using Sheet: INVENTARIO HUSJ (2025)
+  Cols: ['Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4', 'Unnamed: 5', 'Unnamed: 6', 'Unnamed: 7', 'Unnamed: 8', 'Unnamed: 9', 'Unnamed: 10', 'Unnamed: 11', 'Unnamed: 12', 'Unnamed: 13', 'Unnamed: 14', 'Unnamed: 15', 'Unnamed: 16', 'Unnamed: 17', 'Unnamed: 18', 'ENE', 'Unnamed: 20', 'FEB', 'Unnamed: 22', 'MAR', 'Unnamed: 24', 'ABR', 'Unnamed: 26', 'MAY', 'Unnamed: 28', 'JUN', 'Unnamed: 30', 'JUL', 'Unnamed: 32', 'AGO', 'Unnamed: 34', 'SEP', 'Unnamed: 36', 'OCT', 'Unnamed: 38', 'NOV', 'Unnamed: 40', 'DIC', 'Unnamed: 42', 'Unnamed: 43', 'Unnamed: 44', '|', 'Unnamed: 46', 'Unnamed: 47', 'Unnamed: 48', 'Unnamed: 49', 'Unnamed: 50']
+  R0: Id_Unico | Equipo | Estado | Marca | Modelo | NumeroSerie | ActivoFijo | ACTUALIZDO  | RIESGO | REG. INVIMA | CÓDIGO ECRI | Servicio | UBICACIÓN | PROPIETARIO | GARANTÍA | FECHA GARANTÍA | RESPONSABLE MTT | ESTRATEGIA DE M | FRECUENCIA DE M | P | C | P2 | C3 | P4 | C5 | P6 | C7 | P8 | C9 | P10 | C11 | P12 | C13 | P14 | C15 | P16 | C17 | P18 | C19 | P20 | C21 | P22 | C23 | ¿REQUIERE CALIB | CERTIFICADO DE  | FECHA DE CALIBR | FECHA DE VENCIM | HOJA DE VIDA | OBSERVACIONES | NOVEDADES | ACTIVIDADES
+  R1: 506285 | AGITADOR | Operativo | Vortez | NO DEFINIDO | 32977 | 506285 | SÍ | nan | nan | nan | LABORATORIO CLÍ | Hematología | HUSJ | Expirada | EXPIRADA | TALLER BIOMÉDIC | MANTENIMIENTO P | Anual | nan | nan | X | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | No | nan | nan | nan | 🟢 ACTUALIZADA | nan | nan | nan
+  R2: 506359 | AGITADOR DE MAZ | Operativo | Biotrom | BTR-87 | 816 | 506359 | SÍ | nan | nan | nan | LABORATORIO CLÍ | Quimica Sanguin | HUSJ | Expirada | EXPIRADA | TALLER BIOMÉDIC | MANTENIMIENTO P | Anual | nan | nan | X | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | No | nan | nan | nan | 🟢 ACTUALIZADA | nan | nan | nan
+  R3: 506351 | AGITADOR DE MUE | Operativo | Lab - Line | MISTROL | 747 | 506351 | SÍ | nan | nan | nan | LABORATORIO CLÍ | Microbiología | HUSJ | Expirada | EXPIRADA | TALLER BIOMÉDIC | MANTENIMIENTO P | Anual | nan | nan | X | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | No | nan | nan | nan | 🟢 ACTUALIZADA | nan | nan | nan
+  R4: 546342 | AGITADOR DE PLA | Operativo | Helmer | PF48I | BIO150095 10172 | 546342 | SÍ | nan | nan | 15-651 | BANCO DE SANGRE | Plaquetas  | HUSJ | Expirada | 2017-05-13 00:0 | TALLER BIOMÉDIC | MANTENIMIENTO P | Anual | nan | nan | P | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | nan | Sí | M1700925 | 2025-09-29 00:0 | 2026-09-29 00:0 | 🟢 ACTUALIZADA | nan | nan | Trimestral (ver

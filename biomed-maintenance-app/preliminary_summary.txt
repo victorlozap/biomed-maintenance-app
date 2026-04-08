@@ -1,0 +1,2 @@
+Bombas 2026: 368 seriales encontrados
+Inventario 2025: Error ['NumeroSerie']

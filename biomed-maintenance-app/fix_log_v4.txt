@@ -1,0 +1,2 @@
+Attempting to read file by index 4: INVENTARIO BOMBAS DE INFUSIÓN ICU MEDICAL.xlsx
+Failed again: [Errno 22] Invalid argument
