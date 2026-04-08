@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save, Calendar } from 'lucide-react';
+import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save, Calendar, FileText } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { HistoryReportEditor } from '../components/HistoryReportEditor';
 
 const Inventory = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -10,8 +11,10 @@ const Inventory = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isEditLogModalOpen, setIsEditLogModalOpen] = useState(false);
+  const [isHistoryReportOpen, setIsHistoryReportOpen] = useState(false);
   const [equipmentHistory, setEquipmentHistory] = useState<any[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
+  const [selectedHistoryItem, setSelectedHistoryItem] = useState<any>(null);
   const [editLogData, setEditLogData] = useState<any>(null);
   const [editEqData, setEditEqData] = useState<any>({});
   const [newEqData, setNewEqData] = useState({ 
@@ -355,7 +358,7 @@ const Inventory = () => {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-orange-400 transition-colors" size={20} />
           <input 
             type="text" 
-            placeholder="Buscar por placa, nombre o marca..." 
+            placeholder="Buscar por placa, nombre, marca o servicio..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-black/20 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-white font-light placeholder:text-white/30 focus:outline-none focus:border-orange-400/50 focus:ring-1 focus:ring-orange-400/50 transition-all shadow-inner text-sm md:text-base"
@@ -383,7 +386,7 @@ const Inventory = () => {
                   <tr>
                     <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px]">Placa / Cód</th>
                     <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px]">Equipo</th>
-                    <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px]">Ubicación</th>
+                    <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px]">Servicio</th>
                     <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px]">Estado</th>
                     <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px]">Riesgo</th>
                   </tr>
@@ -402,7 +405,7 @@ const Inventory = () => {
                         </p>
                       </td>
                       <td className="py-4 px-6">
-                        <p className="text-white/70 font-light text-sm">{item.ubicacion || item.servicio || 'No Asignada'}</p>
+                        <p className="text-white/70 font-light text-sm">{item.servicio || item.ubicacion || 'No Asignado'}</p>
                       </td>
                       <td className="py-4 px-6">
                         <span className={`px-3 py-1 rounded-full border text-[10px] tracking-wider uppercase font-medium ${getStatusStyle(item.estado)}`}>
@@ -433,7 +436,7 @@ const Inventory = () => {
                     <div className="flex justify-between items-end">
                       <div className="text-white/40 text-xs uppercase tracking-wide">
                         <p>{item.marca || 'S/M'} {item.modelo ? `/ ${item.modelo}` : ''}</p>
-                        <p className="mt-1 text-[10px]">{item.servicio || 'No Asignada'}</p>
+                        <p className="mt-1 text-[10px]">{item.servicio || item.ubicacion || 'No Asignado'}</p>
                       </div>
                       <span className={`text-[10px] font-bold uppercase ${getRiskStyle(item.riesgo)}`}>
                         Riesgo {item.riesgo || '-'}
@@ -623,43 +626,47 @@ const Inventory = () => {
                       </div>
                     ) : equipmentHistory.length > 0 ? (
                       <div className="space-y-4">
-                        {equipmentHistory.map((item, idx) => (
-                          <div key={idx} className="group relative bg-black/20 border border-white/5 hover:border-white/20 rounded-3xl p-5 md:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 transition-all">
-                            <div className="flex-1 space-y-2">
-                              <div className="flex flex-wrap items-center gap-3">
-                                <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase border ${
-                                  item.type === 'CORRECTIVO' ? 'border-rose-500/30 text-rose-300 bg-rose-500/10' : 'border-emerald-500/30 text-emerald-300 bg-emerald-500/10'
-                                }`}>
-                                  {item.type}
-                                </span>
-                                <span className="text-violet-400 font-mono text-sm font-bold tracking-tight">#{item.report_id}</span>
-                                <span className="text-white/20 text-xs font-light">•</span>
-                                <span className="text-white/40 text-xs font-medium uppercase tracking-tight">{formatDate(item.date)}</span>
+                        {equipmentHistory.map((item) => (
+                            <div 
+                              key={item.id || item.report_id}
+                              onClick={() => { setSelectedHistoryItem(item); setIsHistoryReportOpen(true); }}
+                              className="group relative bg-black/20 border border-white/5 hover:border-violet-500/40 hover:bg-violet-500/5 rounded-3xl p-5 md:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 transition-all cursor-pointer shadow-lg hover:shadow-violet-500/10"
+                            >
+                              <div className="flex-1 space-y-2">
+                                <div className="flex flex-wrap items-center gap-3">
+                                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase border ${
+                                    item.type === 'CORRECTIVO' ? 'border-rose-500/30 text-rose-300 bg-rose-500/10' : 'border-emerald-500/30 text-emerald-300 bg-emerald-500/10'
+                                  }`}>
+                                    {item.type}
+                                  </span>
+                                  <span className="text-violet-400 font-mono text-sm font-bold tracking-tight">#{item.report_id}</span>
+                                  <span className="text-white/20 text-xs font-light">•</span>
+                                  <span className="text-white/40 text-xs font-medium uppercase tracking-tight">{formatDate(item.date)}</span>
+                                </div>
+                                <p className="text-white/80 font-normal leading-relaxed text-sm md:text-base pr-12 line-clamp-2 md:line-clamp-none">
+                                  {item.action}
+                                </p>
+                                <p className="text-white/20 text-[10px] font-bold uppercase tracking-widest italic pt-1">Ejecutado por: {item.technician}</p>
                               </div>
-                              <p className="text-white/80 font-normal leading-relaxed text-sm md:text-base pr-12 line-clamp-2 md:line-clamp-none">
-                                {item.action}
-                              </p>
-                              <p className="text-white/20 text-[10px] font-bold uppercase tracking-widest italic pt-1">Ejecutado por: {item.technician}</p>
+                              
+                              {/* ACCIONES DE HISTORIAL */}
+                              <div className="flex gap-3 self-end md:self-center">
+                                <button 
+                                  onClick={(e) => { e.stopPropagation(); setSelectedHistoryItem(item); setIsHistoryReportOpen(true); }}
+                                  className="p-3 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white rounded-2xl border border-white/5 transition-all active:scale-95"
+                                  title="Editar reporte detallado"
+                                >
+                                  <FileText size={16} />
+                                </button>
+                                <button 
+                                  onClick={(e) => { e.stopPropagation(); handleDeleteActivity(item); }}
+                                  className="p-3 bg-rose-500/10 hover:bg-rose-500 text-rose-500/60 hover:text-white rounded-2xl border border-rose-500/20 transition-all active:scale-95"
+                                  title="Eliminar del historial"
+                                >
+                                  <X size={16} />
+                                </button>
+                              </div>
                             </div>
-                            
-                            {/* ACCIONES DE HISTORIAL */}
-                            <div className="flex gap-3 self-end md:self-center">
-                              <button 
-                                onClick={() => { setEditLogData(item); setIsEditLogModalOpen(true); }}
-                                className="p-3 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white rounded-2xl border border-white/5 transition-all active:scale-95"
-                                title="Editar registro"
-                              >
-                                <Edit size={16} />
-                              </button>
-                              <button 
-                                onClick={() => handleDeleteActivity(item)}
-                                className="p-3 bg-rose-500/10 hover:bg-rose-500 text-rose-500/60 hover:text-white rounded-2xl border border-rose-500/20 transition-all active:scale-95"
-                                title="Eliminar del historial"
-                              >
-                                <X size={16} />
-                              </button>
-                            </div>
-                          </div>
                         ))}
                       </div>
                     ) : (
@@ -676,7 +683,17 @@ const Inventory = () => {
         </div>
       )}
 
-      {/* Modal Editar Registro de Historial (Log) */}
+      {/* Modal Detallado de Reporte (Historial) */}
+      {isHistoryReportOpen && selectedHistoryItem && (
+        <HistoryReportEditor 
+          item={selectedHistoryItem}
+          equipment={selectedEquipment}
+          onClose={() => setIsHistoryReportOpen(false)}
+          onUpdate={() => fetchEquipmentHistory(selectedEquipment.id, selectedEquipment.id_unico)}
+        />
+      )}
+
+      {/* Modal Editar Registro de Historial (Log) - Mantenido para ediciones rápidas */}
       {isEditLogModalOpen && editLogData && (
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 backdrop-blur-md">
           <div className="absolute inset-0 bg-black/80" onClick={() => setIsEditLogModalOpen(false)}></div>

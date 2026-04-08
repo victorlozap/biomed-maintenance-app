@@ -1,0 +1,25 @@
+schema:spec-driven
+
+context: |
+  Tech stack: React 19, Vite, TypeScript, Supabase, Tailwind 4.
+  Architecture: Standard React page/component pattern.
+  Testing: None detected.
+  Style: Glassmorphism (blue obsidian #0c111d).
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes
+    - Identify affected modules/packages
+  specs:
+    - Use Given/When/Then format for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+  design:
+    - Include architecture decisions with rationale
+  tasks:
+    - Group tasks by phase
+    - Use hierarchical numbering (1.1, 1.2, etc.)
+  apply:
+    - Follow existing code patterns and conventions
+    - Maintain premium aesthetics
+  verify:
+    - Compare implementation against every spec scenario
