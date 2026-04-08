@@ -6,7 +6,7 @@
 - **Logros**:
   - **Cruce de Datos Maestro**: Se realizó un *Left Join* masivo entre `Bombas Infusión 2026.xlsx`, `INVENTARIO BOMBAS DE INFUSIÓN ICU MEDICAL.xlsx` y el `Inventario 2025`.
   - **Estandarización de Ubicaciones**: Se priorizó el campo **"Nueva Ubicación"** del proveedor para asegurar que el sistema refleje la posición física real de los equipos.
-  - **Identidad Única**: Se validaron exactamente **431 equipos**, descartando registros obsoletos y duplicados.
+  - **Depuración de Formatos**: Se identificó y corrigió un error de formato (sufijos `.0`) en los IDs y seriales causado por el procesamiento de archivos Excel. Se realizó una purga completa de registros malformados y se resincronizó la base de datos con datos limpios.
   - **Migración con Supabase**: Se ejecutó un proceso de sincronización con `service_role` key que eliminó 85 equipos obsoletos de la base de datos y realizó el *upsert* de los 431 activos finales.
 - **Resultado**: Inventario web sincronizado al 100% con el "ADN" de seriales validados para 2026.
 
