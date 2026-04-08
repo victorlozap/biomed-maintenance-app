@@ -391,6 +391,7 @@ const Inventory = () => {
               <table className="w-full text-left border-collapse hidden md:table">
                 <thead className="sticky top-0 z-20 backdrop-blur-3xl bg-black/40 border-b border-white/10">
                   <tr>
+                    <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px] w-16">Foto</th>
                     <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px]">Placa / Cód</th>
                     <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px]">Equipo</th>
                     <th className="py-4 px-6 text-white/50 font-light tracking-widest uppercase text-[11px]">Servicio</th>
@@ -401,6 +402,15 @@ const Inventory = () => {
                 <tbody className="divide-y divide-white/5">
                   {filteredData.map((item, idx) => (
                     <tr key={item.id || idx} onClick={() => setSelectedEquipment(item)} className="hover:bg-white/5 transition-colors group cursor-pointer">
+                      <td className="py-4 px-6">
+                        <div className="w-12 h-12 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+                          {item.foto_url ? (
+                            <img src={item.foto_url} alt={item.equipo} className="w-full h-full object-contain p-1 opacity-80 group-hover:opacity-100 transition-opacity drop-shadow-md" />
+                          ) : (
+                            <Activity size={18} className="text-white/20" />
+                          )}
+                        </div>
+                      </td>
                       <td className="py-4 px-6">
                         <span className="text-white/80 font-medium tracking-wide">{item.id_unico || '-'}</span>
                         <span className="block text-white/30 text-[10px] uppercase font-light mt-1">S/N: {item.numero_serie || 'N/A'}</span>
@@ -430,24 +440,35 @@ const Inventory = () => {
               {/* Mobile Card List */}
               <div className="md:hidden divide-y divide-white/5">
                 {filteredData.map((item, idx) => (
-                  <div key={item.id || idx} onClick={() => setSelectedEquipment(item)} className="p-4 hover:bg-white/5 active:bg-white/10 transition-colors cursor-pointer space-y-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <span className="text-orange-400 font-mono text-sm">#{item.id_unico || '-'}</span>
-                        <h4 className="text-white font-medium text-lg mt-1">{item.equipo || 'Desconocido'}</h4>
-                      </div>
-                      <span className={`px-3 py-1 rounded-full border text-[9px] tracking-wider uppercase font-bold ${getStatusStyle(item.estado)}`}>
-                        {item.estado || 'S/E'}
-                      </span>
+                  <div key={item.id || idx} onClick={() => setSelectedEquipment(item)} className="p-4 hover:bg-white/5 active:bg-white/10 transition-colors cursor-pointer flex gap-4">
+                    {/* Thumbnail Móvil */}
+                    <div className="w-16 h-16 shrink-0 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center overflow-hidden shadow-inner">
+                       {item.foto_url ? (
+                         <img src={item.foto_url} alt={item.equipo} className="w-full h-full object-contain p-1.5 drop-shadow-md" />
+                       ) : (
+                         <Activity size={24} className="text-white/20" />
+                       )}
                     </div>
-                    <div className="flex justify-between items-end">
-                      <div className="text-white/40 text-xs uppercase tracking-wide">
-                        <p>{item.marca || 'S/M'} {item.modelo ? `/ ${item.modelo}` : ''}</p>
-                        <p className="mt-1 text-[10px]">{item.servicio || item.ubicacion || 'No Asignado'}</p>
+                    {/* Details */}
+                    <div className="flex-1 space-y-3">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <span className="text-orange-400 font-mono text-sm">#{item.id_unico || '-'}</span>
+                          <h4 className="text-white font-medium text-base mt-1 leading-tight">{item.equipo || 'Desconocido'}</h4>
+                        </div>
+                        <span className={`px-2 py-0.5 rounded-full border text-[8px] tracking-wider uppercase font-bold ${getStatusStyle(item.estado)}`}>
+                          {item.estado || 'S/E'}
+                        </span>
                       </div>
-                      <span className={`text-[10px] font-bold uppercase ${getRiskStyle(item.riesgo)}`}>
-                        Riesgo {item.riesgo || '-'}
-                      </span>
+                      <div className="flex justify-between items-end">
+                        <div className="text-white/40 text-xs uppercase tracking-wide">
+                          <p className="truncate max-w-[150px]">{item.marca || 'S/M'} {item.modelo ? `/ ${item.modelo}` : ''}</p>
+                          <p className="mt-1 text-[10px] truncate max-w-[150px]">{item.servicio || item.ubicacion || 'No Asignado'}</p>
+                        </div>
+                        <span className={`text-[9px] font-bold uppercase ${getRiskStyle(item.riesgo)}`}>
+                          Riesgo {item.riesgo || '-'}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -510,11 +531,11 @@ const Inventory = () => {
                       <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent pointer-events-none"></div>
                       
                       {selectedEquipment.foto_url ? (
-                        <div className="w-full h-[300px] p-4 flex items-center justify-center">
+                        <div className="w-full h-[300px] p-4 relative flex items-center justify-center">
                           <img 
                             src={selectedEquipment.foto_url} 
                             alt={selectedEquipment.equipo} 
-                            className="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(0,0,0,0.4)]" 
+                            className="max-w-full max-h-full object-contain drop-shadow-[0_0_20px_rgba(0,0,0,0.4)]" 
                           />
                         </div>
                       ) : (
