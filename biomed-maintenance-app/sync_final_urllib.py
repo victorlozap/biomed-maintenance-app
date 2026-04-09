@@ -2,11 +2,24 @@ import urllib.request
 import json
 import ssl
 import pandas as pd
+import os
 
-url_base = "https://gzdspkhpxkibjxbfdeuc.supabase.co/rest/v1"
+env_path = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.exists(env_path):
+    with open(env_path, "r") as f:
+        for line in f:
+            if line.strip() and not line.startswith("#") and "=" in line:
+                k, v = line.strip().split("=", 1)
+                os.environ[k] = v.strip('"\'')
+
+apikey = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+if not apikey:
+    raise ValueError("SUPABASE_SERVICE_ROLE_KEY is not set in environment or .env file")
+
+url_base = f"{os.environ.get('SUPABASE_URL', 'https://gzdspkhpxkibjxbfdeuc.supabase.co')}/rest/v1"
 headers = {
-    "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6ZHNwa2hweGtpYmp4YmZkZXVjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDg4MjM1OSwiZXhwIjoyMDkwNDU4MzU5fQ.yCjghk-O_HOttUJBDhJ_LvkcdbLN97GMyrSwyV574Tw",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6ZHNwa2hweGtpYmp4YmZkZXVjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDg4MjM1OSwiZXhwIjoyMDkwNDU4MzU5fQ.yCjghk-O_HOttUJBDhJ_LvkcdbLN97GMyrSwyV574Tw",
+    "apikey": apikey,
+    "Authorization": f"Bearer {apikey}",
     "Content-Type": "application/json"
 }
 context = ssl._create_unverified_context()
