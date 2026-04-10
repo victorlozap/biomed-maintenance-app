@@ -853,7 +853,7 @@ const Inventory = () => {
                     return (
                     <div key={key} className="space-y-2">
                        <label className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] block ml-1">
-                         {key === 'servicio' ? 'UBICACIÓN' : (key === 'ubicacion' ? 'DETALLE FÍSICO' : key.replace(/_/g,' '))}
+                         {key.replace(/_/g,' ')}
                        </label>
                        {isDateField ? (
                          <input 
