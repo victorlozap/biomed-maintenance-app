@@ -46,47 +46,65 @@ export const generateProtocolPDF = async (
     
     return t;
   };
-  // Helper super robusto para sanitizar cualquier imagen usando Canvas
-  const loadAndSanitizeImage = (url: string): Promise<{ data: string, format: string } | null> => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.crossOrigin = 'Anonymous';
-      img.onload = () => {
-        try {
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          if (!ctx) {
-            resolve(null);
-            return;
-          }
-          // Fondo blanco forzado para evitar bugs de canal alfa (transparencia) con jsPDF
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0);
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-          resolve({ data: dataUrl, format: 'JPEG' });
-        } catch (e) {
-          console.error("Canvas error", e);
+  // Helper robusto para sanitizar cualquier imagen usando Fetch + Canvas
+  const loadAndSanitizeImage = async (url: string): Promise<{ data: string, format: string } | null> => {
+    return new Promise(async (resolve) => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
           resolve(null);
+          return;
         }
-      };
-      img.onerror = () => resolve(null);
-      img.src = url;
+        const blob = await response.blob();
+        const img = new Image();
+        const objectUrl = URL.createObjectURL(blob);
+        
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+              URL.revokeObjectURL(objectUrl);
+              resolve(null);
+              return;
+            }
+            // Fondo blanco forzado para evitar bugs de canal alfa (transparencia) con jsPDF
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+            URL.revokeObjectURL(objectUrl);
+            resolve({ data: dataUrl, format: 'JPEG' });
+          } catch (e) {
+            console.error("Canvas error", e);
+            URL.revokeObjectURL(objectUrl);
+            resolve(null);
+          }
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          resolve(null);
+        };
+        img.src = objectUrl;
+      } catch (e) {
+        console.error("Fetch/Load error", e);
+        resolve(null);
+      }
     });
   };
 
-  // Buscar logo dinámicamente en varias rutas posibles
+  // Buscar logo dinámicamente
   let logoData: string | null = null;
-  let logoFormat = 'PNG';
-  const posiblesRutas = [
+  let logoFormat = 'JPEG';
+  const posiblesRutasLogo = [
      '/imagenes/logo-san-jorge.jpg', 
      '/imagenes/logo.png', '/imagenes/logo.jpg', '/imagenes/logo.jpeg',
-     '/logo.png', '/logo.jpg', '/logo.jpeg'
+     'imagenes/logo-san-jorge.jpg', 'logo.png'
   ];
 
-  for (const ruta of posiblesRutas) {
+  for (const ruta of posiblesRutasLogo) {
      if (logoData) break;
      const result = await loadAndSanitizeImage(ruta);
      if (result) {
@@ -97,32 +115,48 @@ export const generateProtocolPDF = async (
 
   // Cargar Firma Dinamica
   let firmaData: string | null = null;
-  let firmaFormat = 'PNG';
+  let firmaFormat = 'JPEG';
   let urlFirma = '/imagenes/firma-victor-lopez.png'; // default fallback
   let engineerName = 'VICTOR LOPEZ';
   
   const emailLower = userEmail ? userEmail.toLowerCase() : '';
 
-  if (emailLower.includes('leograjales') || emailLower.includes('leonardo')) {
-    urlFirma = '/imagenes/firma-leonardo.png';
-    engineerName = 'LEONARDO GRAJALES';
-  } else if (emailLower.includes('kmiloramirez') || emailLower.includes('camilo')) {
-    urlFirma = '/imagenes/firma-camilo.png';
-    engineerName = 'CAMILO RAMIREZ';
-  } else if (emailLower.includes('cristiand.hurtado') || emailLower.includes('cristian')) {
-    urlFirma = '/imagenes/firma-cristian.png';
-    engineerName = 'CRISTIAN HURTADO';
-  } else if (emailLower.includes('victor.lopez') || emailLower.includes('victor')) {
-    urlFirma = '/imagenes/firma-victor-lopez.png';
-    engineerName = 'VICTOR LOPEZ';
+  // Diccionario de firmas por patrón en email
+  const signatureMap = [
+    { pattern: 'leograjales', url: '/imagenes/firma-leonardo.png', name: 'LEONARDO GRAJALES' },
+    { pattern: 'leonardo', url: '/imagenes/firma-leonardo.png', name: 'LEONARDO GRAJALES' },
+    { pattern: 'kmiloramirez', url: '/imagenes/firma-camilo.png', name: 'CAMILO RAMIREZ' },
+    { pattern: 'camilo', url: '/imagenes/firma-camilo.png', name: 'CAMILO RAMIREZ' },
+    { pattern: 'cristiand.hurtado', url: '/imagenes/firma-cristian.png', name: 'CRISTIAN HURTADO' },
+    { pattern: 'cristian', url: '/imagenes/firma-cristian.png', name: 'CRISTIAN HURTADO' },
+    { pattern: 'victor.lopez', url: '/imagenes/firma-victor-lopez.png', name: 'VICTOR LOPEZ' },
+    { pattern: 'victor', url: '/imagenes/firma-victor-lopez.png', name: 'VICTOR LOPEZ' },
+  ];
+
+  const matchedSig = signatureMap.find(sig => emailLower.includes(sig.pattern));
+  if (matchedSig) {
+    urlFirma = matchedSig.url;
+    engineerName = matchedSig.name;
   }
 
-  const firmaResult = await loadAndSanitizeImage(urlFirma);
-  if (firmaResult) {
-     firmaData = firmaResult.data;
-     firmaFormat = firmaResult.format;
-  } else {
-     console.warn(`Signature file missing or corrupt for ${userEmail} at ${urlFirma}`);
+  // Intentar cargar la firma con reintentos de ruta
+  const rutasFirma = [
+    urlFirma,
+    urlFirma.startsWith('/') ? urlFirma.substring(1) : '/' + urlFirma,
+    window.location.origin + (urlFirma.startsWith('/') ? '' : '/') + urlFirma
+  ];
+
+  for (const ruta of rutasFirma) {
+    if (firmaData) break;
+    const result = await loadAndSanitizeImage(ruta);
+    if (result) {
+      firmaData = result.data;
+      firmaFormat = result.format;
+    }
+  }
+
+  if (!firmaData) {
+     console.warn(`No se pudo cargar la firma para ${userEmail} en ninguna de las rutas:`, rutasFirma);
   }
 
   const doc = new jsPDF({ format: 'letter' });
