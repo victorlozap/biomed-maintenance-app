@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save, Calendar, FileText } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { HistoryReportEditor } from '../components/HistoryReportEditor';
+import { formatDate, formatDateForInput } from '../utils/dateUtils';
 
 const Inventory = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -65,76 +66,6 @@ const Inventory = () => {
     }
   };
 
-  // Helper para formatear fechas (incluyendo fechas de Excel)
-  const formatDate = (val: any) => {
-    if (!val || val === 'N/A' || val === 'No Aplica') return 'No Aplica';
-    
-    try {
-      // Manejar fechas de Excel (números)
-      if (typeof val === 'number' || (typeof val === 'string' && !isNaN(Number(val)) && !val.includes('-') && !val.includes('/'))) {
-        const excelDate = parseFloat(val as string);
-        const date = new Date((excelDate - 25569) * 86400 * 1000);
-        const d = String(date.getDate()).padStart(2, '0');
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const y = date.getFullYear();
-        return `${d}/${m}/${y}`;
-      }
-
-      // Si viene como string normal de Supabase (ej: '2025-12-10' o '2025-12-10T...')
-      if (typeof val === 'string' && val.includes('-')) {
-        const strDate = val.split('T')[0];
-        if (/^\d{4}-\d{2}-\d{2}$/.test(strDate)) {
-           const parts = strDate.split('-');
-           return `${parts[2]}/${parts[1]}/${parts[0]}`;
-        }
-      }
-
-      // Manejar objetos Date u otros (fallback normal)
-      const date = new Date(val);
-      if (!isNaN(date.getTime())) {
-        const d = String(date.getUTCDate()).padStart(2, '0');
-        const m = String(date.getUTCMonth() + 1).padStart(2, '0');
-        const y = date.getUTCFullYear();
-        return `${d}/${m}/${y}`;
-      }
-    } catch (e) {
-      console.error("Error formatting date:", e);
-    }
-    
-    return val;
-  };
-
-  const formatDateForInput = (val: any) => {
-    if (!val || val === 'N/A' || val === 'No Aplica') return '';
-    
-    try {
-      if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
-        return val;
-      }
-      
-      if (typeof val === 'number' || (typeof val === 'string' && !isNaN(Number(val)) && !val.includes('-') && !val.includes('/'))) {
-        const excelDate = parseFloat(val as string);
-        const date = new Date((excelDate - 25569) * 86400 * 1000);
-        const d = String(date.getDate()).padStart(2, '0');
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const y = date.getFullYear();
-        return `${y}-${m}-${d}`;
-      }
-
-      const date = new Date(val);
-      if (!isNaN(date.getTime())) {
-        const d = String(date.getUTCDate()).padStart(2, '0');
-        const m = String(date.getUTCMonth() + 1).padStart(2, '0');
-        const y = date.getUTCFullYear();
-        return `${y}-${m}-${d}`;
-      }
-    } catch (e) {
-      console.error("Error formatting date for input:", e);
-    }
-    
-    return '';
-  };
-  
   // Cargar datos desde Supabase
   const fetchEquipments = async () => {
     setLoading(true);

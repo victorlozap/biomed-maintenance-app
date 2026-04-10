@@ -3,6 +3,7 @@ import { Calendar, CheckCircle, FileText, Search, X, Activity, Save, AlertCircle
 import { generateProtocolPDF } from '../utils/pdfGenerator';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { formatDateForInput } from '../utils/dateUtils';
 import protocolsData from '../data/protocols.json';
 
 const protocols = protocolsData as Record<string, any>;
@@ -15,7 +16,7 @@ const Preventive = () => {
   const [inventoryResults, setInventoryResults] = useState<any[]>([]);
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [maintenanceDate, setMaintenanceDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [maintenanceDate, setMaintenanceDate] = useState<string>(formatDateForInput(new Date().toISOString()));
 
   const [activeProtocol, setActiveProtocol] = useState<any | null>(null);
   const [checkValues, setCheckValues] = useState<Record<string, string>>({});
