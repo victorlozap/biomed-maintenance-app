@@ -76,20 +76,22 @@ export const generateProtocolPDF = async (
   // Cargar Firma Dinamica
   let firmaData: string | null = null;
   let firmaFormat = 'PNG';
-  let urlFirma = '/imagenes/firma-victor.png'; // default fallback
+  let urlFirma = '/imagenes/firma-victor-lopez.png'; // default fallback
   let engineerName = 'VICTOR LOPEZ';
   
-  if (userEmail.includes('leograjales')) {
+  const emailLower = userEmail ? userEmail.toLowerCase() : '';
+
+  if (emailLower.includes('leograjales') || emailLower.includes('leonardo')) {
     urlFirma = '/imagenes/firma-leonardo.png';
     engineerName = 'LEONARDO GRAJALES';
-  } else if (userEmail.includes('kmiloramirez')) {
+  } else if (emailLower.includes('kmiloramirez') || emailLower.includes('camilo')) {
     urlFirma = '/imagenes/firma-camilo.png';
     engineerName = 'CAMILO RAMIREZ';
-  } else if (userEmail.includes('cristiand.hurtado')) {
+  } else if (emailLower.includes('cristiand.hurtado') || emailLower.includes('cristian')) {
     urlFirma = '/imagenes/firma-cristian.png';
     engineerName = 'CRISTIAN HURTADO';
-  } else if (userEmail.includes('victor.lopez')) {
-    urlFirma = '/imagenes/firma-victor.png';
+  } else if (emailLower.includes('victor.lopez') || emailLower.includes('victor')) {
+    urlFirma = '/imagenes/firma-victor-lopez.png';
     engineerName = 'VICTOR LOPEZ';
   }
 
@@ -388,11 +390,15 @@ export const generateProtocolPDF = async (
       ]
     ],
     didDrawCell: (data: any) => {
-      if (data.row.index === 1 && data.column.index === 0 && firmaData && reportId !== 'BLANK') {
+      if (data.row.index === 1 && data.column.index === 0 && reportId !== 'BLANK') {
         const sigW = 32;
         const sigH = 12;
-        doc.addImage(firmaData, firmaFormat, data.cell.x + (data.cell.width - sigW) / 2, data.cell.y + 4, sigW, sigH);
-        // Renderizar el nombre debajo
+        
+        if (firmaData) {
+          doc.addImage(firmaData, firmaFormat, data.cell.x + (data.cell.width - sigW) / 2, data.cell.y + 4, sigW, sigH);
+        }
+        
+        // Renderizar el nombre debajo SIEMPRE, incluso si la firma falla
         doc.setFontSize(8);
         doc.setFont("helvetica", "bold");
         doc.text(engineerName, data.cell.x + (data.cell.width / 2), data.cell.y + 21, { align: 'center' });
