@@ -15,9 +15,16 @@ const Preventive = () => {
   const [selectedEq, setSelectedEq] = useState<any | null>(null);
   const [inventoryResults, setInventoryResults] = useState<any[]>([]);
   const [loadingSearch, setLoadingSearch] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [maintenanceDate, setMaintenanceDate] = useState<string>(formatDateForInput(new Date().toISOString()));
+  const getLocalToday = () => {
+    const today = new Date();
+    const d = String(today.getDate()).padStart(2, '0');
+    const m = String(today.getMonth() + 1).padStart(2, '0');
+    const y = today.getFullYear();
+    return `${y}-${m}-${d}`;
+  };
 
+  const [saving, setSaving] = useState(false);
+  const [maintenanceDate, setMaintenanceDate] = useState<string>(getLocalToday());
   const [activeProtocol, setActiveProtocol] = useState<any | null>(null);
   const [checkValues, setCheckValues] = useState<Record<string, string>>({});
   const [numericValues, setNumericValues] = useState<Record<string, string>>({});
