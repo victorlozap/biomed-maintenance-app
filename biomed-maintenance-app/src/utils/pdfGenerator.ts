@@ -99,22 +99,26 @@ export const generateProtocolPDF = async (
      const resF = await fetch(urlFirma);
      if (resF.ok) {
         const blob = await resF.blob();
-        if (blob.size > 0 && blob.type.includes('image')) {
-          firmaFormat = (blob.type.includes('jpeg') || blob.type.includes('jpg')) ? 'JPEG' : 'PNG';
-          firmaData = await new Promise((resolve) => {
-             const reader = new FileReader();
-             reader.onloadend = () => resolve(reader.result as string);
-             reader.readAsDataURL(blob);
-          });
-        } else {
-          // If the blob isn't an image, we'll try forcefully parsing it anyway just in case Vite hides the mime type
-          firmaData = await new Promise((resolve) => {
-             const reader = new FileReader();
-             reader.onloadend = () => resolve(reader.result as string);
-             reader.readAsDataURL(blob);
-          });
-          firmaFormat = urlFirma.includes('jpg') ? 'JPEG' : 'PNG';
-        }
+        
+        firmaFormat = urlFirma.includes('.jpg') || urlFirma.includes('.jpeg') ? 'JPEG' : 'PNG';
+        const mimeType = firmaFormat === 'JPEG' ? 'image/jpeg' : 'image/png';
+        
+        firmaData = await new Promise((resolve) => {
+           const reader = new FileReader();
+           reader.onloadend = () => {
+             let base64data = reader.result as string;
+             // jsPDF es extremadamente estricto con el prefijo. Si Vite lo manda como octet-stream, jsPDF fallará
+             // silenciosamente. Forzamos el prefijo correcto.
+             if (base64data.startsWith('data:')) {
+                const parts = base64data.split(';base64,');
+                if (parts.length === 2 && !parts[0].includes('image/')) {
+                   base64data = `data:${mimeType};base64,${parts[1]}`;
+                }
+             }
+             resolve(base64data);
+           };
+           reader.readAsDataURL(blob);
+        });
      } else {
         console.warn(`Signature file fetch failed for ${userEmail} at ${urlFirma}`);
      }
