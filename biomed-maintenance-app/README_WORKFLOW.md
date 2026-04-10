@@ -30,11 +30,12 @@ Si este comando falla, Vercel no podrá desplegar la aplicación. Los errores de
 - **`main`**: Solo código verificado y listo para el hospital.
 - **`desarrollo/nuevo-formato`**: Usa ramas separadas para trabajar en protocolos nuevos. Vercel generará una "Preview URL" para que pruebes el PDF en el navegador antes de unirlo a la rama principal.
 
-## 📈 Próximos Pasos Técnicos
-Actualmente la aplicación es **Local-First** (los datos se guardan en el navegador de cada usuario). 
-Para que tus compañeros vean los mismos datos que tú:
-- Necesitaremos implementar un **Backend** (ej: Supabase o Firebase).
-- Esto permitirá centralizar el inventario y el historial de mantenimientos en una base de datos real.
+## 📈 Arquitectura Actual (Backend con Supabase)
+La aplicación ha dejado de ser "Local-First" y actualmente está **conectada en tiempo real a Supabase**, lo que proporciona:
+1. **Inventario HUSJ Centralizado:** La base de 431 activos está cargada y sincronizada de manera global.
+2. **Autenticación (Auth):** Acceso multiusuario. Cada ingeniero cuenta con un usuario y contraseña.
+3. **Firmas Digitales Dinámicas:** Según la sesión de autenticación (`user.email`), el sistema inyecta la firma correspondiente (`firma-[nombre].png`) y el nombre del ingeniero en las actas de mantenimiento de manera automática.
+4. **Fechas Estandarizadas (UTC-5):** Toda operación técnica, carga desde Excel, o edición de reportes respeta la zona horaria colombiana usando conversión de literales de texto para evitar defases e inconsistencias en la base de datos.
 
 ---
 *Diseñado para la Hospital Universitario San Jorge por Antigravity (Advanced Agentic Coding).*
