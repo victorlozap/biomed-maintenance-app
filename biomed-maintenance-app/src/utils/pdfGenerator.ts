@@ -46,7 +46,38 @@ export const generateProtocolPDF = async (
     
     return t;
   };
-  // Buscar logo dinámicamente en varias rutas posibles y formatos
+  // Helper super robusto para sanitizar cualquier imagen usando Canvas
+  const loadAndSanitizeImage = (url: string): Promise<{ data: string, format: string } | null> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(null);
+            return;
+          }
+          // Fondo blanco forzado para evitar bugs de canal alfa (transparencia) con jsPDF
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+          resolve({ data: dataUrl, format: 'JPEG' });
+        } catch (e) {
+          console.error("Canvas error", e);
+          resolve(null);
+        }
+      };
+      img.onerror = () => resolve(null);
+      img.src = url;
+    });
+  };
+
+  // Buscar logo dinámicamente en varias rutas posibles
   let logoData: string | null = null;
   let logoFormat = 'PNG';
   const posiblesRutas = [
@@ -57,20 +88,11 @@ export const generateProtocolPDF = async (
 
   for (const ruta of posiblesRutas) {
      if (logoData) break;
-     try {
-        const res = await fetch(ruta);
-        const contentType = res.headers.get('content-type');
-        // Asegurarnos de que no es la página de Fallback de React (text/html)
-        if (res.ok && contentType && contentType.startsWith('image/')) {
-           logoFormat = (contentType.includes('jpeg') || contentType.includes('jpg')) ? 'JPEG' : 'PNG';
-           const blob = await res.blob();
-           logoData = await new Promise((resolve) => {
-              const reader = new FileReader();
-              reader.onloadend = () => resolve(reader.result as string);
-              reader.readAsDataURL(blob);
-           });
-        }
-     } catch(e) { /* silent fail for next URL */ }
+     const result = await loadAndSanitizeImage(ruta);
+     if (result) {
+        logoData = result.data;
+        logoFormat = result.format;
+     }
   }
 
   // Cargar Firma Dinamica
@@ -95,35 +117,12 @@ export const generateProtocolPDF = async (
     engineerName = 'VICTOR LOPEZ';
   }
 
-  try {
-     const resF = await fetch(urlFirma);
-     if (resF.ok) {
-        const blob = await resF.blob();
-        
-        firmaFormat = urlFirma.includes('.jpg') || urlFirma.includes('.jpeg') ? 'JPEG' : 'PNG';
-        const mimeType = firmaFormat === 'JPEG' ? 'image/jpeg' : 'image/png';
-        
-        firmaData = await new Promise((resolve) => {
-           const reader = new FileReader();
-           reader.onloadend = () => {
-             let base64data = reader.result as string;
-             // jsPDF es extremadamente estricto con el prefijo. Si Vite lo manda como octet-stream, jsPDF fallará
-             // silenciosamente. Forzamos el prefijo correcto.
-             if (base64data.startsWith('data:')) {
-                const parts = base64data.split(';base64,');
-                if (parts.length === 2 && !parts[0].includes('image/')) {
-                   base64data = `data:${mimeType};base64,${parts[1]}`;
-                }
-             }
-             resolve(base64data);
-           };
-           reader.readAsDataURL(blob);
-        });
-     } else {
-        console.warn(`Signature file fetch failed for ${userEmail} at ${urlFirma}`);
-     }
-  } catch(e) { 
-     console.error("Error fetching signature:", e);
+  const firmaResult = await loadAndSanitizeImage(urlFirma);
+  if (firmaResult) {
+     firmaData = firmaResult.data;
+     firmaFormat = firmaResult.format;
+  } else {
+     console.warn(`Signature file missing or corrupt for ${userEmail} at ${urlFirma}`);
   }
 
   const doc = new jsPDF({ format: 'letter' });
