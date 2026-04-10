@@ -390,20 +390,33 @@ export const generateProtocolPDF = async (
       ]
     ],
     didDrawCell: (data: any) => {
-      if (data.row.index === 1 && data.column.index === 0 && reportId !== 'BLANK') {
-        const sigW = 32;
-        const sigH = 12;
+      // Usar data.section === 'body' para asegurarnos de que solo pinte en el cuerpo
+      if (data.section === 'body' && data.row.index === 1 && data.column.index === 0) {
         
-        if (firmaData) {
-          doc.addImage(firmaData, firmaFormat, data.cell.x + (data.cell.width - sigW) / 2, data.cell.y + 4, sigW, sigH);
+        // Bloquear temporalmente la validación 'BLANK' o flexibilizarla
+        if (reportId !== 'BLANK') {
+          const sigW = 32;
+          const sigH = 12;
+          
+          if (firmaData && typeof firmaData === 'string' && firmaData.startsWith('data:image')) {
+            try {
+              doc.addImage(firmaData, firmaFormat, data.cell.x + (data.cell.width - sigW) / 2, data.cell.y + 4, sigW, sigH);
+            } catch (e) {
+              console.error("No se pudo insertar imagen de firma", e);
+            }
+          }
+          
+          // Renderizar el nombre debajo SIEMPRE, incluso si la firma falla
+          try {
+            doc.setFontSize(8);
+            doc.setFont("helvetica", "bold");
+            doc.text(engineerName || "BIOMEDICO", data.cell.x + (data.cell.width / 2), data.cell.y + 21, { align: 'center' });
+            doc.setFont("helvetica", "normal");
+            doc.text("Biomédico HUSJ", data.cell.x + (data.cell.width / 2), data.cell.y + 24, { align: 'center' });
+          } catch (e) {
+            console.error("Fallo escribiendo nombre del ingeniero", e);
+          }
         }
-        
-        // Renderizar el nombre debajo SIEMPRE, incluso si la firma falla
-        doc.setFontSize(8);
-        doc.setFont("helvetica", "bold");
-        doc.text(engineerName, data.cell.x + (data.cell.width / 2), data.cell.y + 21, { align: 'center' });
-        doc.setFont("helvetica", "normal");
-        doc.text("Biomédico HUSJ", data.cell.x + (data.cell.width / 2), data.cell.y + 24, { align: 'center' });
       }
     }
   });
