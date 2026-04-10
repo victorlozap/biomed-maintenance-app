@@ -97,20 +97,30 @@ export const generateProtocolPDF = async (
 
   try {
      const resF = await fetch(urlFirma);
-     const contentTypeF = resF.headers.get('content-type');
-     if (resF.ok && contentTypeF && contentTypeF.startsWith('image/')) {
-        firmaFormat = (contentTypeF.includes('jpeg') || contentTypeF.includes('jpg')) ? 'JPEG' : 'PNG';
+     if (resF.ok) {
         const blob = await resF.blob();
-        firmaData = await new Promise((resolve) => {
-           const reader = new FileReader();
-           reader.onloadend = () => resolve(reader.result as string);
-           reader.readAsDataURL(blob);
-        });
+        if (blob.size > 0 && blob.type.includes('image')) {
+          firmaFormat = (blob.type.includes('jpeg') || blob.type.includes('jpg')) ? 'JPEG' : 'PNG';
+          firmaData = await new Promise((resolve) => {
+             const reader = new FileReader();
+             reader.onloadend = () => resolve(reader.result as string);
+             reader.readAsDataURL(blob);
+          });
+        } else {
+          // If the blob isn't an image, we'll try forcefully parsing it anyway just in case Vite hides the mime type
+          firmaData = await new Promise((resolve) => {
+             const reader = new FileReader();
+             reader.onloadend = () => resolve(reader.result as string);
+             reader.readAsDataURL(blob);
+          });
+          firmaFormat = urlFirma.includes('jpg') ? 'JPEG' : 'PNG';
+        }
      } else {
-        // Fallback for Victor if the current name doesn't match an actual file
-        console.warn(`Signature file missing for ${userEmail} at ${urlFirma}`);
+        console.warn(`Signature file fetch failed for ${userEmail} at ${urlFirma}`);
      }
-  } catch(e) { }
+  } catch(e) { 
+     console.error("Error fetching signature:", e);
+  }
 
   const doc = new jsPDF({ format: 'letter' });
   const GRAY = [230, 230, 230] as [number, number, number];
@@ -398,7 +408,7 @@ export const generateProtocolPDF = async (
           const sigW = 32;
           const sigH = 12;
           
-          if (firmaData && typeof firmaData === 'string' && firmaData.startsWith('data:image')) {
+          if (firmaData && typeof firmaData === 'string' && firmaData.startsWith('data:')) {
             try {
               doc.addImage(firmaData, firmaFormat, data.cell.x + (data.cell.width - sigW) / 2, data.cell.y + 4, sigW, sigH);
             } catch (e) {
