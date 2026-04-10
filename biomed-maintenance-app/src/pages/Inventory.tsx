@@ -80,12 +80,21 @@ const Inventory = () => {
         return `${d}/${m}/${y}`;
       }
 
-      // Manejar strings (ISO o similares de Supabase)
+      // Si viene como string normal de Supabase (ej: '2025-12-10' o '2025-12-10T...')
+      if (typeof val === 'string' && val.includes('-')) {
+        const strDate = val.split('T')[0];
+        if (/^\d{4}-\d{2}-\d{2}$/.test(strDate)) {
+           const parts = strDate.split('-');
+           return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+      }
+
+      // Manejar objetos Date u otros (fallback normal)
       const date = new Date(val);
       if (!isNaN(date.getTime())) {
-        const d = date.getDate().toString().padStart(2, '0');
-        const m = (date.getMonth() + 1).toString().padStart(2, '0');
-        const y = date.getFullYear();
+        const d = String(date.getUTCDate()).padStart(2, '0');
+        const m = String(date.getUTCMonth() + 1).padStart(2, '0');
+        const y = date.getUTCFullYear();
         return `${d}/${m}/${y}`;
       }
     } catch (e) {
