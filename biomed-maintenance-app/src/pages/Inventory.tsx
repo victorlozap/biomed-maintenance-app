@@ -94,6 +94,37 @@ const Inventory = () => {
     
     return val;
   };
+
+  const formatDateForInput = (val: any) => {
+    if (!val || val === 'N/A' || val === 'No Aplica') return '';
+    
+    try {
+      if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
+        return val;
+      }
+      
+      if (typeof val === 'number' || (typeof val === 'string' && !isNaN(Number(val)) && !val.includes('-') && !val.includes('/'))) {
+        const excelDate = parseFloat(val as string);
+        const date = new Date((excelDate - 25569) * 86400 * 1000);
+        const d = String(date.getDate()).padStart(2, '0');
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const y = date.getFullYear();
+        return `${y}-${m}-${d}`;
+      }
+
+      const date = new Date(val);
+      if (!isNaN(date.getTime())) {
+        const d = String(date.getUTCDate()).padStart(2, '0');
+        const m = String(date.getUTCMonth() + 1).padStart(2, '0');
+        const y = date.getUTCFullYear();
+        return `${y}-${m}-${d}`;
+      }
+    } catch (e) {
+      console.error("Error formatting date for input:", e);
+    }
+    
+    return '';
+  };
   
   // Cargar datos desde Supabase
   const fetchEquipments = async () => {
@@ -807,20 +838,44 @@ const Inventory = () => {
             </div>
             <div className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 custom-scrollbar relative z-10">
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
-                  {Object.keys(editEqData).filter(k => k !== 'id' && k !== 'created_at').map((key) => (
+                  {Object.keys(editEqData).filter(k => k !== 'id' && k !== 'created_at').map((key) => {
+                    const isDateField = key === 'fecha_calibracion' || key === 'fecha_vencimiento_calibracion';
+                    
+                    return (
                     <div key={key} className="space-y-2">
                        <label className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] block ml-1">
                          {key === 'servicio' ? 'UBICACIÓN' : (key === 'ubicacion' ? 'DETALLE FÍSICO' : key.replace(/_/g,' '))}
                        </label>
-                       <input 
-                          type="text" 
-                          value={editEqData[key] || ''} 
-                          onChange={e => setEditEqData({...editEqData, [key]: e.target.value.toUpperCase()})} 
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white text-sm focus:border-indigo-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-white/10"
-                          placeholder="..."
-                       />
+                       {isDateField ? (
+                         <input 
+                           type="date" 
+                           value={formatDateForInput(editEqData[key])} 
+                           onChange={e => {
+                             const selectedDate = e.target.value;
+                             let newEqData = { ...editEqData, [key]: selectedDate };
+                             
+                             if (key === 'fecha_calibracion' && selectedDate) {
+                               const parts = selectedDate.split('-');
+                               if (parts.length === 3) {
+                                  const nextYear = parseInt(parts[0]) + 1;
+                                  newEqData.fecha_vencimiento_calibracion = `${nextYear}-${parts[1]}-${parts[2]}`;
+                               }
+                             }
+                             setEditEqData(newEqData);
+                           }} 
+                           className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white text-sm focus:border-indigo-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-white/10"
+                         />
+                       ) : (
+                         <input 
+                            type="text" 
+                            value={editEqData[key] || ''} 
+                            onChange={e => setEditEqData({...editEqData, [key]: e.target.value.toUpperCase()})} 
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white text-sm focus:border-indigo-500/50 focus:bg-white/[0.07] outline-none transition-all placeholder:text-white/10"
+                            placeholder="..."
+                         />
+                       )}
                     </div>
-                  ))}
+                  )})}
                </div>
             </div>
           </div>
