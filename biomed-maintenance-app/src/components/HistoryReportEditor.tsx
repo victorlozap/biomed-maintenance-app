@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X, Save, Download, Loader2, CheckCircle, Activity, Calendar, AlertTriangle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { generateProtocolPDF } from '../utils/pdfGenerator';
+import { useAuth } from '../contexts/AuthContext';
 import protocolsData from '../data/protocols.json';
 
 const protocols = protocolsData as Record<string, any>;
@@ -14,6 +15,7 @@ interface HistoryReportEditorProps {
 }
 
 export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: HistoryReportEditorProps) => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   
@@ -143,7 +145,8 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
         numericValues, 
         notes, 
         item.report_id,
-        reportDate
+        reportDate,
+        user?.email || ''
       );
     } catch (err) {
       console.error("Error regenerating PDF:", err);

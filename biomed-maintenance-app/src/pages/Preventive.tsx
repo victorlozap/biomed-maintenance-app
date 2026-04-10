@@ -15,6 +15,7 @@ const Preventive = () => {
   const [selectedEq, setSelectedEq] = useState<any | null>(null);
   const [inventoryResults, setInventoryResults] = useState<any[]>([]);
   const [loadingSearch, setLoadingSearch] = useState(false);
+  const { user } = useAuth();
   const getLocalToday = () => {
     const today = new Date();
     const d = String(today.getDate()).padStart(2, '0');
@@ -133,7 +134,9 @@ const Preventive = () => {
           numeric_values: numericValues,
           notes: notes,
           executed_at: maintenanceDate
-        }]);
+        }])
+        .select()
+        .single();
 
       if (error) throw error;
 
@@ -144,7 +147,8 @@ const Preventive = () => {
         numericValues, 
         notes, 
         reportId,
-        maintenanceDate
+        maintenanceDate,
+        user?.email || ''
       );
 
       alert(`✅ Acta de Mantenimiento GRF generada con éxito.`);

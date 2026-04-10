@@ -21,7 +21,8 @@ export const generateProtocolPDF = async (
   numerics: Record<string, string>,
   notes: string,
   reportId: string,
-  maintenanceDate: string = ''
+  maintenanceDate: string = '',
+  userEmail: string = ''
 ) => {
   // Normalizar nombres de campos del equipo (compatibilidad con distintas bases de datos)
   const eq = normalizeEquipment(equipment);
@@ -72,10 +73,26 @@ export const generateProtocolPDF = async (
      } catch(e) { /* silent fail for next URL */ }
   }
 
-  // Cargar Firma Victor
+  // Cargar Firma Dinamica
   let firmaData: string | null = null;
   let firmaFormat = 'PNG';
-  const urlFirma = '/imagenes/firma-victor-lopez.png';
+  let urlFirma = '/imagenes/firma-victor.png'; // default fallback
+  let engineerName = 'VICTOR LOPEZ';
+  
+  if (userEmail.includes('leograjales')) {
+    urlFirma = '/imagenes/firma-leonardo.png';
+    engineerName = 'LEONARDO GRAJALES';
+  } else if (userEmail.includes('kmiloramirez')) {
+    urlFirma = '/imagenes/firma-camilo.png';
+    engineerName = 'CAMILO RAMIREZ';
+  } else if (userEmail.includes('cristiand.hurtado')) {
+    urlFirma = '/imagenes/firma-cristian.png';
+    engineerName = 'CRISTIAN HURTADO';
+  } else if (userEmail.includes('victor.lopez')) {
+    urlFirma = '/imagenes/firma-victor.png';
+    engineerName = 'VICTOR LOPEZ';
+  }
+
   try {
      const resF = await fetch(urlFirma);
      const contentTypeF = resF.headers.get('content-type');
@@ -87,6 +104,9 @@ export const generateProtocolPDF = async (
            reader.onloadend = () => resolve(reader.result as string);
            reader.readAsDataURL(blob);
         });
+     } else {
+        // Fallback for Victor if the current name doesn't match an actual file
+        console.warn(`Signature file missing for ${userEmail} at ${urlFirma}`);
      }
   } catch(e) { }
 
@@ -375,7 +395,7 @@ export const generateProtocolPDF = async (
         // Renderizar el nombre debajo
         doc.setFontSize(8);
         doc.setFont("helvetica", "bold");
-        doc.text("VICTOR LOPEZ", data.cell.x + (data.cell.width / 2), data.cell.y + 21, { align: 'center' });
+        doc.text(engineerName, data.cell.x + (data.cell.width / 2), data.cell.y + 21, { align: 'center' });
         doc.setFont("helvetica", "normal");
         doc.text("Biomédico HUSJ", data.cell.x + (data.cell.width / 2), data.cell.y + 24, { align: 'center' });
       }

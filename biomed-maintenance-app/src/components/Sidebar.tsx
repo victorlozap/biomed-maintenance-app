@@ -19,7 +19,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ onItemClick }: SidebarProps) => {
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
 
   const handleSignOut = () => {
     signOut();
@@ -38,7 +38,16 @@ const Sidebar = ({ onItemClick }: SidebarProps) => {
           <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-500 text-xl tracking-wide drop-shadow-[0_0_8px_rgba(253,224,71,0.4)]">
             BiomedMain
           </h1>
-          <p className="text-xs text-white/60 font-light tracking-widest uppercase mt-1">Portal HSJ</p>
+          <p className="text-xs text-white/60 font-light tracking-widest uppercase mt-1">Portal HUSJ</p>
+          {user && user.email && (
+            <p className="text-[10px] text-cyan-400/80 font-medium tracking-wider uppercase mt-1.5 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              {user.email.includes('victor') ? 'Ing. Victor Lopez' :
+               user.email.includes('leograjales') ? 'Ing. Leonardo Grajales' :
+               user.email.includes('kmiloramirez') ? 'Ing. Camilo Ramirez' :
+               user.email.includes('cristiand.hurtado') ? 'Ing. Cristian Hurtado' : 'Ing. Biomédico'}
+            </p>
+          )}
         </div>
       </div>
 
