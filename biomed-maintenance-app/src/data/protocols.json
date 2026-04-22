@@ -972,5 +972,34 @@
       { "id": "lpn8", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)", "type": "text" },
       { "id": "lpn9", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)", "type": "text" }
     ]
+  },
+  "PANELES_COLUMNAS_BRAZOS": {
+    "title": "LISTA DE CHEQUEO MANTENIMIENTO PREVENTIVO PANELES, COLUMNAS Y BRAZOS ARQUITECTONICOS",
+    "code": "GRF3MAN-FR42",
+    "version": "4.0",
+    "date": "03-02-2025",
+    "items": [
+      { "id": "pcb1", "category": "ACTIVIDADES REALIZADAS", "label": "Asegúrese de que el equipo se encuentre limpio, sin humedad, sin objetos extraños y carcasa en buen estado.", "type": "check" },
+      { "id": "pcb2", "category": "ACTIVIDADES REALIZADAS", "label": "Inspección de todos los sistemas de soporte (Brazos monitor, gabinetes, brazo de infusion y atril)", "type": "check" },
+      { "id": "pcb3", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión del buen estado físico de las tomas de gases medicinales (Cambio de oring )", "type": "check" },
+      { "id": "pcb4", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de las tomas electricas", "type": "check" },
+      { "id": "pcb5", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión frenos neumaticos", "type": "check" },
+      { "id": "pcb6", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de topes", "type": "check" },
+      { "id": "pcb7", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de luz indirecta", "type": "check" },
+      { "id": "pcb8", "category": "ACTIVIDADES REALIZADAS", "label": "Revisión de llamado de enfermeria", "type": "check" },
+      { "id": "pcb9", "category": "ACTIVIDADES REALIZADAS", "label": "Limpieza general.", "type": "check" },
+      { "id": "pcb10", "category": "ACTIVIDADES REALIZADAS", "label": "Pruebas de funcionamiento", "type": "check" }
+    ],
+    "numeric_items": [
+      { "id": "n1", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-L2", "type": "text" },
+      { "id": "n2", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L1-gnd", "type": "text" },
+      { "id": "n3", "category": "SEGURIDAD ELECTRICA", "label": "Red eléctrica L2-gnd", "type": "text" },
+      { "id": "n4", "category": "SEGURIDAD ELECTRICA", "label": "Resistencia cable de poder EBP (≤ 0,2 Ω)", "type": "text" },
+      { "id": "n5", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Neutro abierto (≤ 1000 µA)", "type": "text" },
+      { "id": "n6", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de fuga a tierra Normal (≤ 500 µA)", "type": "text" },
+      { "id": "n7", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Normal (≤ 100 µA)", "type": "text" },
+      { "id": "n8", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Neutro abierto (≤ 500 µA)", "type": "text" },
+      { "id": "n9", "category": "SEGURIDAD ELECTRICA", "label": "Corriente de Fuga a chasis EBP Tierra abierta (≤ 500 µA)", "type": "text" }
+    ]
   }
 }

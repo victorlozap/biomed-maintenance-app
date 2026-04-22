@@ -96,6 +96,12 @@ const Preventive = () => {
         eqName.includes('QUIRURGICA')
       ) {
         matched = protocols['LAMPARA_QUIRURGICA'];
+      } else if (
+        eqName.includes('PANEL') || 
+        eqName.includes('COLUMNA') || 
+        eqName.includes('BRAZO ARQUITECTONICO')
+      ) {
+        matched = protocols['PANELES_COLUMNAS_BRAZOS'];
       }
       
       if (matched) {
@@ -194,7 +200,7 @@ const Preventive = () => {
             <button onClick={() => setIsModalOpen(false)} className="p-2 bg-white/5 hover:bg-white/10 rounded-full text-white/50"><X /></button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 pb-32 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 custom-scrollbar">
             {!selectedEq ? (
               <div className="space-y-4">
                 <label className="text-xs font-bold text-white/30 uppercase tracking-widest">Identificar Equipo en Nube</label>
@@ -270,7 +276,10 @@ const Preventive = () => {
                       </div>
                     )}
 
-                    <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Observaciones técnicas finales..." className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-emerald-500 transition-all h-24" />
+                    <div className="space-y-3">
+                       <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Observaciones Técnicas</p>
+                       <textarea value={notes} onChange={e => setNotes(e.target.value)} placeholder="Escriba aquí cualquier detalle adicional..." className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-emerald-500 transition-all h-28" />
+                    </div>
                   </div>
                 ) : (
                   <div className="p-12 text-center border border-white/5 rounded-3xl bg-white/5">
@@ -282,7 +291,7 @@ const Preventive = () => {
             )}
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8 border-t border-white/10 bg-black/80 flex justify-end">
+          <div className="p-4 border-t border-white/10 bg-black/40 backdrop-blur-md flex justify-end">
              <button 
                 onClick={handleSaveAndGenerate}
                 disabled={!selectedEq || !activeProtocol || saving}

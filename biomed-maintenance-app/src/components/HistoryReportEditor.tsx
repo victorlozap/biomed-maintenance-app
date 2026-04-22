@@ -89,6 +89,12 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
       eqName.includes('QUIRURGICA')
     ) {
       matched = protocols['LAMPARA_QUIRURGICA'];
+    } else if (
+      eqName.includes('PANEL') || 
+      eqName.includes('COLUMNA') || 
+      eqName.includes('BRAZO ARQUITECTONICO')
+    ) {
+      matched = protocols['PANELES_COLUMNAS_BRAZOS'];
     }
     
     if (matched) {
