@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
-import { Download, CheckSquare, Settings2, Activity, Zap, Settings, X, Edit3, Calendar, Stethoscope } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { supabase } from '../lib/supabase';
+import { useAuth } from '../contexts/AuthContext';
+import { Loader2, Save, History, FileDown, RotateCcw } from 'lucide-react';
 
 const EQUIPOS = [
   { 
@@ -78,9 +79,14 @@ export default function SurgeryRounds() {
     5: { lampara: { activoFijo: '546335' } },
     6: { lampara: { activoFijo: '548669' } },
     7: { lampara: { activoFijo: '541395' } },
-    8: { lampara: { activoFijo: '541702' } },
   });
   const [selectedSala, setSelectedSala] = useState<number | null>(null);
+  const { user } = useAuth();
+  const [isSaving, setIsSaving] = useState(false);
+  const [history, setHistory] = useState<any[]>([]);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [isHistoryLoading, setIsHistoryLoading] = useState(false);
+
   const dateInputRef = useRef<HTMLInputElement>(null);
   // State to cache logo and signature data for PDF generation
   const [logoData, setLogoData] = useState<string | null>(null);
@@ -142,7 +148,63 @@ export default function SurgeryRounds() {
     setData(prev => ({ ...prev, [sala]: { ...(prev[sala] || {}), [equipo]: { ...((prev[sala] || {})[equipo] || {}), observaciones: value } } }));
   };
 
-  const generatePDF = () => {
+  const fetchHistory = async () => {
+    if (!user) return;
+    setIsHistoryLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('surgery_rounds')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      setHistory(data || []);
+    } catch (e: any) {
+      console.error('Error fetching history:', e.message);
+    } finally {
+      setIsHistoryLoading(false);
+    }
+  };
+
+  const handleSaveRound = async () => {
+    if (!user) return;
+    setIsSaving(true);
+    try {
+      const { error } = await supabase
+        .from('surgery_rounds')
+        .insert([{
+          user_id: user.id,
+          executed_at: globalData.fecha,
+          data: data,
+          global_data: globalData
+        }]);
+      
+      if (error) throw error;
+      alert('✅ Ronda guardada en el historial correctamente.');
+      fetchHistory();
+    } catch (e: any) {
+      alert('❌ Error al guardar: ' + e.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const loadRound = (round: any) => {
+    if (window.confirm('¿Deseas cargar esta ronda? Esto sobrescribirá los datos actuales del formulario.')) {
+      setData(round.data);
+      setGlobalData(round.global_data);
+      setIsHistoryModalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) fetchHistory();
+  }, [user]);
+
+  const generatePDF = (customData?: any, customGlobalData?: any) => {
+    const finalData = customData || data;
+    const finalGlobalData = customGlobalData || globalData;
     // Logo and signature are preloaded in useEffect; no need to fetch here.
 
     const doc = new jsPDF({ format: 'a4', orientation: 'landscape' });
@@ -278,23 +340,23 @@ export default function SurgeryRounds() {
     const bodyDataPage1: any[] = [];
     
     // Convertir de YYYY-MM-DD a DD-MM-YYYY con barras
-    const formattedDate = globalData.fecha.split('-').reverse().join('/');
+    const formattedDate = finalGlobalData.fecha.split('-').reverse().join('/');
     
     // Fila 1: Ubicación y Fecha combinados
     bodyDataPage1.push([
-      { content: `UBICACIÓN:     ${globalData.ubicacion}`, colSpan: 13, styles: { fontStyle: 'bold' } },
+      { content: `UBICACIÓN:     ${finalGlobalData.ubicacion}`, colSpan: 13, styles: { fontStyle: 'bold' } },
       { content: `FECHA:     ${formattedDate}`, colSpan: 12, styles: { fontStyle: 'bold', halign: 'right' } },
       { content: '', colSpan: 1 } // Observaciones column space
     ]);
     // Fila 2: Responsable
     bodyDataPage1.push([
-      { content: `RESPONSABLE:   ${globalData.responsable}`, colSpan: 1, styles: { fontStyle: 'bold' } },
+      { content: `RESPONSABLE:   ${finalGlobalData.responsable}`, colSpan: 1, styles: { fontStyle: 'bold' } },
       { content: 'VERIFICACIÓN DIARIA', colSpan: 24, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } },
       { content: '', colSpan: 1 }
     ]);
     // Fila 3: Cargo y Salas (Sólo para el primer equipo)
     const rowCargo: any[] = [
-      { content: `CARGO:         ${globalData.cargo}`, colSpan: 1, styles: { fontStyle: 'bold' } }
+      { content: `CARGO:         ${finalGlobalData.cargo}`, colSpan: 1, styles: { fontStyle: 'bold' } }
     ];
     for(let s=1; s<=8; s++) {
       rowCargo.push({ content: `SALA #${s}`, colSpan: 3, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } });
@@ -429,7 +491,22 @@ export default function SurgeryRounds() {
              />
           </div>
           <button 
-            onClick={generatePDF}
+            onClick={() => setIsHistoryModalOpen(true)}
+            className="px-5 py-3 rounded-2xl bg-white/5 border border-white/10 text-white/70 font-medium hover:bg-white/10 transition-all flex items-center justify-center gap-2 cursor-pointer flex-1 md:flex-none"
+          >
+            <History size={18} className="text-blue-400" /> Historial
+          </button>
+
+          <button 
+            onClick={handleSaveRound}
+            disabled={isSaving}
+            className={`px-5 py-3 rounded-2xl border font-medium transition-all flex items-center justify-center gap-2 cursor-pointer flex-1 md:flex-none ${isSaving ? 'bg-white/5 text-white/20' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20'}`}
+          >
+            {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />} Guardar Ronda
+          </button>
+
+          <button 
+            onClick={() => generatePDF()}
             className="px-6 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium hover:scale-105 transition-all shadow-[0_0_20px_rgba(20,184,166,0.4)] border border-teal-300/50 flex items-center justify-center gap-2 cursor-pointer flex-1 md:flex-none"
           >
             <Download size={18} /> <span className="text-sm md:text-base">Exportar Acta</span>
@@ -610,6 +687,71 @@ export default function SurgeryRounds() {
           </div>
         ))}
       </div>
+
+      {/* Modal de Historial */}
+      {isHistoryModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setIsHistoryModalOpen(false)}></div>
+          <div className="relative w-full max-w-2xl bg-gray-900 border border-white/10 rounded-[2.5rem] shadow-3xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-300 h-[70vh]">
+            <div className="p-8 border-b border-white/10 flex justify-between items-center bg-black/20">
+               <div>
+                  <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+                    <History className="text-blue-400" /> Historial de Rondas
+                  </h3>
+                  <p className="text-white/40 text-xs mt-1 uppercase tracking-widest font-bold">BioMed HUSJ - Registros en la nube</p>
+               </div>
+               <button onClick={() => setIsHistoryModalOpen(false)} className="p-3 bg-white/5 hover:bg-white/10 rounded-2xl text-white/50 transition-colors"><X /></button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+               {isHistoryLoading ? (
+                 <div className="flex flex-col items-center justify-center h-full text-white/30 gap-4">
+                    <Loader2 size={40} className="animate-spin text-blue-500" />
+                    <p className="font-medium">Sincronizando con el servidor...</p>
+                 </div>
+               ) : history.length === 0 ? (
+                 <div className="flex flex-col items-center justify-center h-full text-white/20 gap-4">
+                    <Activity size={48} />
+                    <p className="font-medium italic">No se encontraron rondas guardadas.</p>
+                 </div>
+               ) : (
+                 history.map((round) => (
+                   <div key={round.id} className="bg-white/5 border border-white/5 rounded-3xl p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:bg-white/[0.08] transition-all group">
+                      <div className="flex items-center gap-4">
+                         <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                            <Calendar size={22} />
+                         </div>
+                         <div>
+                            <p className="text-white font-bold text-lg">{new Date(round.executed_at).toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+                            <p className="text-white/30 text-[10px] uppercase font-black tracking-widest">Responsable: {round.global_data.responsable}</p>
+                         </div>
+                      </div>
+                      <div className="flex items-center gap-2 w-full sm:w-auto">
+                         <button 
+                           onClick={() => generatePDF(round.data, round.global_data)}
+                           className="flex-1 sm:flex-none p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-white/60 hover:text-white transition-all flex items-center justify-center gap-2"
+                           title="Reimprimir Acta"
+                         >
+                            <FileDown size={18} /> <span className="sm:hidden text-xs">PDF</span>
+                         </button>
+                         <button 
+                           onClick={() => loadRound(round)}
+                           className="flex-1 sm:flex-none px-5 py-3 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-2xl hover:bg-blue-500 text-white transition-all flex items-center justify-center gap-2 font-bold"
+                         >
+                            <RotateCcw size={18} /> <span className="text-xs sm:text-sm">REHACER</span>
+                         </button>
+                      </div>
+                   </div>
+                 ))
+               )}
+            </div>
+            
+            <div className="p-6 bg-black/20 border-t border-white/5 text-center">
+               <p className="text-white/20 text-[10px] font-bold uppercase tracking-widest">El historial es personal y solo muestra tus registros.</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
