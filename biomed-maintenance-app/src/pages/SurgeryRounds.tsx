@@ -1,8 +1,12 @@
+import { useState, useRef, useEffect } from 'react';
+import { 
+  Download, CheckSquare, Settings2, Activity, Zap, Settings, X, Edit3, 
+  Calendar, Stethoscope, Loader2, Save, History, FileDown, RotateCcw 
+} from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { Loader2, Save, History, FileDown, RotateCcw } from 'lucide-react';
 
 const EQUIPOS = [
   { 
@@ -260,7 +264,7 @@ export default function SurgeryRounds() {
          ];
          for(let s=1; s<=8; s++) {
             rowActivo.push({ 
-               content: data[s]?.[eq.id]?.activoFijo || '', 
+               content: finalData[s]?.[eq.id]?.activoFijo || '', 
                colSpan: 3, 
                styles: { halign: 'center', fontStyle: 'bold', fontSize: 7 } 
             });
@@ -284,7 +288,7 @@ export default function SurgeryRounds() {
          // Extraer Observaciones combinadas
          const obs = [];
          for(let s=1; s<=8; s++) {
-            const o = data[s]?.[eq.id]?.observaciones;
+            const o = finalData[s]?.[eq.id]?.observaciones;
             if(o) obs.push(`S${s}: ${o}`);
          }
          const obsText = obs.join('\n');
@@ -295,7 +299,7 @@ export default function SurgeryRounds() {
               { content: checkLabel, colSpan: 1, styles: { fontSize: 6 } }
            ];
            for(let s=1; s<=8; s++) {
-              const val = data[s]?.[eq.id]?.checks?.[i];
+              const val = finalData[s]?.[eq.id]?.checks?.[i];
               // Use interceptor token to manually draw checkmark
               const mark = '{v}'; 
               rowItem.push(
