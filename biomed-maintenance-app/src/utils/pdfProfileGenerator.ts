@@ -39,7 +39,7 @@ export const generateProfilePDF = async (equipment: any) => {
     Frecuencia: equipment['frecuencia_mantenimiento'] || equipment['Frecuencia'] || '',
     Garantia: equipment['garantia'] || equipment['Garantia'] || '',
     RegistroInvima: equipment['registro_invima'] || equipment['RegistroInvima'] || '',
-    RequiereCalibracion: equipment['requiere_calibracion'] || equipment['RequiereCalibracion'] || '',
+    RequiereCalibracion: String(equipment['requiere_calibracion'] || equipment['RequiereCalibracion'] || ''),
     FechaCalibracion: equipment['fecha_calibracion'] || equipment['FechaCalibracion'] || ''
   };
 
@@ -209,5 +209,15 @@ export const generateProfilePDF = async (equipment: any) => {
     ]
   });
 
-  doc.save(`Hoja_Vida_${equipment.id_unico || 'Equipo'}.pdf`);
+  const filename = `Hoja_Vida_${equipment.id_unico || 'Equipo'}.pdf`;
+  const blob = doc.output('blob');
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 };
