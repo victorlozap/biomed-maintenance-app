@@ -27,3 +27,21 @@ dist-ssr
 .env
 .env.*
 !*.env.example
+
+# Migration and sync scripts (contain sensitive logic)
+scratch/
+sync_*.js
+sync_*.py
+fix_*.js
+nuclear_*.js
+check_*.cjs
+check_*.js
+count_*.cjs
+migrate-*.js
+import-*.js
+upload_*.py
+
+# Sensitive data files
+*.csv
+*.xlsx
+!*.env.example

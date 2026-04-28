@@ -5,7 +5,7 @@ export const generateProfilePDF = async (equipment: any) => {
   let logoData: string | null = null;
   let logoFormat = 'PNG';
   const posiblesRutas = [
-     '/imagenes/logo-san-jorge.jpg', 
+     '/imagenes/logo-san-jorge.jpg',
      '/imagenes/logo.png', '/imagenes/logo.jpg', '/imagenes/logo.jpeg',
      '/logo.png', '/logo.jpg', '/logo.jpeg'
   ];
@@ -27,7 +27,6 @@ export const generateProfilePDF = async (equipment: any) => {
      } catch(e) { }
   }
 
-  // Helper to normalize equipment fields from different data sources
   const eq = {
     Equipo: equipment['equipo'] || equipment['Equipo'] || '',
     Marca: equipment['marca'] || equipment['Marca'] || '',
@@ -40,8 +39,17 @@ export const generateProfilePDF = async (equipment: any) => {
     Frecuencia: equipment['frecuencia_mantenimiento'] || equipment['Frecuencia'] || '',
     Garantia: equipment['garantia'] || equipment['Garantia'] || '',
     RegistroInvima: equipment['registro_invima'] || equipment['RegistroInvima'] || '',
-    RequiereCalibracion: equipment['requiere_calibracion'] || equipment['RequiereCalibracion'] || ''
+    RequiereCalibracion: equipment['requiere_calibracion'] || equipment['RequiereCalibracion'] || '',
+    FechaCalibracion: equipment['fecha_calibracion'] || equipment['FechaCalibracion'] || ''
   };
+
+  const calibracionSI = (() => {
+    const val = eq.RequiereCalibracion.toLowerCase();
+    if (val === 'si' || val === 'sí' || val === 'yes' || val === '1' || val === 'true') return true;
+    if (val === 'no' || val === '0' || val === 'false') return false;
+    if (eq.FechaCalibracion) return true;
+    return null;
+  })();
 
   const doc = new jsPDF({ format: 'letter' });
   const GRAY = [230, 230, 230] as [number, number, number];
@@ -59,9 +67,9 @@ export const generateProfilePDF = async (equipment: any) => {
     },
     body: [
       [
-        { content: '', rowSpan: 2, styles: { minCellHeight: 25 } }, 
+        { content: '', rowSpan: 2, styles: { minCellHeight: 25 } },
         { content: `EMPRESA SOCIAL DEL ESTADO\nHOSPITAL UNIVERSITARIO SAN JORGE DE PEREIRA`, styles: { fontStyle: 'bold', halign: 'center' } },
-        { content: `CÓDIGO: GRF3MAN-FR18\nVERSIÓN: 4.0\nFECHA: 16-11-2022\nPÁGINA: 1 DE 1`, rowSpan: 2 }
+        { content: `CÓDIGO: GRF3MAN-FR18\nVERSIÓN: 5.0\nFECHA: 06-04-2026\nPÁGINA: 1 DE 1`, rowSpan: 2 }
       ],
       [
         { content: `HOJA DE VIDA EQUIPOS MÉDICOS`, styles: { fontStyle: 'bold', halign: 'center' } }
@@ -95,12 +103,12 @@ export const generateProfilePDF = async (equipment: any) => {
     body: [
       [{ content: 'INFORMACIÓN GENERAL', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
       ['NOMBRE', eq.Equipo || '', 'FECHA DE COMPRA', ''],
-      ['PLACA (ID ÚNICO)', eq.Id_Unico || '', 'COMPRA DE INSTALACIÓN', ''],
-      ['UBICACIÓN', String(eq.Servicio || '').toUpperCase(), 'FORMA DE ADQUISICIÓN', ''],
+      ['CÓDIGO EQUIPO', eq.Id_Unico || '', 'COMPRA DE INSTALACIÓN', ''],
+      ['SERVICIO', String(eq.Servicio || '').toUpperCase(), 'FORMA DE ADQUISICIÓN', ''],
       ['MARCA', eq.Marca || '', 'REPRESENTANTE', ''],
       ['MODELO', eq.Modelo || '', 'DIRECCIÓN', ''],
       ['SERIE', eq.NumeroSerie || '', 'CIUDAD', ''],
-      ['VALOR ADQUISICIÓN', '', 'TELÉFONO', ''],
+      ['VALOR DE ADQUISICIÓN', '', 'TELÉFONO', ''],
       ['', '', 'GARANTÍA HASTA', eq.Garantia || '']
     ]
   });
@@ -113,14 +121,16 @@ export const generateProfilePDF = async (equipment: any) => {
     styles: bodyStyles,
     columnStyles: {
       0: { cellWidth: 50, fontStyle: 'bold', fillColor: GRAY },
-      1: { cellWidth: 45 },
-      2: { cellWidth: 50, fontStyle: 'bold', fillColor: GRAY },
-      3: { cellWidth: 'auto' }
+      1: { cellWidth: 40 },
+      2: { cellWidth: 45, fontStyle: 'bold', fillColor: GRAY },
+      3: { cellWidth: 30 },
+      4: { cellWidth: 12, halign: 'center' },
+      5: { cellWidth: 12, halign: 'center' }
     },
     body: [
-      [{ content: 'TECNOVIGILANCIA', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
-      ['CLASIFICACIÓN TECNOVIGILANCIA', '', 'PERMISO COMERCIALIZACIÓN', ''],
-      ['REGISTRO SANITARIO', eq.RegistroInvima || '', 'TECNOLOGÍA CONTROLADA', '']
+      [{ content: 'TECNOVIGILANCIA', colSpan: 6, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
+      ['CLASIFICACIÓN TECNOVIGILANCIA', '', 'PERMISO DE COMERCIALIZACIÓN', '', '', ''],
+      ['REGISTRO SANITARIO', eq.RegistroInvima || '', 'TECNOLOGÍA CONTROLADA', '', 'SI', 'NO']
     ]
   });
 
@@ -133,16 +143,24 @@ export const generateProfilePDF = async (equipment: any) => {
     columnStyles: {
       0: { cellWidth: 35, fontStyle: 'bold', fillColor: GRAY },
       1: { cellWidth: 40 },
-      2: { cellWidth: 60, fontStyle: 'bold', fillColor: GRAY },
-      3: { cellWidth: 'auto' }
+      2: { cellWidth: 55, fontStyle: 'bold', fillColor: GRAY },
+      3: { cellWidth: 35 },
+      4: { cellWidth: 12, halign: 'center' },
+      5: { cellWidth: 12, halign: 'center' }
     },
     body: [
-      [{ content: 'CARACTERISTICAS TÉCNICAS Y CONDICIONES DE CALIDAD', colSpan: 4, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
-      ['VOLTAJE', '', 'EQUIPO', eq.Equipo || ''],
-      ['CORRIENTE', '', 'TECNOLOGÍA', ''],
-      ['POTENCIA', '', 'PERIODICIDAD DE MTTO.', eq.Frecuencia || ''],
-      ['FRECUENCIA', '', 'CALIBRACIÓN', eq.RequiereCalibracion || ''],
-      [{ content: `CLASIFICACIÓN BIOMÉDICA: ${eq.Riesgo || ''}`, colSpan: 4, styles: { fontStyle: 'bold', fillColor: GRAY } }]
+      [{ content: 'CARACTERISTICAS TÉCNICAS Y CONDICIONES DE CALIDAD', colSpan: 6, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
+      ['VOLTAJE', '', 'EQUIPO', eq.Equipo || '', '', ''],
+      ['CORRIENTE', '', 'TECNOLOGÍA', '', '', ''],
+      ['POTENCIA', '', 'PERIODICIDAD DE MANTENIMIENTO', eq.Frecuencia || '', '', ''],
+      [
+        'FRECUENCIA', '',
+        'CALIBRACIÓN', '',
+        { content: calibracionSI === true ? 'X' : '', styles: { fontStyle: 'bold' } },
+        { content: calibracionSI === false ? 'X' : '', styles: { fontStyle: 'bold' } }
+      ],
+      ['', '', 'VARIABLES A MEDIR', '', '', ''],
+      [{ content: `CLASIFICACIÓN BIOMÉDICA: ${eq.Riesgo || ''}`, colSpan: 6, styles: { fontStyle: 'bold', fillColor: GRAY } }]
     ]
   });
 
@@ -163,7 +181,7 @@ export const generateProfilePDF = async (equipment: any) => {
     body: [
       [{ content: 'PLANOS MANUALES', colSpan: 6, styles: { halign: 'center', fontStyle: 'bold', fillColor: GRAY } }],
       ['CÓDIGO MANUAL', '', 'PLANOS', '', 'IDIOMA', ''],
-      ['OPERACIÓN', '', '', '', '', '']
+      ['OPERACIÓN', '', 'SERVICIO', '', '', '']
     ]
   });
 

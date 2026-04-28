@@ -22,7 +22,7 @@ headers = {
     "Authorization": f"Bearer {apikey}",
     "Content-Type": "application/json"
 }
-context = ssl._create_unverified_context()
+context = ssl.create_default_context()
 
 def api_call(path, method="GET", body=None, extra_headers=None):
     full_url = f"{url_base}{path}"

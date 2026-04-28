@@ -7,22 +7,16 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isRegistering, setIsRegistering] = useState(false);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const { error, data } = isRegistering 
-      ? await supabase.auth.signUp({ email, password })
-      : await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setError(error.message);
-      setLoading(false);
-    } else if (isRegistering && data.user) {
-      alert("✅ ¡Registro enviado! Por favor revisa tu correo electrónico para confirmar tu cuenta (o desactiva la confirmación en Supabase).");
       setLoading(false);
     }
   };
@@ -90,18 +84,13 @@ const Login = () => {
             disabled={loading}
             className="w-full py-4 bg-gradient-to-r from-orange-400 to-amber-500 text-white rounded-2xl font-bold tracking-wide hover:scale-[1.02] active:scale-95 transition-all shadow-[0_10px_30px_rgba(245,158,11,0.3)] border border-orange-300/30 flex items-center justify-center gap-2"
           >
-            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (isRegistering ? 'Crear Cuenta' : 'Entrar al Sistema')}
+            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Entrar al Sistema'}
             {!loading && <ChevronRight size={18} />}
           </button>
         </form>
 
         <footer className="mt-8 text-center">
-          <button 
-            onClick={() => setIsRegistering(!isRegistering)}
-            className="text-white/30 text-xs hover:text-orange-300 transition-colors tracking-wide underline decoration-white/10 underline-offset-4"
-          >
-            {isRegistering ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate'}
-          </button>
+          <p className="text-white/20 text-xs tracking-wide">Acceso exclusivo para personal autorizado</p>
         </footer>
       </div>
 

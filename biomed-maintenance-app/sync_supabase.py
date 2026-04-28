@@ -1,8 +1,19 @@
 import pandas as pd
+import os
 from supabase import create_client, Client
 
-url = "https://gzdspkhpxkibjxbfdeuc.supabase.co"
-key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6ZHNwa2hweGtpYmp4YmZkZXVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4ODIzNTksImV4cCI6MjA5MDQ1ODM1OX0.gQockW2pLcQiJ4xGX5WL6OL5mWFI9LqBQAEODN1kkZI"
+env_path = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.exists(env_path):
+    with open(env_path, "r") as f:
+        for line in f:
+            if line.strip() and not line.startswith("#") and "=" in line:
+                k, v = line.strip().split("=", 1)
+                os.environ[k] = v.strip('"\'")
+
+url = os.environ.get("SUPABASE_URL", "https://gzdspkhpxkibjxbfdeuc.supabase.co")
+key = os.environ.get("VITE_SUPABASE_ANON_KEY") or os.environ.get("SUPABASE_ANON_KEY")
+if not key:
+    raise ValueError("VITE_SUPABASE_ANON_KEY is not set in environment or .env file")
 supabase: Client = create_client(url, key)
 
 df = pd.read_csv("master_inventory_bombs_final_431.csv")

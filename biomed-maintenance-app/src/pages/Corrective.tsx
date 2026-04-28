@@ -117,7 +117,11 @@ const Corrective = () => {
         .insert([{
           equipment_id: selectedEq.id,
           user_id: user.id,
-          report_id: 'COR-' + Math.floor(1000 + Math.random() * 9000),
+          report_id: (() => {
+            const a = new Uint32Array(1);
+            crypto.getRandomValues(a);
+            return 'COR-' + Date.now().toString(36) + '-' + (a[0] % 10000).toString().padStart(4, '0');
+          })(),
           checks: { failure_type: failureType, type: 'CORRECTIVE' },
           notes: `FALLA: ${description} | SOLUCIÓN: ${solution}`,
           executed_at: new Date().toISOString()

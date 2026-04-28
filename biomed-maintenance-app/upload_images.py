@@ -21,7 +21,7 @@ headers = {
     "apikey": apikey,
     "Authorization": f"Bearer {apikey}"
 }
-context = ssl._create_unverified_context()
+context = ssl.create_default_context()
 
 def update_db(model_pattern, photo_url):
     print(f"Updating equipments for model pattern: {model_pattern}")

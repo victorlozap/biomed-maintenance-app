@@ -125,7 +125,9 @@ const Preventive = () => {
     if (!selectedEq || !activeProtocol || !user) return;
     
     setSaving(true);
-    const reportId = 'PM-' + Math.floor(1000 + Math.random() * 9000);
+    const array = new Uint32Array(1);
+    crypto.getRandomValues(array);
+    const reportId = 'PM-' + Date.now().toString(36) + '-' + (array[0] % 10000).toString().padStart(4, '0');
 
     try {
       const { error } = await supabase
