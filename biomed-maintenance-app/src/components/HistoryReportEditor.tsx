@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X, Save, Download, Loader2, CheckCircle, Activity, Calendar, AlertTriangle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { generateProtocolPDF } from '../utils/pdfGenerator';
+import { generateCorrectivePDF } from '../utils/pdfCorrectiveGenerator';
 import { useAuth } from '../contexts/AuthContext';
 import protocolsData from '../data/protocols.json';
 
@@ -42,7 +43,7 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
         detectProtocol(equipment);
       }
     } else if (item.table === 'correctivos_husj') {
-      setCorrectiveData({ ...item.raw });
+      setCorrectiveData({ ...item.raw, report_id: item.report_id });
     }
   }, [item, equipment]);
 
@@ -137,6 +138,23 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
   };
 
   const handleRegeneratePDF = async () => {
+    if (item.table === 'correctivos_husj') {
+        try {
+          setLoading(true);
+          await generateCorrectivePDF(
+            correctiveData,
+            equipment,
+            user?.email || ''
+          );
+        } catch (err) {
+          console.error("Error generating corrective PDF:", err);
+          alert("Error al generar el PDF del correctivo.");
+        } finally {
+          setLoading(false);
+        }
+        return;
+    }
+
     if (item.type !== 'PREVENTIVO' || !activeProtocol) {
         alert('Este reporte no corresponde a un Mantenimiento Preventivo con protocolo digital.');
         return;
@@ -181,14 +199,14 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
             </div>
           </div>
           <div className="flex gap-2">
-            {item.type === 'PREVENTIVO' && (
+            {(item.type === 'PREVENTIVO' || item.table === 'correctivos_husj') && (
               <button 
                 onClick={handleRegeneratePDF}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl text-xs font-bold uppercase transition-all hover:scale-105"
+                className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${item.table === 'correctivos_husj' ? 'from-rose-500 to-rose-600' : 'from-orange-500 to-amber-500'} text-white rounded-xl text-xs font-bold uppercase transition-all hover:scale-105 shadow-lg shadow-rose-500/20`}
                 disabled={loading}
               >
                 {loading ? <Loader2 className="animate-spin" size={14} /> : <Download size={14} />} 
-                Regenerar PDF
+                {item.table === 'correctivos_husj' ? 'Generar Reporte FR134' : 'Regenerar PDF'}
               </button>
             )}
             <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full text-white/30 transition-colors">
@@ -299,49 +317,144 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
             </div>
           ) : item.table === 'correctivos_husj' && correctiveData ? (
             <div className="space-y-6">
+                {/* --- CABECERA DE TIEMPOS Y UBICACIÓN --- */}
+                <div className="p-6 bg-white/5 rounded-[2rem] border border-white/10 space-y-6">
+                  <h4 className="text-[10px] font-black text-rose-400 uppercase tracking-[0.2em] mb-4">Información de Tiempo y Ubicación</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Fecha Inicio</label>
+                      <input 
+                        type="date" 
+                        value={correctiveData.fecha_creacion?.split('T')[0] || ''} 
+                        onChange={e => setCorrectiveData({...correctiveData, fecha_creacion: e.target.value})} 
+                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-xs focus:border-rose-500 outline-none" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Hora Inicio</label>
+                      <input 
+                        type="time" 
+                        value={correctiveData.metadata?.tiempos?.inicio || ''} 
+                        onChange={e => setCorrectiveData({
+                          ...correctiveData, 
+                          metadata: { ...correctiveData.metadata, tiempos: { ...(correctiveData.metadata?.tiempos || {}), inicio: e.target.value } }
+                        })} 
+                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-xs focus:border-rose-500 outline-none" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Fecha Fin</label>
+                      <input 
+                        type="date" 
+                        value={correctiveData.fecha_cierre?.split('T')[0] || ''} 
+                        onChange={e => setCorrectiveData({...correctiveData, fecha_cierre: e.target.value})} 
+                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-xs focus:border-rose-500 outline-none" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Hora Fin</label>
+                      <input 
+                        type="time" 
+                        value={correctiveData.metadata?.tiempos?.fin || ''} 
+                        onChange={e => setCorrectiveData({
+                          ...correctiveData, 
+                          metadata: { ...correctiveData.metadata, tiempos: { ...(correctiveData.metadata?.tiempos || {}), fin: e.target.value } }
+                        })} 
+                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-xs focus:border-rose-500 outline-none" 
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Piso</label>
+                      <input 
+                        placeholder="Ej: 1, 2, 3..."
+                        value={correctiveData.metadata?.piso || ''} 
+                        onChange={e => setCorrectiveData({...correctiveData, metadata: { ...correctiveData.metadata, piso: e.target.value }})} 
+                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-xs focus:border-rose-500 outline-none" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Tipo de Contrato</label>
+                      <select 
+                        value={correctiveData.metadata?.contrato || 'Mantenimiento'} 
+                        onChange={e => setCorrectiveData({...correctiveData, metadata: { ...correctiveData.metadata, contrato: e.target.value }})}
+                        className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-xs focus:border-rose-500 outline-none"
+                      >
+                        <option value="Mantenimiento">Mantenimiento</option>
+                        <option value="Arriendo">Arriendo</option>
+                        <option value="Comodato">Comodato</option>
+                        <option value="Garantía">Garantía</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* --- CHECKLIST TÉCNICO --- */}
+                <div className="p-6 bg-violet-500/5 rounded-[2rem] border border-violet-500/10">
+                  <h4 className="text-[10px] font-black text-violet-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+                    <Activity size={12} /> Matriz de Revisión Técnica (Checklist)
+                  </h4>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {[
+                      { id: 'limpieza', label: 'Limpieza Integral' },
+                      { id: 'bateria', label: 'Batería Interna' },
+                      { id: 'optico', label: 'Sistema Óptico' },
+                      { id: 'impresora', label: 'Impresora' },
+                      { id: 'operacion', label: 'Op. General' },
+                      { id: 'neumatico', label: 'Sist. Neumático' },
+                      { id: 'hidraulico', label: 'Sist. Hidráulico' },
+                      { id: 'alarmas', label: 'Alarmas' },
+                      { id: 'autotest', label: 'Autotest' },
+                      { id: 'electronico', label: 'Sist. Electrónico' },
+                      { id: 'mecanico', label: 'Sist. Mecánico' },
+                      { id: 'accesorios', label: 'Accesorios' },
+                      { id: 'pantalla', label: 'Pantalla (Display)' },
+                      { id: 'sist_electrico', label: 'Sist. Eléctrico' },
+                      { id: 'respaldo', label: 'Sist. Respaldo (Bat.)' },
+                      { id: 'software', label: 'Software' },
+                    ].map(task => (
+                      <label key={task.id} className="flex items-center gap-3 cursor-pointer group">
+                        <input 
+                          type="checkbox"
+                          checked={correctiveData.metadata?.checklist?.[task.id] || false}
+                          onChange={e => {
+                            const newChecklist = { ...(correctiveData.metadata?.checklist || {}), [task.id]: e.target.checked };
+                            setCorrectiveData({ ...correctiveData, metadata: { ...correctiveData.metadata, checklist: newChecklist } });
+                          }}
+                          className="w-5 h-5 rounded-lg border-white/10 bg-black/40 text-rose-500 focus:ring-0 transition-all"
+                        />
+                        <span className="text-[11px] text-white/60 group-hover:text-white transition-colors uppercase tracking-wider">{task.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest">Fecha del Reporte</label>
-                    <input 
-                       type="date" 
-                       value={correctiveData.fecha_creacion?.split('T')[0] || ''} 
-                       onChange={e => setCorrectiveData({...correctiveData, fecha_creacion: e.target.value})} 
-                       className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-rose-500 outline-none transition-all invert" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest">Técnico</label>
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest">Técnico Responsable</label>
                     <input 
                        value={correctiveData.tecnico || ''} 
                        onChange={e => setCorrectiveData({...correctiveData, tecnico: e.target.value.toUpperCase()})} 
                        className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-rose-500 outline-none transition-all" 
                     />
                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest">Estado Diagnosticado</label>
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest">Procedimiento</label>
                     <select 
-                      value={correctiveData.estado_equipo || 'OPERATIVO'} 
-                      onChange={e => setCorrectiveData({...correctiveData, estado_equipo: e.target.value})}
+                      value={correctiveData.metadata?.procedimiento || 'Correctivo'} 
+                      onChange={e => setCorrectiveData({...correctiveData, metadata: { ...correctiveData.metadata, procedimiento: e.target.value }})}
                       className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-rose-500 outline-none"
                     >
-                      <option value="OPERATIVO">OPERATIVO</option>
-                      <option value="FUERA DE SERVICIO">FUERA DE SERVICIO</option>
-                      <option value="BAJA">BAJA</option>
-                    </select>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest">Estado Orden</label>
-                    <select 
-                      value={correctiveData.estado_norm || 'CERRADO'} 
-                      onChange={e => setCorrectiveData({...correctiveData, estado_norm: e.target.value})}
-                      className="w-full bg-black/40 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-rose-500 outline-none"
-                    >
-                      <option value="PENDIENTE">PENDIENTE</option>
-                      <option value="TRABAJANDO">TRABAJANDO</option>
-                      <option value="CERRADO">CERRADO</option>
+                      <option value="Correctivo">Correctivo</option>
+                      <option value="Diagnóstico">Diagnóstico</option>
+                      <option value="Instalación">Instalación</option>
+                      <option value="Seguimiento">Seguimiento</option>
+                      <option value="Preventivo">Preventivo</option>
+                      <option value="Alistamiento">Alistamiento</option>
+                      <option value="Predictivo">Predictivo</option>
+                      <option value="Preventivo no realizado">Preventivo no realizado</option>
                     </select>
                   </div>
                 </div>
@@ -356,12 +469,94 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-violet-400 uppercase tracking-widest">Acción de Mitigación / Reparación</label>
+                  <label className="text-[10px] font-black text-violet-400 uppercase tracking-widest">Revisión y Trabajos Realizados (Descripción Técnica)</label>
                   <textarea 
                     value={correctiveData.accion || ''} 
                     onChange={e => setCorrectiveData({...correctiveData, accion: e.target.value.toUpperCase()})}
                     className="w-full bg-violet-500/5 border border-violet-500/10 rounded-3xl px-6 py-4 text-violet-100 text-sm focus:border-violet-500 h-28 outline-none transition-all resize-none font-medium leading-relaxed italic" 
                   />
+                </div>
+
+                {/* --- SECCIÓN DE REPUESTOS --- */}
+                <div className="p-6 bg-emerald-500/5 rounded-[2rem] border border-emerald-500/10 space-y-4">
+                  <h4 className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                    <Save size={12} /> Repuestos Utilizados
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-5 gap-4">
+                      <div className="col-span-4 text-[9px] font-bold text-white/20 uppercase tracking-widest px-2">Descripción del Repuesto / Periférico</div>
+                      <div className="text-[9px] font-bold text-white/20 uppercase tracking-widest px-2 text-center">Cant.</div>
+                    </div>
+                    {(correctiveData.metadata?.repuestos || [{ desc: '', cant: '' }]).map((rep: any, idx: number) => (
+                      <div key={idx} className="grid grid-cols-5 gap-4">
+                        <input 
+                          placeholder="Nombre del repuesto..."
+                          value={rep.desc || ''}
+                          onChange={e => {
+                            const newR = [...(correctiveData.metadata?.repuestos || [{ desc: '', cant: '' }])];
+                            newR[idx] = { ...newR[idx], desc: e.target.value.toUpperCase() };
+                            setCorrectiveData({ ...correctiveData, metadata: { ...correctiveData.metadata, repuestos: newR } });
+                          }}
+                          className="col-span-4 bg-black/40 border border-white/5 rounded-xl px-4 py-2 text-white text-xs focus:border-emerald-500 outline-none"
+                        />
+                        <input 
+                          type="number"
+                          placeholder="0"
+                          value={rep.cant || ''}
+                          onChange={e => {
+                            const newR = [...(correctiveData.metadata?.repuestos || [{ desc: '', cant: '' }])];
+                            newR[idx] = { ...newR[idx], cant: e.target.value };
+                            setCorrectiveData({ ...correctiveData, metadata: { ...correctiveData.metadata, repuestos: newR } });
+                          }}
+                          className="bg-black/40 border border-white/5 rounded-xl px-2 py-2 text-white text-xs text-center focus:border-emerald-500 outline-none"
+                        />
+                      </div>
+                    ))}
+                    <button 
+                      onClick={() => {
+                        const newR = [...(correctiveData.metadata?.repuestos || [{ desc: '', cant: '' }]), { desc: '', cant: '' }];
+                        setCorrectiveData({ ...correctiveData, metadata: { ...correctiveData.metadata, repuestos: newR } });
+                      }}
+                      className="text-[9px] font-bold text-emerald-400/50 hover:text-emerald-400 uppercase tracking-widest px-2 transition-colors"
+                    >
+                      + Agregar otro repuesto
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-amber-400 uppercase tracking-widest">Observaciones</label>
+                    <textarea 
+                      value={correctiveData.observaciones || ''} 
+                      onChange={e => setCorrectiveData({...correctiveData, observaciones: e.target.value.toUpperCase()})}
+                      className="w-full bg-black/40 border border-white/10 rounded-3xl px-6 py-4 text-white text-sm focus:border-amber-500 h-28 outline-none transition-all resize-none font-light" 
+                    />
+                  </div>
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest">Concepto Técnico Final</label>
+                    <div className="flex flex-col gap-3">
+                      <button 
+                        onClick={() => setCorrectiveData({...correctiveData, estado_equipo: 'APTO PARA USO'})}
+                        className={`flex items-center gap-3 px-6 py-4 rounded-2xl border transition-all ${correctiveData.estado_equipo === 'APTO PARA USO' ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.1)]' : 'bg-black/20 border-white/5 text-white/40 hover:bg-white/5'}`}
+                      >
+                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${correctiveData.estado_equipo === 'APTO PARA USO' ? 'border-emerald-500' : 'border-white/10'}`}>
+                          {correctiveData.estado_equipo === 'APTO PARA USO' && <div className="w-2 h-2 bg-emerald-500 rounded-full" />}
+                        </div>
+                        <span className="font-bold text-xs uppercase tracking-widest">Apto para Uso</span>
+                      </button>
+
+                      <button 
+                        onClick={() => setCorrectiveData({...correctiveData, estado_equipo: 'NO APTO PARA USO'})}
+                        className={`flex items-center gap-3 px-6 py-4 rounded-2xl border transition-all ${correctiveData.estado_equipo === 'NO APTO PARA USO' ? 'bg-rose-500/20 border-rose-500 text-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.1)]' : 'bg-black/20 border-white/5 text-white/40 hover:bg-white/5'}`}
+                      >
+                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${correctiveData.estado_equipo === 'NO APTO PARA USO' ? 'border-rose-500' : 'border-white/10'}`}>
+                          {correctiveData.estado_equipo === 'NO APTO PARA USO' && <div className="w-2 h-2 bg-rose-500 rounded-full" />}
+                        </div>
+                        <span className="font-bold text-xs uppercase tracking-widest">No Apto para Uso</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
             </div>
           ) : (

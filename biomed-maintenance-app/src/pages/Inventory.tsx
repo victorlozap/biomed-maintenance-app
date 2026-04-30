@@ -1,10 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save, Calendar, FileText } from 'lucide-react';
+import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save, Calendar, FileText, FileCheck } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../contexts/AuthContext';
 import { HistoryReportEditor } from '../components/HistoryReportEditor';
 import { formatDate, formatDateForInput } from '../utils/dateUtils';
 
 const Inventory = () => {
+  const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEquipment, setSelectedEquipment] = useState<any | null>(null);
   const [localInventory, setLocalInventory] = useState<any[]>([]);
@@ -650,14 +652,32 @@ const Inventory = () => {
                               
                               {/* ACCIONES DE HISTORIAL */}
                               <div className="flex gap-3 self-end md:self-center">
-                                <button 
+                                {item.table === 'correctivos_husj' && (
+                                  <button
+                                    onClick={async (e) => {
+                                      e.stopPropagation();
+                                      try {
+                                        const { generateCorrectivePDF } = await import('../utils/pdfCorrectiveGenerator');
+                                        await generateCorrectivePDF(item.raw, selectedEquipment, user?.email || '');
+                                      } catch (err: any) {
+                                        console.error('Error generando PDF correctivo:', err);
+                                        alert('Error al generar PDF: ' + (err?.message || err));
+                                      }
+                                    }}
+                                    className="p-3 bg-violet-500/10 hover:bg-violet-500 text-violet-400/60 hover:text-white rounded-2xl border border-violet-500/20 transition-all active:scale-95"
+                                    title="Descargar PDF FR134"
+                                  >
+                                    <FileCheck size={16} />
+                                  </button>
+                                )}
+                                <button
                                   onClick={(e) => { e.stopPropagation(); setSelectedHistoryItem(item); setIsHistoryReportOpen(true); }}
                                   className="p-3 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white rounded-2xl border border-white/5 transition-all active:scale-95"
                                   title="Editar reporte detallado"
                                 >
                                   <FileText size={16} />
                                 </button>
-                                <button 
+                                <button
                                   onClick={(e) => { e.stopPropagation(); handleDeleteActivity(item); }}
                                   className="p-3 bg-rose-500/10 hover:bg-rose-500 text-rose-500/60 hover:text-white rounded-2xl border border-rose-500/20 transition-all active:scale-95"
                                   title="Eliminar del historial"
