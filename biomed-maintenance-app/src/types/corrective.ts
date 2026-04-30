@@ -38,4 +38,5 @@ export type Correctivo = {
   observaciones: string | null;
   comentarios: string | null;
   serie: string | null;
+  metadata: any | null;
 };

@@ -43,7 +43,7 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
         detectProtocol(equipment);
       }
     } else if (item.table === 'correctivos_husj') {
-      setCorrectiveData({ ...item.raw, report_id: item.report_id });
+      setCorrectiveData({ ...item.raw });
     }
   }, [item, equipment]);
 
@@ -122,7 +122,7 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
         const { error } = await supabase
           .from('correctivos_husj')
           .update(correctiveData)
-          .eq('id', item.id);
+          .eq('no_reporte', item.report_id);
 
         if (error) throw error;
       }
