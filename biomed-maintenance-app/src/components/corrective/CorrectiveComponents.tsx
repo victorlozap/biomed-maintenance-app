@@ -6,7 +6,6 @@ import {
 import { X, Search, Activity, FileText } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
-import { generateCorrectiveTemplatePDF } from "../../utils/pdfCorrectiveTemplateGenerator";
 
 // --- Tooltips ---
 export function GlassTooltip({ active, payload, label }: any) {

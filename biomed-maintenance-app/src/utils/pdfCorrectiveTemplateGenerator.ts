@@ -10,9 +10,9 @@ export const generateCorrectiveTemplatePDF = async (item: Correctivo) => {
   
   // Mappings basados en el código Python del usuario
   const mappings = [
-    { text: item.no_reporte || item.id || '', x: 450, y: 715, size: 10 },
+    { text: String(item.no_reporte || ''), x: 450, y: 715, size: 10 },
     { text: item.equipo || '', x: 70, y: 600, size: 10 },
-    { text: item.descripcion || item.falla || '', x: 70, y: 450, size: 10 },
+    { text: item.descripcion || '', x: 70, y: 450, size: 10 },
   ];
 
   // Dibujar la "X" en Correctivo (Coordenada 155, 545 del script Python)
@@ -20,7 +20,7 @@ export const generateCorrectiveTemplatePDF = async (item: Correctivo) => {
   mappings.push({ text: 'X', x: 155, y: 545, size: 12 });
 
   try {
-    const pdfBytes = await generatePDFWithTemplate(templateUrl, item, mappings);
+    const pdfBytes = await generatePDFWithTemplate(templateUrl, mappings);
     downloadBlob(pdfBytes, `Reporte_Correctivo_${item.no_reporte}.pdf`);
   } catch (error) {
     console.error('Error al generar el PDF con plantilla:', error);

@@ -6,7 +6,6 @@ import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
  */
 export const generatePDFWithTemplate = async (
   templateUrl: string,
-  data: any,
   mappings: { text: string, x: number, y: number, size?: number, color?: any }[]
 ) => {
   try {
@@ -42,7 +41,7 @@ export const generatePDFWithTemplate = async (
 };
 
 export const downloadBlob = (data: Uint8Array, fileName: string) => {
-  const blob = new Blob([data], { type: 'application/pdf' });
+  const blob = new Blob([data as any], { type: 'application/pdf' });
   const url = window.URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;

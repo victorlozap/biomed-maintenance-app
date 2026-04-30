@@ -50,11 +50,10 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
 
   // ---- Logo ----
   let logoData: string | null = null;
-  let logoFormat = 'PNG';
   for (const ruta of ['/imagenes/logo-san-jorge.jpg', '/imagenes/logo.png', 'imagenes/logo-san-jorge.jpg']) {
     if (logoData) break;
     const r = await loadAndSanitizeImage(ruta);
-    if (r) { logoData = r.data; logoFormat = r.format; }
+    if (r) { logoData = r.data; }
   }
   console.log('Logo cargado:', !!logoData);
 
