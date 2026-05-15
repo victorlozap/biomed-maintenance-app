@@ -7,6 +7,7 @@ import { formatDate } from '../utils/dateUtils';
 import type { Correctivo } from '../types/corrective';
 import { aplicarFiltros, kpis, barrasPorCausa, piePorEstado } from '../utils/correctiveAggregations';
 import { DamageTypeBar, StatusPie, FilterBar, DetailsDrawer } from '../components/corrective/CorrectiveComponents';
+import { ProtocolForm } from '../components/corrective/ProtocolForm';
 
 // --- KPI Card ---
 function KpiCard({ title, value, icon, color, delay = 0 }: { title: string, value: string | number, icon: React.ReactNode, color: string, delay?: number }) {
@@ -84,10 +85,6 @@ const Corrective = () => {
   const [selectedEq, setSelectedEq] = useState<any | null>(null);
   const [inventoryResults, setInventoryResults] = useState<any[]>([]);
   const [saving, setSaving] = useState(false);
-  
-  const [failureType, setFailureType] = useState('ELECTRÓNICA');
-  const [description, setDescription] = useState('');
-  const [solution, setSolution] = useState('');
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
@@ -107,35 +104,100 @@ const Corrective = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [searchEq]);
 
-  const handleSaveCorrective = async () => {
-    if (!selectedEq || !description || !user) return;
+  const handleSaveProtocol = async (formData: any) => {
+    if (!selectedEq || !user) return;
     setSaving(true);
     
     try {
-      const { error } = await supabase
+      const nextNo = formData.no_reporte ? Number(formData.no_reporte) : null;
+
+      if (!nextNo) {
+        alert("⚠️ Por favor, ingrese un número de reporte válido de su cuadro de correctivos.");
+        setSaving(false);
+        return;
+      }
+
+      // 1. Verificar si el número de reporte ya existe (Seguridad)
+      const { data: existing, error: checkError } = await supabase
+        .from('correctivos_husj')
+        .select('id, activo_fijo')
+        .eq('no_reporte', nextNo)
+        .maybeSingle();
+
+      if (existing) {
+        const confirmSave = window.confirm(`⚠️ ADVERTENCIA DE SEGURIDAD:\n\nEl reporte #${nextNo} ya existe en la base de datos para el activo [${existing.activo_fijo}].\n\n¿Está seguro de que desea crear un duplicado o usar este mismo número?`);
+        if (!confirmSave) {
+          setSaving(false);
+          return;
+        }
+      }
+
+      // 2. Insertar en correctivos_husj (Filtrado estricto de columnas)
+      const allowedColumns = [
+        'no_reporte', 'periodo', 'fecha_creacion', 'fecha_atencion', 'fecha_cierre',
+        'equipo', 'marca', 'modelo', 'activo_fijo', 'equipment_id', 'servicio',
+        'ubicacion', 'descripcion', 'accion', 'tecnico', 'estado', 'estado_gma',
+        'estado_equipo', 'estado_norm', 'causa', 'accesorio_nuevo', 'parada_equipo',
+        'parada_servicio', 'oportunidad_horas', 'parada_dias', 'capacidad_respuesta',
+        'observaciones', 'comentarios', 'serie', 'metadata'
+      ];
+
+      const insertPayload: any = {};
+      allowedColumns.forEach(col => {
+        if (formData[col] !== undefined) {
+          insertPayload[col] = formData[col];
+        }
+      });
+
+      // Valores forzados / calculados
+      insertPayload.no_reporte = nextNo;
+      insertPayload.estado_norm = 'CERRADO';
+      insertPayload.periodo = new Date().getFullYear().toString();
+      insertPayload.fecha_creacion = formData.fecha_creacion || new Date().toISOString().split('T')[0];
+      // Si el tipo lo permite, vinculamos por ID también
+      insertPayload.equipment_id = selectedEq.id;
+
+      const { data: newReport, error: insertError } = await supabase
+        .from('correctivos_husj')
+        .insert([insertPayload])
+        .select()
+        .single();
+
+      if (insertError) throw insertError;
+
+      // 3. Registrar en bitácora histórica (maintenance_logs)
+      const technicianName = user?.email?.split('@')[0]?.toUpperCase() || 'SISTEMA';
+      
+      const { error: logError } = await supabase
         .from('maintenance_logs')
         .insert([{
           equipment_id: selectedEq.id,
-          user_id: user.id,
-          report_id: (() => {
-            const a = new Uint32Array(1);
-            crypto.getRandomValues(a);
-            return 'COR-' + Date.now().toString(36) + '-' + (a[0] % 10000).toString().padStart(4, '0');
-          })(),
-          checks: { failure_type: failureType, type: 'CORRECTIVE' },
-          notes: `FALLA: ${description} | SOLUCIÓN: ${solution}`,
-          executed_at: new Date().toISOString()
+          executed_at: formData.fecha_cierre || new Date().toISOString().split('T')[0],
+          notes: `Mantenimiento Correctivo #${nextNo} [Por: ${technicianName}]: ${formData.descripcion?.substring(0, 100)}`,
+          checks: {
+            type: 'CORRECTIVE',
+            status: formData.estado_equipo,
+            report_no: nextNo,
+            protocol_id: newReport.id,
+            technician: technicianName
+          }
         }]);
 
-      if (error) throw error;
+      if (logError) console.error("Error al registrar log:", logError);
       
-      alert("✅ Orden de Servicio Correctiva guardada con éxito en la nube.");
+      alert(`✅ Reporte #${nextNo} generado y guardado con éxito.`);
+      
+      // Recargar datos
+      const { data: newData } = await supabase
+        .from('correctivos_husj')
+        .select('*')
+        .order('fecha_creacion', { ascending: false });
+      setData(newData as Correctivo[]);
+
       setIsModalOpen(false);
       setSelectedEq(null);
-      setDescription('');
-      setSolution('');
     } catch (e: any) {
-      alert("❌ Error: " + e.message);
+      alert("❌ Error al guardar protocolo: " + e.message);
     } finally {
       setSaving(false);
     }
@@ -345,8 +407,8 @@ const Corrective = () => {
                   {!selectedEq ? (
                     <div className="space-y-6">
                        <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Búsqueda de Activo Principal</label>
-                       <div className="relative">
-                          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20" />
+                       <div className="relative group">
+                          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-fuchsia-500 transition-colors" size={20} />
                           <input 
                             value={searchEq} 
                             onChange={e => setSearchEq(e.target.value)} 
@@ -372,58 +434,13 @@ const Corrective = () => {
                        </div>
                     </div>
                   ) : (
-                    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                       <div className="flex items-center justify-between bg-fuchsia-500/5 p-6 rounded-[2rem] border border-fuchsia-500/10">
-                          <div>
-                             <p className="text-[9px] text-fuchsia-400 font-black mb-1 uppercase tracking-[0.3em]">Unidad Reconocida</p>
-                             <h4 className="text-white text-xl font-bold">{selectedEq.equipo}</h4>
-                             <span className="text-white/20 font-black uppercase text-[10px] tracking-widest">
-                               Fixed Asset: #{selectedEq.id_unico} • S/N: {selectedEq.numero_serie || '---'}
-                             </span>
-                          </div>
-                          <button onClick={() => setSelectedEq(null)} className="px-4 py-2 bg-white/5 rounded-xl text-white/40 text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors">Volver</button>
-                       </div>
-
-                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                          <div className="space-y-3">
-                             <label className="text-[9px] text-white/20 font-black uppercase tracking-[0.3em]">Tipo de Falla</label>
-                             <select value={failureType} onChange={e => setFailureType(e.target.value)} className="w-full bg-black/40 border border-white/5 rounded-2xl p-4 text-white font-medium focus:border-fuchsia-500">
-                                <option>ELECTRÓNICA</option>
-                                <option>MECÁNICA</option>
-                                <option>ACCESORIOS</option>
-                                <option>SOFTWARE</option>
-                                <option>OTRO</option>
-                             </select>
-                          </div>
-                          <div className="space-y-3">
-                             <label className="text-[9px] text-white/20 font-black uppercase tracking-[0.3em]">Timeline de Evento</label>
-                             <div className="p-4 bg-white/2 rounded-2xl text-white/30 text-xs flex items-center gap-3 border border-white/5">
-                                <Calendar size={14} className="text-fuchsia-500" /> Registro Instantáneo
-                             </div>
-                          </div>
-                       </div>
-
-                       <div className="space-y-3">
-                          <label className="text-[9px] text-white/20 font-black uppercase tracking-[0.3em]">Diagnóstico de Falla</label>
-                          <textarea value={description} onChange={e => setDescription(e.target.value)} className="w-full bg-black/40 border border-white/5 rounded-3xl p-6 text-white text-sm focus:border-rose-500 h-28 custom-scrollbar resize-none font-light leading-relaxed" placeholder="Describa el comportamiento anómalo detectado..." />
-                       </div>
-
-                       <div className="space-y-3">
-                          <label className="text-[9px] text-white/20 font-black uppercase tracking-[0.3em]">Acción de Mitigación</label>
-                          <textarea value={solution} onChange={e => setSolution(e.target.value)} className="w-full bg-black/40 border border-white/5 rounded-3xl p-6 text-white text-sm focus:border-emerald-500 h-28 custom-scrollbar resize-none font-light leading-relaxed" placeholder="Detalle los procedimientos técnicos ejecutados..." />
-                       </div>
-                    </div>
+                    <ProtocolForm 
+                      equipment={selectedEq} 
+                      onSave={handleSaveProtocol} 
+                      onCancel={() => setSelectedEq(null)}
+                      saving={saving}
+                    />
                   )}
-               </div>
-
-               <div className="p-8 border-t border-white/5 bg-black/40 flex justify-end">
-                  <button 
-                    onClick={handleSaveCorrective} 
-                    disabled={!selectedEq || !description || saving} 
-                    className={`px-12 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-3 shadow-2xl transition-all duration-500 ${selectedEq && description ? 'bg-violet-600 text-white hover:scale-105 hover:bg-violet-500 shadow-violet-500/20' : 'bg-white/2 text-white/10'}`}
-                  >
-                     {saving ? <Loader2 className="animate-spin" /> : <Zap size={18} />} Finalizar Protocolo Cloud
-                  </button>
                </div>
             </motion.div>
           </motion.div>

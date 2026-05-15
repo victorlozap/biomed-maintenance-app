@@ -57,24 +57,31 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
   }
   console.log('Logo cargado:', !!logoData);
 
-  // ---- Firma ----
+  // ---- Firma y Nombre del Ingeniero ----
   let firmaData: string | null = null;
   let firmaFormat = 'PNG';
-  let engineerName = 'VICTOR LOPEZ';
+  
+  // Prioridad: 1. Ingeniero seleccionado en el form, 2. Email del usuario
+  const selectedName = correctiveData.tecnico || '';
   const emailLower = (userEmail || '').toLowerCase();
+  
   const sigMap = [
-    { p: 'leograjales', u: '/imagenes/firma-leonardo.png', n: 'LEONARDO GRAJALES' },
     { p: 'leonardo', u: '/imagenes/firma-leonardo.png', n: 'LEONARDO GRAJALES' },
-    { p: 'kmiloramirez', u: '/imagenes/firma-camilo.png', n: 'CAMILO RAMIREZ' },
     { p: 'camilo', u: '/imagenes/firma-camilo.png', n: 'CAMILO RAMIREZ' },
-    { p: 'cristiand.hurtado', u: '/imagenes/firma-cristian.png', n: 'CRISTIAN HURTADO' },
     { p: 'cristian', u: '/imagenes/firma-cristian.png', n: 'CRISTIAN HURTADO' },
-    { p: 'victor.lopez', u: '/imagenes/firma-victor-lopez.png', n: 'VICTOR LOPEZ' },
     { p: 'victor', u: '/imagenes/firma-victor-lopez.png', n: 'VICTOR LOPEZ' },
+    { p: 'david', u: '', n: 'DAVID OSPINA' },
+    { p: 'tatiana', u: '', n: 'TATIANA SALAZAR' },
   ];
-  const matched = sigMap.find(s => emailLower.includes(s.p));
+
+  // Buscamos coincidencia primero por nombre completo (si viene del selector) y luego por email
+  const matched = sigMap.find(s => 
+    (selectedName && s.n.toUpperCase() === selectedName.toUpperCase()) || 
+    (emailLower && emailLower.includes(s.p))
+  );
+
   const sigUrl = matched?.u || '/imagenes/firma-victor-lopez.png';
-  engineerName = matched?.n || 'VICTOR LOPEZ';
+  let engineerName = matched?.n || selectedName || 'VICTOR LOPEZ';
   
   const pathsToTry = [sigUrl];
   if (sigUrl.startsWith('/')) pathsToTry.push(sigUrl.substring(1));
@@ -126,8 +133,16 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
   const contract = s(metadata.contrato || 'Mantenimiento').toLowerCase();
 
   const reportNo = s(correctiveData.report_id || correctiveData.no_reporte || correctiveData.id || '');
-  const fechaI = correctiveData.fecha_creacion ? String(correctiveData.fecha_creacion).split('T')[0] : '';
-  const fechaF = correctiveData.fecha_cierre ? String(correctiveData.fecha_cierre).split('T')[0] : '';
+  
+  const formatToDayMonthYear = (dateStr: string) => {
+    if (!dateStr) return '';
+    const parts = dateStr.split('T')[0].split('-');
+    if (parts.length !== 3) return dateStr;
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+  };
+
+  const fechaI = formatToDayMonthYear(s(correctiveData.fecha_creacion));
+  const fechaF = formatToDayMonthYear(s(correctiveData.fecha_cierre));
 
   // ==================== 1. ENCABEZADO ====================
   autoTable(doc, {

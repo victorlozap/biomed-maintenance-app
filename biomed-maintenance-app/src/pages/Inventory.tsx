@@ -141,7 +141,7 @@ const Inventory = () => {
           date: l.executed_at, 
           type: l.checks?.type === 'CORRECTIVE' ? 'CORRECTIVO' : 'PREVENTIVO', 
           report_id: l.report_id, 
-          technician: 'BIO-CLOUD',
+          technician: l.checks?.technician || 'SISTEMA',
           action: l.notes || 'Revisión periódica',
           raw: l
         })),
@@ -170,12 +170,31 @@ const Inventory = () => {
     
     setLoadingHistory(true);
     try {
-      const { error } = await supabase
-        .from(item.table)
-        .delete()
-        .eq('id', item.id);
+      if (item.table === 'correctivos_husj') {
+        // 1. Borrar de la tabla de correctivos
+        const { error: corrError } = await supabase
+          .from('correctivos_husj')
+          .delete()
+          .eq('no_reporte', item.report_id || item.raw.no_reporte);
+        
+        if (corrError) throw corrError;
 
-      if (error) throw error;
+        // 2. Borrar también de la bitácora cualquier rastro vinculado
+        const { error: logError } = await supabase
+          .from('maintenance_logs')
+          .delete()
+          .or(`report_id.eq.${item.report_id || item.raw.no_reporte},checks->>report_no.eq.${item.report_id || item.raw.no_reporte}`);
+        
+        if (logError) console.error("Error al limpiar bitácora:", logError);
+
+      } else {
+        // Borrar log simple
+        const { error } = await supabase
+          .from('maintenance_logs')
+          .delete()
+          .eq('id', item.id);
+        if (error) throw error;
+      }
       
       setEquipmentHistory(prev => prev.filter(a => a.id !== item.id));
       alert('Registro eliminado correctamente.');
@@ -627,65 +646,84 @@ const Inventory = () => {
                       </div>
                     ) : equipmentHistory.length > 0 ? (
                       <div className="space-y-4">
-                        {equipmentHistory.map((item) => (
-                            <div 
-                              key={item.id || item.report_id}
-                              onClick={() => { setSelectedHistoryItem(item); setIsHistoryReportOpen(true); }}
-                              className="group relative bg-black/20 border border-white/5 hover:border-violet-500/40 hover:bg-violet-500/5 rounded-3xl p-5 md:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 transition-all cursor-pointer shadow-lg hover:shadow-violet-500/10"
-                            >
-                              <div className="flex-1 space-y-2">
-                                <div className="flex flex-wrap items-center gap-3">
-                                  <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase border ${
-                                    item.type === 'CORRECTIVO' ? 'border-rose-500/30 text-rose-300 bg-rose-500/10' : 'border-emerald-500/30 text-emerald-300 bg-emerald-500/10'
-                                  }`}>
-                                    {item.type}
-                                  </span>
-                                  <span className="text-violet-400 font-mono text-sm font-bold tracking-tight">#{item.report_id}</span>
-                                  <span className="text-white/20 text-xs font-light">•</span>
-                                  <span className="text-white/40 text-xs font-medium uppercase tracking-tight">{formatDate(item.date)}</span>
-                                </div>
-                                <p className="text-white/80 font-normal leading-relaxed text-sm md:text-base pr-12 line-clamp-2 md:line-clamp-none">
-                                  {item.action}
-                                </p>
-                                <p className="text-white/20 text-[10px] font-bold uppercase tracking-widest italic pt-1">Ejecutado por: {item.technician}</p>
+                        {equipmentHistory.map((item, idx) => (
+                          <div 
+                            key={`${item.table}-${item.id}-${idx}`} 
+                            className="bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 p-6 rounded-[2rem] transition-all group flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+                          >
+                            <div className="flex-1 space-y-3">
+                              <div className="flex flex-wrap items-center gap-3">
+                                <span className={`px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase ${
+                                  item.type === 'CORRECTIVO' ? 'bg-fuchsia-500/20 text-fuchsia-400' : 'bg-emerald-500/20 text-emerald-400'
+                                }`}>
+                                  {item.type}
+                                </span>
+                                <span className="text-violet-400 font-mono text-xs font-bold">
+                                  #{item.report_id || '---'}
+                                </span>
+                                <span className="text-white/20 text-xs font-medium">•</span>
+                                <span className="text-white/40 text-[10px] font-bold uppercase tracking-wider">
+                                  {(() => {
+                                    if (!item.date) return '---';
+                                    const d = new Date(item.date);
+                                    d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+                                    const day = String(d.getDate()).padStart(2, '0');
+                                    const month = String(d.getMonth() + 1).padStart(2, '0');
+                                    const year = d.getFullYear();
+                                    return `${day}/${month}/${year}`;
+                                  })()}
+                                </span>
                               </div>
                               
-                              {/* ACCIONES DE HISTORIAL */}
-                              <div className="flex gap-3 self-end md:self-center">
-                                {item.table === 'correctivos_husj' && (
-                                  <button
-                                    onClick={async (e) => {
-                                      e.stopPropagation();
-                                      try {
-                                        const { generateCorrectivePDF } = await import('../utils/pdfCorrectiveGenerator');
-                                        await generateCorrectivePDF(item.raw, selectedEquipment, user?.email || '');
-                                      } catch (err: any) {
-                                        console.error('Error generando PDF correctivo:', err);
-                                        alert('Error al generar PDF: ' + (err?.message || err));
-                                      }
-                                    }}
-                                    className="p-3 bg-violet-500/10 hover:bg-violet-500 text-violet-400/60 hover:text-white rounded-2xl border border-violet-500/20 transition-all active:scale-95"
-                                    title="Descargar PDF FR134"
-                                  >
-                                    <FileCheck size={16} />
-                                  </button>
-                                )}
-                                <button
-                                  onClick={(e) => { e.stopPropagation(); setSelectedHistoryItem(item); setIsHistoryReportOpen(true); }}
-                                  className="p-3 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white rounded-2xl border border-white/5 transition-all active:scale-95"
-                                  title="Editar reporte detallado"
-                                >
-                                  <FileText size={16} />
-                                </button>
-                                <button
-                                  onClick={(e) => { e.stopPropagation(); handleDeleteActivity(item); }}
-                                  className="p-3 bg-rose-500/10 hover:bg-rose-500 text-rose-500/60 hover:text-white rounded-2xl border border-rose-500/20 transition-all active:scale-95"
-                                  title="Eliminar del historial"
-                                >
-                                  <X size={16} />
-                                </button>
+                              <h4 className="text-white/90 text-sm font-medium leading-relaxed uppercase tracking-tight">
+                                {item.action}
+                              </h4>
+                              
+                              <div className="flex items-center gap-2 pt-1">
+                                <p className="text-white/20 text-[9px] font-black uppercase tracking-[0.2em] italic">
+                                  Ejecutado por: <span className="text-white/60 not-italic">
+                                    {item.technician?.split('@')[0].replace(/\./g, ' ').toUpperCase() || 'SISTEMA'}
+                                  </span>
+                                </p>
                               </div>
                             </div>
+                            
+                            {/* ACCIONES DE HISTORIAL: PDF, EDITAR, ELIMINAR */}
+                            <div className="flex items-center gap-2">
+                              {item.table === 'correctivos_husj' && (
+                                <button
+                                  onClick={async (e) => {
+                                    e.stopPropagation();
+                                    try {
+                                      const { generateCorrectivePDF } = await import('../utils/pdfCorrectiveGenerator');
+                                      await generateCorrectivePDF(item.raw, selectedEquipment, user?.email || '');
+                                    } catch (err: any) {
+                                      console.error('Error generando PDF:', err);
+                                      alert('Error al generar PDF');
+                                    }
+                                  }}
+                                  className="w-12 h-12 flex items-center justify-center bg-violet-500/10 hover:bg-violet-500 text-violet-400 hover:text-white rounded-2xl border border-violet-500/20 transition-all active:scale-90"
+                                  title="Descargar PDF FR134"
+                                >
+                                  <FileCheck size={20} />
+                                </button>
+                              )}
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setSelectedHistoryItem(item); setIsHistoryReportOpen(true); }}
+                                className="w-12 h-12 flex items-center justify-center bg-white/5 hover:bg-white/10 text-white/40 hover:text-white rounded-2xl border border-white/10 transition-all active:scale-90"
+                                title="Editar reporte detallado"
+                              >
+                                <FileText size={20} />
+                              </button>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); handleDeleteActivity(item); }}
+                                className="w-12 h-12 flex items-center justify-center bg-rose-500/10 hover:bg-rose-500 text-rose-500/60 hover:text-white rounded-2xl border border-rose-500/20 transition-all active:scale-90"
+                                title="Eliminar reporte"
+                              >
+                                <X size={20} />
+                              </button>
+                            </div>
+                          </div>
                         ))}
                       </div>
                     ) : (
