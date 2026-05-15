@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wrench, AlertTriangle, X, Search, Loader2, Activity, Calendar, BarChart3, FileText, CheckCircle2, Clock, Zap } from 'lucide-react';
+import { Wrench, AlertTriangle, Search, Activity, BarChart3, FileText, CheckCircle2, Clock, Zap } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { formatDate } from '../utils/dateUtils';
@@ -118,7 +118,7 @@ const Corrective = () => {
       }
 
       // 1. Verificar si el número de reporte ya existe (Seguridad)
-      const { data: existing, error: checkError } = await supabase
+      const { data: existing, error: _checkError } = await supabase
         .from('correctivos_husj')
         .select('id, activo_fijo')
         .eq('no_reporte', nextNo)

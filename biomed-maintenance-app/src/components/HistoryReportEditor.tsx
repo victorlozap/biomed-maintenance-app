@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Save, Download, Loader2, CheckCircle, Activity, Calendar, AlertTriangle } from 'lucide-react';
+import { X, Save, Download, Loader2, Activity, AlertTriangle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { generateProtocolPDF } from '../utils/pdfGenerator';
 import { generateCorrectivePDF } from '../utils/pdfCorrectiveGenerator';

@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { 
-  X, Save, Download, Loader2, Activity, Calendar, 
+  Loader2, Calendar,
   Clock, MapPin, ClipboardList, Package, CheckCircle2,
   AlertCircle, ChevronRight, ChevronLeft, Wrench, FileText,
   Check, User
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { generateCorrectivePDF } from '../../utils/pdfCorrectiveGenerator';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface ProtocolFormProps {
@@ -129,7 +128,6 @@ export const ProtocolForm = ({ equipment, initialData, onSave, onCancel, saving 
 
   return (
     <div className="space-y-4 md:space-y-6 p-4 md:p-6">
-      <h1 className="text-red-500 font-black text-4xl text-center bg-yellow-400 p-4 rounded-full">ESTOY EN EL PROTOCOLFORM NUEVO - VERSIÓN 4.1</h1>
       {/* Progress Header */}
       <div className="flex items-center justify-between px-2 md:px-4">
         {steps.map((s, idx) => (
