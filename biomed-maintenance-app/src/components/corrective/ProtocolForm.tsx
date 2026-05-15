@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { 
-  Loader2, Calendar,
+  Loader2, Calendar, Search,
   Clock, MapPin, ClipboardList, Package, CheckCircle2,
   AlertCircle, ChevronRight, ChevronLeft, Wrench, FileText,
   Check, User
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface ProtocolFormProps {
-  equipment: any;
+  equipment: any | null;
   initialData?: any;
   onSave: (data: any) => Promise<void>;
   onCancel: () => void;
@@ -19,14 +20,20 @@ interface ProtocolFormProps {
 export const ProtocolForm = ({ equipment, initialData, onSave, onCancel, saving = false }: ProtocolFormProps) => {
   const { user } = useAuth();
   const [step, setStep] = useState(1);
+  const [selectedAsset, setSelectedAsset] = useState<any | null>(equipment);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+
   const [correctiveData, setCorrectiveData] = useState<any>(initialData || {
-    equipo: equipment.equipo,
-    marca: equipment.marca,
-    modelo: equipment.modelo,
-    serie: equipment.numero_serie || equipment.serial,
-    activo_fijo: equipment.id_unico,
-    servicio: equipment.servicio,
-    ubicacion: equipment.ubicacion,
+    equipo: equipment?.equipo || '',
+    marca: equipment?.marca || '',
+    modelo: equipment?.modelo || '',
+    serie: equipment?.numero_serie || equipment?.serial || '',
+    activo_fijo: equipment?.id_unico || '',
+    servicio: equipment?.servicio || '',
+    ubicacion: equipment?.ubicacion || '',
+    equipment_id: equipment?.id || null,
     descripcion: '',
     accion: '',
     tecnico: user?.email?.split('@')[0]?.toUpperCase() || '',
@@ -61,6 +68,48 @@ export const ProtocolForm = ({ equipment, initialData, onSave, onCancel, saving 
       repuestos: [{ desc: '', cant: '' }]
     }
   });
+
+  // Búsqueda dinámica de equipos
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (searchQuery.length >= 2) {
+        setIsSearching(true);
+        const { data, error } = await supabase
+          .from('equipments')
+          .select('*')
+          .or(`id_unico.ilike.%${searchQuery}%,equipo.ilike.%${searchQuery}%`)
+          .limit(5);
+
+        if (!error) setSearchResults(data || []);
+        setIsSearching(false);
+      } else {
+        setSearchResults([]);
+      }
+    }, 400);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery]);
+
+  const selectAsset = (asset: any) => {
+    setSelectedAsset(asset);
+    setCorrectiveData((prev: any) => ({
+      ...prev,
+      equipo: asset.equipo,
+      marca: asset.marca,
+      modelo: asset.modelo,
+      serie: asset.numero_serie || asset.serial || '',
+      activo_fijo: asset.id_unico,
+      servicio: asset.servicio,
+      ubicacion: asset.ubicacion,
+      equipment_id: asset.id,
+      metadata: {
+        ...prev.metadata,
+        piso: asset.ubicacion || ''
+      }
+    }));
+    setSearchQuery('');
+    setSearchResults([]);
+  };
 
   useEffect(() => {
     if (initialData) {
@@ -168,31 +217,82 @@ export const ProtocolForm = ({ equipment, initialData, onSave, onCancel, saving 
               exit={{ opacity: 0, x: -20 }}
               className="space-y-4 md:space-y-6"
             >
-              <div className="bg-fuchsia-500/5 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-fuchsia-500/10 backdrop-blur-xl">
-                <div className="flex items-center gap-4 md:gap-5 mb-4 md:mb-6">
-                  <div className="w-10 h-10 md:w-12 md:h-12 bg-fuchsia-500 rounded-xl md:rounded-2xl flex items-center justify-center text-white shadow-xl shadow-fuchsia-500/20">
-                    <MapPin size={20} className="md:w-6 md:h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-black text-base md:text-xl tracking-tight leading-tight">{equipment.equipo}</h3>
-                    <p className="text-white/30 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">Activo Fijo: #{equipment.id_unico}</p>
+              {!selectedAsset ? (
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] ml-2">Búsqueda de Activo Principal</label>
+                  <div className="relative">
+                    <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20" size={18} />
+                    <input 
+                      type="text" 
+                      placeholder="Escriba Placa o Nombre del Equipo..." 
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-[1.5rem] py-4 pl-14 pr-6 text-white focus:border-fuchsia-500 transition-all font-medium placeholder:text-white/10"
+                    />
+                    {(isSearching || searchResults.length > 0) && (
+                      <div className="absolute top-full left-0 right-0 mt-3 bg-[#0f172a] border border-white/10 rounded-2xl overflow-hidden z-50 shadow-2xl backdrop-blur-xl">
+                        {isSearching ? (
+                          <div className="p-6 text-center text-white/40 flex items-center justify-center gap-3">
+                            <Loader2 className="animate-spin" size={18} />
+                            <span className="text-xs font-bold uppercase tracking-widest">Buscando en servidor...</span>
+                          </div>
+                        ) : (
+                          searchResults.map(asset => (
+                            <div 
+                              key={asset.id} 
+                              onClick={() => selectAsset(asset)} 
+                              className="px-6 py-4 hover:bg-fuchsia-500/10 cursor-pointer border-b border-white/5 flex justify-between items-center group transition-colors"
+                            >
+                               <div>
+                                  <p className="text-white font-bold group-hover:text-fuchsia-400 transition-colors">{asset.equipo}</p>
+                                  <p className="text-white/40 text-[10px] uppercase font-black tracking-widest mt-0.5">{asset.marca} • {asset.servicio}</p>
+                               </div>
+                               <span className="bg-fuchsia-500/10 text-fuchsia-400 px-3 py-1 rounded-lg font-mono font-bold text-xs">#{asset.id_unico}</span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-2">
-                  {[
-                    { label: 'SERVICIO', value: equipment.servicio },
-                    { label: 'MARCA', value: equipment.marca },
-                    { label: 'MODELO', value: equipment.modelo },
-                    { label: 'SERIE', value: equipment.numero_serie || equipment.serial }
-                  ].map((info, idx) => (
-                    <div key={idx} className="space-y-1">
-                      <p className="text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-widest">{info.label}</p>
-                      <p className="text-white font-bold text-[10px] md:text-xs truncate">{info.value || 'N/A'}</p>
+              ) : (
+                <div className="bg-fuchsia-500/5 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-fuchsia-500/10 backdrop-blur-xl animate-in fade-in zoom-in duration-300">
+                  <div className="flex items-center justify-between mb-4 md:mb-6">
+                    <div className="flex items-center gap-4 md:gap-5">
+                      <div className="w-10 h-10 md:w-12 md:h-12 bg-fuchsia-500 rounded-xl md:rounded-2xl flex items-center justify-center text-white shadow-xl shadow-fuchsia-500/20">
+                        <MapPin size={20} className="md:w-6 md:h-6" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-black text-base md:text-xl tracking-tight leading-tight">{selectedAsset.equipo}</h3>
+                        <p className="text-white/30 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">Activo Fijo: #{selectedAsset.id_unico}</p>
+                      </div>
                     </div>
-                  ))}
+                    {/* Botón para cambiar equipo si se equivocó */}
+                    {!initialData && (
+                      <button 
+                        onClick={() => setSelectedAsset(null)}
+                        className="text-[10px] font-black text-fuchsia-400 uppercase tracking-widest hover:text-white transition-colors border border-fuchsia-500/20 px-3 py-1.5 rounded-lg bg-fuchsia-500/5"
+                      >
+                        Cambiar
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-2">
+                    {[
+                      { label: 'SERVICIO', value: selectedAsset.servicio },
+                      { label: 'MARCA', value: selectedAsset.marca },
+                      { label: 'MODELO', value: selectedAsset.modelo },
+                      { label: 'SERIE', value: selectedAsset.numero_serie || selectedAsset.serial }
+                    ].map((info, idx) => (
+                      <div key={idx} className="space-y-1">
+                        <p className="text-[7px] md:text-[8px] font-black text-white/20 uppercase tracking-widest">{info.label}</p>
+                        <p className="text-white font-bold text-[10px] md:text-xs truncate">{info.value || 'N/A'}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="bg-blue-500/5 p-4 md:p-6 rounded-xl md:rounded-2xl border border-blue-500/10 flex items-center justify-between">
                 <div className="flex-1">
