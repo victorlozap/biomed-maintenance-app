@@ -1,9 +1,14 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Plus, Search, Filter, X, Loader2, RefreshCw, Activity, Edit, Download, Save, Calendar, FileText, FileCheck } from 'lucide-react';
+import { 
+  Plus, Search, Filter, X, Loader2, RefreshCw, 
+  Activity, Edit, Download, Save, Calendar, 
+  FileText, FileCheck 
+} from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { HistoryReportEditor } from '../components/HistoryReportEditor';
 import { formatDate, formatDateForInput } from '../utils/dateUtils';
+import { generateCorrectivePDF } from '../utils/pdfCorrectiveGenerator';
 
 const Inventory = () => {
   const { user } = useAuth();
@@ -695,11 +700,11 @@ const Inventory = () => {
                                   onClick={async (e) => {
                                     e.stopPropagation();
                                     try {
-                                      const { generateCorrectivePDF } = await import('../utils/pdfCorrectiveGenerator');
+                                      
                                       await generateCorrectivePDF(item.raw, selectedEquipment, user?.email || '');
                                     } catch (err: any) {
                                       console.error('Error generando PDF:', err);
-                                      alert('Error al generar PDF');
+                                      alert('Error al generar PDF: ' + (err.message || 'Error desconocido'));
                                     }
                                   }}
                                   className="w-12 h-12 flex items-center justify-center bg-violet-500/10 hover:bg-violet-500 text-violet-400 hover:text-white rounded-2xl border border-violet-500/20 transition-all active:scale-90"
