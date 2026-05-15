@@ -395,53 +395,47 @@ const Corrective = () => {
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               className="relative glass-card w-full max-w-3xl rounded-[3rem] shadow-3xl flex flex-col overflow-hidden"
             >
-               <div className="p-8 border-b border-white/5 flex justify-between items-center bg-white/2">
-                  <div>
-                     <h3 className="text-2xl font-black text-white tracking-tight">Orden de Servicio [OS]</h3>
-                     <p className="text-fuchsia-400 font-bold uppercase tracking-[0.3em] text-[9px] mt-1">Maintenance Cloud Protocol v4.0</p>
+              <AnimatePresence mode="wait">
+                {!selectedEq ? (
+                  <div className="p-10 space-y-8 overflow-y-auto max-h-[70vh] custom-scrollbar">
+                     <div className="space-y-6">
+                        <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Búsqueda de Activo Principal</label>
+                        <div className="relative group">
+                           <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-fuchsia-500 transition-colors" size={20} />
+                           <input 
+                             value={searchEq} 
+                             onChange={e => setSearchEq(e.target.value)} 
+                             type="text" 
+                             placeholder="Ingrese nombre o placa de inventario..." 
+                             className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 pl-14 pr-6 text-white text-lg focus:border-fuchsia-500 transition-all placeholder:text-white/10" 
+                           />
+                           {inventoryResults.length > 0 && (
+                             <div className="absolute top-full left-0 right-0 mt-3 glass-card rounded-2xl overflow-hidden z-20">
+                                {inventoryResults.map(item => (
+                                  <div key={item.id} onClick={() => setSelectedEq(item)} className="px-8 py-5 hover:bg-fuchsia-500/20 cursor-pointer border-b border-white/5 flex justify-between items-center text-white">
+                                      <div className="flex flex-col">
+                                        <span className="font-bold text-sm tracking-tight">{item.equipo}</span>
+                                        <span className="text-[10px] font-black text-white/20 uppercase">
+                                          #{item.id_unico} • S/N: {item.numero_serie || '---'}
+                                        </span>
+                                      </div>
+                                     <span className="text-fuchsia-400 font-black text-[9px] uppercase tracking-widest">{item.servicio}</span>
+                                  </div>
+                                ))}
+                             </div>
+                           )}
+                        </div>
+                     </div>
                   </div>
-                  <button onClick={() => setIsModalOpen(false)} className="p-3 hover:bg-white/5 rounded-full text-white/30 transition-colors"><X size={20} /></button>
-               </div>
-
-               <div className="p-10 space-y-8 overflow-y-auto max-h-[70vh] custom-scrollbar">
-                  {!selectedEq ? (
-                    <div className="space-y-6">
-                       <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Búsqueda de Activo Principal</label>
-                       <div className="relative group">
-                          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-fuchsia-500 transition-colors" size={20} />
-                          <input 
-                            value={searchEq} 
-                            onChange={e => setSearchEq(e.target.value)} 
-                            type="text" 
-                            placeholder="Ingrese nombre o placa de inventario..." 
-                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 pl-14 pr-6 text-white text-lg focus:border-fuchsia-500 transition-all placeholder:text-white/10" 
-                          />
-                          {inventoryResults.length > 0 && (
-                            <div className="absolute top-full left-0 right-0 mt-3 glass-card rounded-2xl overflow-hidden z-20">
-                               {inventoryResults.map(item => (
-                                 <div key={item.id} onClick={() => setSelectedEq(item)} className="px-8 py-5 hover:bg-fuchsia-500/20 cursor-pointer border-b border-white/5 flex justify-between items-center text-white">
-                                     <div className="flex flex-col">
-                                       <span className="font-bold text-sm tracking-tight">{item.equipo}</span>
-                                       <span className="text-[10px] font-black text-white/20 uppercase">
-                                         #{item.id_unico} • S/N: {item.numero_serie || '---'}
-                                       </span>
-                                     </div>
-                                    <span className="text-fuchsia-400 font-black text-[9px] uppercase tracking-widest">{item.servicio}</span>
-                                 </div>
-                               ))}
-                            </div>
-                          )}
-                       </div>
-                    </div>
-                  ) : (
-                    <ProtocolForm 
-                      equipment={selectedEq} 
-                      onSave={handleSaveProtocol} 
-                      onCancel={() => setSelectedEq(null)}
-                      saving={saving}
-                    />
-                  )}
-               </div>
+                ) : (
+                  <ProtocolForm 
+                    equipment={selectedEq} 
+                    onSave={handleSaveProtocol} 
+                    onCancel={() => setSelectedEq(null)}
+                    saving={saving}
+                  />
+                )}
+              </AnimatePresence>
             </motion.div>
           </motion.div>
         )}
