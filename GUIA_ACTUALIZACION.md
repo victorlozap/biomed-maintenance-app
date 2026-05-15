@@ -7,15 +7,15 @@ Esta guía contiene los comandos necesarios para sincronizar los datos de los in
 ## 🛠 1. Mantenimientos Correctivos
 Se sincronizan cada mes desde la carpeta de Correctivos.
 
-### Comando para Abril 2026:
-```powershell
-python scripts/sync_correctivos.py "C:\Users\victo\OneDrive - E.S.E. Hospital Universitario San Jorge de Pereira\🏣 HUSJ (METROMEDICA)\3. CORRECTIVOS 🛠\3- Correctivos 2026\04 - Abril 2026\Abril 2026.xlsx"
-```
-
-### Comando para meses futuros (Ejemplo):
-Solo debés cambiar el nombre de la carpeta y el archivo:
+### Comando Actual (Mayo 2026):
 ```powershell
 python scripts/sync_correctivos.py "C:\Users\victo\OneDrive - E.S.E. Hospital Universitario San Jorge de Pereira\🏣 HUSJ (METROMEDICA)\3. CORRECTIVOS 🛠\3- Correctivos 2026\05 - Mayo 2026\Mayo 2026.xlsx"
+```
+
+### Comando para meses futuros (Ejemplo Junio 2026):
+Solo debés cambiar el nombre de la carpeta y el archivo:
+```powershell
+python scripts/sync_correctivos.py "C:\Users\victo\OneDrive - E.S.E. Hospital Universitario San Jorge de Pereira\🏣 HUSJ (METROMEDICA)\3. CORRECTIVOS 🛠\3- Correctivos 2026\06 - Junio 2026\Junio 2026.xlsx"
 ```
 
 ---
@@ -47,4 +47,4 @@ node scripts/sync_master_complete.cjs
 - **Errores comunes:** Si el comando falla por "archivo no encontrado", verificá que el nombre del archivo en OneDrive coincida exactamente con el del comando.
 
 ---
-**Actualizado:** 06 de Abril de 2026
+**Actualizado:** 14 de Mayo de 2026

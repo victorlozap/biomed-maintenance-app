@@ -1,5 +1,30 @@
 # 📝 Bitácora de Desarrollo
 
+## [2026-05-14] 🛠 Estabilización de UI/UX y Reportes Correctivos en Producción
+
+- **Objetivo**: Estabilizar la interfaz de reportes de mantenimiento correctivo y resolver fallos críticos en producción (Vercel).
+
+### 🚧 Retos y Desafíos Técnicos Enfrentados:
+1. **Inconsistencia de Interfaz (UX/UI):** El módulo correctivo se estaba volviendo complejo de navegar en comparación con el preventivo, rompiendo el flujo de trabajo del biomédico en terreno.
+2. **Crash Silencioso de PDFs en Producción:** En el entorno local (`localhost`) los reportes PDF funcionaban perfecto, pero al desplegar en Vercel, la aplicación colapsaba sin arrojar logs claros al intentar procesar las firmas dinámicas.
+3. **Bug Crítico de Desfase Horario (Timezone Drift):** Las fechas importadas desde Excel o introducidas manualmente aparecían con un día de retraso (Ej: el Excel decía 15 de Mayo y el sistema guardaba 14 de Mayo).
+
+### 🔍 Opciones Evaluadas y Toma de Decisiones:
+*   **Para el problema del PDF en Vercel:**
+    *   *Opción A:* Eliminar las firmas dinámicas en producción. (*Descartada:* Rompía los requisitos legales de auditoría del hospital).
+    *   *Opción B:* Cambiar toda la librería de generación PDF. (*Descartada:* Requería reescribir plantillas masivas, altísimo costo de tiempo).
+    *   *Opción C (Elegida):* Estandarizar la cabecera MIME. El servidor de Vercel a veces alteraba el `content-type` de la respuesta Fetch. Se modificó el código para admitir cualquier string base64 (`data:`) en la generación de imágenes con jsPDF. **Decisión: Máxima robustez con el menor impacto en código.**
+*   **Para el bug del Timezone (Fechas desfasadas):**
+    *   *Opción A:* Sumarle 24 horas "a la fuerza" a cada fecha mostrada en el frontend. (*Descartada:* Es un *hack* sucio; traería problemas en años bisiestos).
+    *   *Opción B (Elegida):* Atacar el problema de raíz en el motor JS. JS interpreta una fecha pura "YYYY-MM-DD" como UTC Medianoche. Al mostrarse en Colombia (UTC-5), el navegador restaba 5 horas, cayendo a las 19:00 del día anterior. Se centralizó la lógica en `dateUtils.ts` usando explícitamente `getUTCDate()` para asegurar compensación horaria precisa.
+
+### ✅ Soluciones Implementadas:
+- **Refactorización de Interfaz:** Construcción de un *Right-side Drawer* (panel lateral) para el módulo Correctivo, logrando paridad de diseño con el módulo Preventivo. Adicionalmente, se añadió el campo de edición directa para "Fecha de Soporte".
+- **Reportes Nativos:** Vercel genera ahora PDFs estables, inyectando firmas con base64 puro.
+- **Trazabilidad Temporal:** El desfasaje de fechas quedó erradicado al 100%.
+
+---
+
 ## [2026-04-08] 🚀 Consolidación de Inventario y Sincronización Supabase
 
 - **Objetivo**: Centralizar 431 seriales únicos de bombas de infusión (Comodato) y limpiar la base de datos para auditoría 2026.

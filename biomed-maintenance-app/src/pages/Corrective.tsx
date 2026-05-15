@@ -8,6 +8,7 @@ import type { Correctivo } from '../types/corrective';
 import { aplicarFiltros, kpis, barrasPorCausa, piePorEstado } from '../utils/correctiveAggregations';
 import { DamageTypeBar, StatusPie, FilterBar, DetailsDrawer } from '../components/corrective/CorrectiveComponents';
 import { ProtocolForm } from '../components/corrective/ProtocolForm';
+import { generateCorrectivePDF } from '../utils/pdfCorrectiveGenerator';
 
 // --- KPI Card ---
 function KpiCard({ title, value, icon, color, delay = 0 }: { title: string, value: string | number, icon: React.ReactNode, color: string, delay?: number }) {
@@ -184,6 +185,14 @@ const Corrective = () => {
         }]);
 
       if (logError) console.error("Error al registrar log:", logError);
+      
+      // Auto-generate PDF
+      try {
+        await generateCorrectivePDF(newReport, selectedEq, user?.email || '');
+      } catch (pdfError) {
+        console.error("Error generating PDF:", pdfError);
+        alert("Reporte guardado, pero falló la generación automática del PDF.");
+      }
       
       alert(`✅ Reporte #${nextNo} generado y guardado con éxito.`);
       
