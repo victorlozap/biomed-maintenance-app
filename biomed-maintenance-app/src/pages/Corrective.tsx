@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wrench, AlertTriangle, Search, Activity, BarChart3, FileText, CheckCircle2, Clock, Zap } from 'lucide-react';
+import { Wrench, AlertTriangle, Search, Activity, BarChart3, FileText, CheckCircle2, Clock, Zap, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { formatDate } from '../utils/dateUtils';
@@ -382,62 +382,86 @@ const Corrective = () => {
 
       <AnimatePresence>
         {isModalOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
-          >
-            <div className="absolute inset-0 bg-black/60" onClick={() => setIsModalOpen(false)}></div>
+          <div className="fixed inset-0 z-50 flex justify-end">
+            {/* Overlay */}
             <motion.div 
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="relative glass-card w-full max-w-3xl rounded-[3rem] shadow-3xl flex flex-col overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            
+            {/* Panel Lateral */}
+            <motion.div 
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="relative w-full max-w-3xl bg-[#0c111d] border-l border-white/10 shadow-2xl flex flex-col overflow-hidden"
             >
-              <AnimatePresence mode="wait">
-                {!selectedEq ? (
-                  <div className="p-10 space-y-8 overflow-y-auto max-h-[70vh] custom-scrollbar">
-                     <div className="space-y-6">
-                        <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Búsqueda de Activo Principal</label>
-                        <div className="relative group">
-                           <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-fuchsia-500 transition-colors" size={20} />
-                           <input 
-                             value={searchEq} 
-                             onChange={e => setSearchEq(e.target.value)} 
-                             type="text" 
-                             placeholder="Ingrese nombre o placa de inventario..." 
-                             className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 pl-14 pr-6 text-white text-lg focus:border-fuchsia-500 transition-all placeholder:text-white/10" 
-                           />
-                           {inventoryResults.length > 0 && (
-                             <div className="absolute top-full left-0 right-0 mt-3 glass-card rounded-2xl overflow-hidden z-20">
-                                {inventoryResults.map(item => (
-                                  <div key={item.id} onClick={() => setSelectedEq(item)} className="px-8 py-5 hover:bg-fuchsia-500/20 cursor-pointer border-b border-white/5 flex justify-between items-center text-white">
-                                      <div className="flex flex-col">
-                                        <span className="font-bold text-sm tracking-tight">{item.equipo}</span>
-                                        <span className="text-[10px] font-black text-white/20 uppercase">
-                                          #{item.id_unico} • S/N: {item.numero_serie || '---'}
-                                        </span>
-                                      </div>
-                                     <span className="text-fuchsia-400 font-black text-[9px] uppercase tracking-widest">{item.servicio}</span>
-                                  </div>
-                                ))}
-                             </div>
-                           )}
-                        </div>
-                     </div>
-                  </div>
-                ) : (
-                  <ProtocolForm 
-                    equipment={selectedEq} 
-                    onSave={handleSaveProtocol} 
-                    onCancel={() => setSelectedEq(null)}
-                    saving={saving}
-                  />
-                )}
-              </AnimatePresence>
+              {/* Header del Panel */}
+              <div className="p-6 border-b border-white/5 bg-black/40 flex justify-between items-center">
+                <div>
+                  <h3 className="text-2xl font-bold text-white tracking-tight">Manual de Ejecución</h3>
+                  <p className="text-fuchsia-400 text-[10px] font-black uppercase tracking-[0.2em] mt-1">Formato Correctivo GRF3MAN-FR134</p>
+                </div>
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="p-2 hover:bg-white/10 rounded-full text-white/40 hover:text-white transition-all"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Contenido con Scroll */}
+              <div className="flex-1 overflow-y-auto custom-scrollbar">
+                <AnimatePresence mode="wait">
+                  {!selectedEq ? (
+                    <div className="p-8 lg:p-10 space-y-8">
+                       <div className="space-y-6">
+                          <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em]">Búsqueda de Activo Principal</label>
+                          <div className="relative group">
+                             <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-fuchsia-500 transition-colors" size={20} />
+                             <input 
+                               value={searchEq} 
+                               onChange={e => setSearchEq(e.target.value)} 
+                               type="text" 
+                               placeholder="Ingrese nombre o placa de inventario..." 
+                               className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 pl-14 pr-6 text-white text-lg focus:border-fuchsia-500 transition-all placeholder:text-white/10" 
+                             />
+                             {inventoryResults.length > 0 && (
+                               <div className="absolute top-full left-0 right-0 mt-3 glass-card rounded-2xl overflow-hidden z-20">
+                                  {inventoryResults.map(item => (
+                                    <div key={item.id} onClick={() => setSelectedEq(item)} className="px-8 py-5 hover:bg-fuchsia-500/20 cursor-pointer border-b border-white/5 flex justify-between items-center text-white">
+                                        <div className="flex flex-col">
+                                          <span className="font-bold text-sm tracking-tight">{item.equipo}</span>
+                                          <span className="text-[10px] font-black text-white/20 uppercase">
+                                            #{item.id_unico} • S/N: {item.numero_serie || '---'}
+                                          </span>
+                                        </div>
+                                       <span className="text-fuchsia-400 font-black text-[9px] uppercase tracking-widest">{item.servicio}</span>
+                                    </div>
+                                  ))}
+                               </div>
+                             )}
+                          </div>
+                       </div>
+                    </div>
+                  ) : (
+                    <div className="p-8 lg:p-10">
+                      <ProtocolForm 
+                        equipment={selectedEq} 
+                        onSave={handleSaveProtocol} 
+                        onCancel={() => setSelectedEq(null)}
+                        saving={saving}
+                      />
+                    </div>
+                  )}
+                </AnimatePresence>
+              </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>
