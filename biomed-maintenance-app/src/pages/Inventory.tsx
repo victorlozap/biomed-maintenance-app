@@ -139,13 +139,30 @@ const Inventory = () => {
 
       if (logsError || corrError) throw logsError || corrError;
 
+      // Sets para identificar duplicados rápido (soportando números y strings)
+      const correctivoReportNos = new Set((correctivos || []).map(c => String(c.no_reporte)).filter(Boolean));
+      const correctivoIds = new Set((correctivos || []).map(c => String(c.id)).filter(Boolean));
+
+      // Filtrar logs de mantenimiento para no mostrar duplicados de correctivos
+      const filteredLogs = (logs || []).filter(l => {
+        if (l.checks?.type !== 'CORRECTIVE') return true;
+        
+        const reportNo = String(l.report_id || l.checks?.report_no || '');
+        const protocolId = String(l.checks?.protocol_id || '');
+
+        if ((reportNo && correctivoReportNos.has(reportNo)) || (protocolId && correctivoIds.has(protocolId))) {
+          return false; // Es un duplicado, se descarta el log simple de la bitácora
+        }
+        return true;
+      });
+
       const combined = [
-        ...(logs || []).map(l => ({ 
+        ...filteredLogs.map(l => ({ 
           id: l.id, 
           table: 'maintenance_logs', 
           date: l.executed_at, 
           type: l.checks?.type === 'CORRECTIVE' ? 'CORRECTIVO' : 'PREVENTIVO', 
-          report_id: l.report_id, 
+          report_id: l.report_id || l.checks?.report_no, 
           technician: l.checks?.technician || 'SISTEMA',
           action: l.notes || 'Revisión periódica',
           raw: l
@@ -154,7 +171,7 @@ const Inventory = () => {
           id: c.id, 
           table: 'correctivos_husj', 
           date: c.fecha_creacion, 
-          type: 'CORRECTIVO', 
+          type: 'CORRECTIVE', 
           report_id: c.no_reporte, 
           technician: c.tecnico, 
           action: c.accion || c.descripcion,

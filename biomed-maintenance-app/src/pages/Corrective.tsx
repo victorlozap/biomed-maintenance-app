@@ -174,6 +174,7 @@ const Corrective = () => {
         .insert([{
           equipment_id: selectedEq.id,
           executed_at: formData.fecha_cierre || new Date().toISOString().split('T')[0],
+          report_id: nextNo,
           notes: `Mantenimiento Correctivo #${nextNo} [Por: ${technicianName}]: ${formData.descripcion?.substring(0, 100)}`,
           checks: {
             type: 'CORRECTIVE',
