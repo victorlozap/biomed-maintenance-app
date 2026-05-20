@@ -207,7 +207,13 @@ const Corrective = () => {
       setIsModalOpen(false);
       setSelectedEq(null);
     } catch (e: any) {
-      alert("❌ Error al guardar protocolo: " + e.message);
+      const errMsg = e.message || '';
+      const errCode = e.code || '';
+      if (errCode === '23505' || errMsg.toLowerCase().includes('duplicate key') || errMsg.toLowerCase().includes('unique constraint')) {
+        alert("⚠️ Número de reporte duplicado, no se puede generar.");
+      } else {
+        alert("❌ Error al guardar protocolo: " + errMsg);
+      }
     } finally {
       setSaving(false);
     }
