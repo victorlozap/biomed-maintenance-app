@@ -122,14 +122,23 @@ export default function SurgeryRounds() {
           const resFirma = await fetch(sigUrl);
           if (resFirma.ok) {
             const blob = await resFirma.blob();
-            const dataUrl = await new Promise<string>((resolve) => {
-              const reader = new FileReader();
-              reader.onloadend = () => resolve(reader.result as string);
-              reader.readAsDataURL(blob);
-            });
-            setFirmaData(dataUrl);
-            const ct = resFirma.headers.get('content-type');
-            setFirmaFormat(ct && ct.includes('jpeg') ? 'JPEG' : 'PNG');
+            const objectUrl = URL.createObjectURL(blob);
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              canvas.width = img.width;
+              canvas.height = img.height;
+              const ctx = canvas.getContext('2d');
+              if (ctx) {
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+                setFirmaData(canvas.toDataURL('image/jpeg', 0.95));
+                setFirmaFormat('JPEG');
+              }
+              URL.revokeObjectURL(objectUrl);
+            };
+            img.src = objectUrl;
           }
         }
       } catch (e) { /* ignore */ }

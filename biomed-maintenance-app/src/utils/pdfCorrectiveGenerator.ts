@@ -22,11 +22,13 @@ const loadAndSanitizeImage = async (url: string): Promise<{ data: string; format
           canvas.height = img.height;
           const ctx = canvas.getContext('2d');
           if (!ctx) { resolve(null); return; }
+          // Fondo blanco forzado para evitar bugs de canal alfa (transparencia) con jsPDF
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(img, 0, 0);
-          // Usamos PNG para preservar transparencia si la hay
-          const data = canvas.toDataURL('image/png');
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
           URL.revokeObjectURL(objectUrl);
-          resolve({ data, format: 'PNG' });
+          resolve({ data: dataUrl, format: 'JPEG' });
         } catch (e) {
           console.error('Canvas error:', e);
           resolve(null);
