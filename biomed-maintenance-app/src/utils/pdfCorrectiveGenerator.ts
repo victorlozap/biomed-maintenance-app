@@ -32,6 +32,9 @@ const loadAndSanitizeImage = async (url: string): Promise<{ data: string; format
           resolve(null);
         }
       };
+      img.onerror = () => {
+        resolve(null);
+      };
       img.src = objectUrl;
     } catch (e) {
       // Fallback a img.src directo si fetch falla (CORS o problemas de base)
