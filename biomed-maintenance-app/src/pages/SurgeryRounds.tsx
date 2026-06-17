@@ -122,23 +122,33 @@ export default function SurgeryRounds() {
           const resFirma = await fetch(sigUrl);
           if (resFirma.ok) {
             const blob = await resFirma.blob();
-            const objectUrl = URL.createObjectURL(blob);
-            const img = new Image();
-            img.onload = () => {
-              const canvas = document.createElement('canvas');
-              canvas.width = img.width;
-              canvas.height = img.height;
-              const ctx = canvas.getContext('2d');
-              if (ctx) {
-                ctx.fillStyle = '#FFFFFF';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(img, 0, 0);
-                setFirmaData(canvas.toDataURL('image/jpeg', 0.95));
-                setFirmaFormat('JPEG');
-              }
-              URL.revokeObjectURL(objectUrl);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              const dataUrl = reader.result as string;
+              const img = new Image();
+              img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                if (ctx) {
+                  ctx.fillStyle = '#FFFFFF';
+                  ctx.fillRect(0, 0, canvas.width, canvas.height);
+                  ctx.drawImage(img, 0, 0);
+                  setFirmaData(canvas.toDataURL('image/jpeg', 0.95));
+                  setFirmaFormat('JPEG');
+                } else {
+                  setFirmaData(dataUrl);
+                  setFirmaFormat('PNG');
+                }
+              };
+              img.onerror = () => {
+                setFirmaData(dataUrl);
+                setFirmaFormat('PNG');
+              };
+              img.src = dataUrl;
             };
-            img.src = objectUrl;
+            reader.readAsDataURL(blob);
           }
         }
       } catch (e) { /* ignore */ }

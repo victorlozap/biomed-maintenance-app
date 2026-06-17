@@ -13,55 +13,39 @@ const loadAndSanitizeImage = async (url: string): Promise<{ data: string; format
       const response = await fetch(url);
       if (!response.ok) throw new Error('Fetch not ok');
       const blob = await response.blob();
-      const objectUrl = URL.createObjectURL(blob);
-      const img = new Image();
-      img.onload = () => {
-        try {
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          if (!ctx) { resolve(null); return; }
-          // Fondo blanco forzado para evitar bugs de canal alfa (transparencia) con jsPDF
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0);
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-          URL.revokeObjectURL(objectUrl);
-          resolve({ data: dataUrl, format: 'JPEG' });
-        } catch (e) {
-          console.error('Canvas error:', e);
-          resolve(null);
-        }
-      };
-      img.onerror = () => {
-        resolve(null);
-      };
-      img.src = objectUrl;
-    } catch (e) {
-      // Fallback a img.src directo si fetch falla (CORS o problemas de base)
-      const fallbackImg = new Image();
-      fallbackImg.crossOrigin = 'Anonymous';
-      fallbackImg.onload = () => {
-        try {
-          const canvas = document.createElement('canvas');
-          canvas.width = fallbackImg.width;
-          canvas.height = fallbackImg.height;
-          const ctx = canvas.getContext('2d');
-          if (!ctx) {
-            resolve(null);
-            return;
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const dataUrl = reader.result as string;
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) { resolve({ data: dataUrl, format: 'PNG' }); return; }
+            
+            // Fondo blanco forzado
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            const jpegData = canvas.toDataURL('image/jpeg', 0.95);
+            resolve({ data: jpegData, format: 'JPEG' });
+          } catch (e) {
+            console.error('Canvas error:', e);
+            resolve({ data: dataUrl, format: 'PNG' }); // Fallback to raw if canvas fails
           }
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(fallbackImg, 0, 0);
-          resolve({ data: canvas.toDataURL('image/jpeg', 0.95), format: 'JPEG' });
-        } catch (err) {
-          resolve(null);
-        }
+        };
+        img.onerror = () => {
+          resolve({ data: dataUrl, format: 'PNG' }); // Fallback to raw if img fails to load
+        };
+        img.src = dataUrl;
       };
-      fallbackImg.onerror = () => resolve(null);
-      fallbackImg.src = url;
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    } catch (e) {
+      resolve(null);
     }
   });
 };
