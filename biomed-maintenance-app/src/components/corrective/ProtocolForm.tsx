@@ -8,6 +8,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
+import { ENGINEERS } from '../../utils/engineerRegistry';
 
 interface ProtocolFormProps {
   equipment: any | null;
@@ -571,12 +572,9 @@ export const ProtocolForm = ({ equipment, initialData, onSave, onCancel, saving 
                   className="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white text-xs md:text-sm focus:border-fuchsia-500 outline-none appearance-none transition-all shadow-inner"
                 >
                   <option value="" disabled>Seleccione Ingeniero...</option>
-                  <option value="VICTOR LOPEZ">VICTOR LOPEZ</option>
-                  <option value="LEONARDO GRAJALES">LEONARDO GRAJALES</option>
-                  <option value="CAMILO RAMIREZ">CAMILO RAMIREZ</option>
-                  <option value="CRISTIAN HURTADO">CRISTIAN HURTADO</option>
-                  <option value="DAVID OSPINA">DAVID OSPINA</option>
-                  <option value="TATIANA SALAZAR">TATIANA SALAZAR</option>
+                  {ENGINEERS.map(eng => (
+                    <option key={eng.id} value={eng.name}>{eng.name}</option>
+                  ))}
                 </select>
               </div>
             </motion.div>

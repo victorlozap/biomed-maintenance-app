@@ -7,6 +7,7 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { getEngineerSignature } from '../utils/engineerRegistry';
 
 const EQUIPOS = [
   { 
@@ -112,7 +113,9 @@ export default function SurgeryRounds() {
         }
       } catch (e) { /* ignore */ }
       try {
-        const resFirma = await fetch('/imagenes/firma-victor-lopez.png');
+        const engDetails = getEngineerSignature(user?.email || '');
+        const sigUrl = engDetails.firma || '/imagenes/firma-victor-lopez.png';
+        const resFirma = await fetch(sigUrl);
         if (resFirma.ok) {
           const blob = await resFirma.blob();
           const dataUrl = await new Promise<string>((resolve) => {
@@ -127,17 +130,20 @@ export default function SurgeryRounds() {
       } catch (e) { /* ignore */ }
     };
     loadAssets();
-  }, []);
+  }, [user]);
   const [logoFormat, setLogoFormat] = useState<'PNG' | 'JPEG'>('PNG');
   const [firmaData, setFirmaData] = useState<string | null>(null);
   const [firmaFormat, setFirmaFormat] = useState<'PNG' | 'JPEG'>('PNG');
   
   // Encabezado Global de la ronda
-  const [globalData, setGlobalData] = useState({
-      ubicacion: 'BLOQUE QUIRÚRGICO',
-      responsable: 'VICTOR LOPEZ',
-      cargo: 'BIOMÉDICO HUSJ',
-      fecha: new Date().toISOString().split('T')[0]
+  const [globalData, setGlobalData] = useState(() => {
+      const engDetails = getEngineerSignature(user?.email || '');
+      return {
+        ubicacion: 'BLOQUE QUIRÚRGICO',
+        responsable: engDetails.name || 'VICTOR LOPEZ',
+        cargo: engDetails.cargo || 'BIOMÉDICO HUSJ',
+        fecha: new Date().toISOString().split('T')[0]
+      };
   });
 
   const updateActivo = (sala: number, equipo: string, value: string) => {

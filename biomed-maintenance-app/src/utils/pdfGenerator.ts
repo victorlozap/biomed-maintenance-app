@@ -1,5 +1,6 @@
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { getEngineerSignature } from './engineerRegistry';
 
 // Helper to normalize equipment fields from different data sources
 const normalizeEquipment = (equipment: any) => ({
@@ -22,7 +23,8 @@ export const generateProtocolPDF = async (
   notes: string,
   reportId: string,
   maintenanceDate: string = '',
-  userEmail: string = ''
+  userEmail: string = '',
+  selectedEngineer: string = ''
 ) => {
   // Normalizar nombres de campos del equipo (compatibilidad con distintas bases de datos)
   const eq = normalizeEquipment(equipment);
@@ -116,28 +118,13 @@ export const generateProtocolPDF = async (
   // Cargar Firma Dinamica
   let firmaData: string | null = null;
   let firmaFormat = 'JPEG';
-  let urlFirma = '/imagenes/firma-victor-lopez.png'; // default fallback
-  let engineerName = 'VICTOR LOPEZ';
   
-  const emailLower = userEmail ? userEmail.toLowerCase() : '';
-
-  // Diccionario de firmas por patrón en email
-  const signatureMap = [
-    { pattern: 'leograjales', url: '/imagenes/firma-leonardo.png', name: 'LEONARDO GRAJALES' },
-    { pattern: 'leonardo', url: '/imagenes/firma-leonardo.png', name: 'LEONARDO GRAJALES' },
-    { pattern: 'kmiloramirez', url: '/imagenes/firma-camilo.png', name: 'CAMILO RAMIREZ' },
-    { pattern: 'camilo', url: '/imagenes/firma-camilo.png', name: 'CAMILO RAMIREZ' },
-    { pattern: 'cristiand.hurtado', url: '/imagenes/firma-cristian.png', name: 'CRISTIAN HURTADO' },
-    { pattern: 'cristian', url: '/imagenes/firma-cristian.png', name: 'CRISTIAN HURTADO' },
-    { pattern: 'victor.lopez', url: '/imagenes/firma-victor-lopez.png', name: 'VICTOR LOPEZ' },
-    { pattern: 'victor', url: '/imagenes/firma-victor-lopez.png', name: 'VICTOR LOPEZ' },
-  ];
-
-  const matchedSig = signatureMap.find(sig => emailLower.includes(sig.pattern));
-  if (matchedSig) {
-    urlFirma = matchedSig.url;
-    engineerName = matchedSig.name;
-  }
+  const engineerQuery = selectedEngineer || userEmail || '';
+  const engDetails = getEngineerSignature(engineerQuery);
+  
+  let urlFirma = engDetails.firma || '/imagenes/firma-victor-lopez.png';
+  let engineerName = engDetails.name;
+  let engineerCargo = engDetails.cargo;
 
   // Intentar cargar la firma con reintentos de ruta
   const rutasFirma = [
@@ -459,7 +446,7 @@ export const generateProtocolPDF = async (
             doc.setFont("helvetica", "bold");
             doc.text(engineerName || "BIOMEDICO", data.cell.x + (data.cell.width / 2), data.cell.y + 21, { align: 'center' });
             doc.setFont("helvetica", "normal");
-            doc.text("Biomédico HUSJ", data.cell.x + (data.cell.width / 2), data.cell.y + 24, { align: 'center' });
+            doc.text(engineerCargo || "Biomédico HUSJ", data.cell.x + (data.cell.width / 2), data.cell.y + 24, { align: 'center' });
           } catch (e) {
             console.error("Fallo escribiendo nombre del ingeniero", e);
           }

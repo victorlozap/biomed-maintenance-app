@@ -1,5 +1,6 @@
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { getEngineerSignature } from './engineerRegistry';
 
 /**
  * Generador de PDF para Reportes Correctivos HUSJ — GRF3MAN-FR134
@@ -62,26 +63,12 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
   let firmaFormat = 'PNG';
   
   // Prioridad: 1. Ingeniero seleccionado en el form, 2. Email del usuario
-  const selectedName = correctiveData.tecnico || '';
-  const emailLower = (userEmail || '').toLowerCase();
-  
-  const sigMap = [
-    { p: 'leonardo', u: '/imagenes/firma-leonardo.png', n: 'LEONARDO GRAJALES' },
-    { p: 'camilo', u: '/imagenes/firma-camilo.png', n: 'CAMILO RAMIREZ' },
-    { p: 'cristian', u: '/imagenes/firma-cristian.png', n: 'CRISTIAN HURTADO' },
-    { p: 'victor', u: '/imagenes/firma-victor-lopez.png', n: 'VICTOR LOPEZ' },
-    { p: 'david', u: '', n: 'DAVID OSPINA' },
-    { p: 'tatiana', u: '', n: 'TATIANA SALAZAR' },
-  ];
+  const engineerQuery = correctiveData.tecnico || userEmail || '';
+  const engDetails = getEngineerSignature(engineerQuery);
 
-  // Buscamos coincidencia primero por nombre completo (si viene del selector) y luego por email
-  const matched = sigMap.find(s => 
-    (selectedName && s.n.toUpperCase() === selectedName.toUpperCase()) || 
-    (emailLower && emailLower.includes(s.p))
-  );
-
-  const sigUrl = matched?.u || '/imagenes/firma-victor-lopez.png';
-  let engineerName = matched?.n || selectedName || 'VICTOR LOPEZ';
+  const sigUrl = engDetails.firma || '/imagenes/firma-victor-lopez.png';
+  let engineerName = engDetails.name || 'VICTOR LOPEZ';
+  let engineerCargo = engDetails.cargo || 'INGENIERO BIOMÉDICO';
   
   const pathsToTry = [sigUrl];
   if (sigUrl.startsWith('/')) pathsToTry.push(sigUrl.substring(1));
@@ -409,7 +396,7 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
       ],
       [{ content: '', styles: { minCellHeight: 18 } }, { content: '', styles: { minCellHeight: 18 } }],
       [
-        { content: `NOMBRE: ${engineerName}\nCARGO: INGENIERO BIOMEDICO`, styles: { fontSize: 7.5 } },
+        { content: `NOMBRE: ${engineerName}\nCARGO: ${engineerCargo}`, styles: { fontSize: 7.5 } },
         { content: 'NOMBRE:\nCARGO:', styles: { fontSize: 7.5 } }
       ]
     ],

@@ -3,6 +3,7 @@ import { Calendar, CheckCircle, FileText, Search, X, Activity, Save, AlertCircle
 import { generateProtocolPDF } from '../utils/pdfGenerator';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { ENGINEERS } from '../utils/engineerRegistry';
 import protocolsData from '../data/protocols.json';
 
 const protocols = protocolsData as Record<string, any>;
@@ -28,6 +29,13 @@ const Preventive = () => {
   const [checkValues, setCheckValues] = useState<Record<string, string>>({});
   const [numericValues, setNumericValues] = useState<Record<string, string>>({});
   const [notes, setNotes] = useState('');
+  const [selectedEngineer, setSelectedEngineer] = useState<string>('');
+
+  useEffect(() => {
+    if (user?.email) {
+      setSelectedEngineer(user.email);
+    }
+  }, [user]);
 
   // Búsqueda en Supabase en lugar de archivo local
   useEffect(() => {
@@ -154,7 +162,7 @@ const Preventive = () => {
         notes, 
         reportId,
         maintenanceDate,
-        user?.email || ''
+        selectedEngineer || user?.email || ''
       );
 
       alert(`✅ Acta de Mantenimiento GRF generada con éxito.`);
@@ -277,6 +285,20 @@ const Preventive = () => {
                         </div>
                       </div>
                     )}
+
+                    <div className="space-y-3">
+                       <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-[0.2em]">Ingeniero / Técnico Ejecutor</p>
+                       <select 
+                          value={selectedEngineer}
+                          onChange={e => setSelectedEngineer(e.target.value)}
+                          className="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-3 text-white text-sm focus:border-emerald-500 transition-all outline-none appearance-none"
+                       >
+                         <option value="">Seleccione el ingeniero...</option>
+                         {ENGINEERS.map(eng => (
+                           <option key={eng.id} value={eng.emailPattern || eng.name}>{eng.name} - {eng.cargo}</option>
+                         ))}
+                       </select>
+                    </div>
 
                     <div className="space-y-3">
                        <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Observaciones Técnicas</p>
