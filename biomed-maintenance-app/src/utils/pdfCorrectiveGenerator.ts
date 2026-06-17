@@ -449,28 +449,19 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
     ],
     didParseCell,
     didDrawCell: (data: any) => {
-      if (data.section === 'body' && data.row.index === 1 && data.column.index === 0) {
-        if (firmaData) {
-          try {
-            const imgW = 35;
-            const imgH = 14;
-            const cellW = data.cell.width;
-            const cellH = data.cell.height;
-            
-            const posX = data.cell.x + (Math.max(0, cellW - imgW) / 2);
-            const posY = data.cell.y + (Math.max(0, cellH - imgH) / 2);
-            
-            doc.addImage(firmaData, firmaFormat, posX, posY, imgW, imgH);
-          } catch (e) { 
-            console.error('Error al insertar firma en PDF:', e); 
-          }
-        } else {
-          // DEBUG VISUAL: If firmaData is null, draw a red box with text
-          doc.setFillColor(255, 0, 0);
-          doc.rect(data.cell.x + 5, data.cell.y + 2, 30, 10, 'F');
-          doc.setTextColor(255, 255, 255);
-          doc.setFontSize(8);
-          doc.text('NULL FIRMA', data.cell.x + 10, data.cell.y + 8);
+      if (data.section === 'body' && data.row.index === 1 && data.column.index === 0 && firmaData) {
+        try {
+          const imgW = 35;
+          const imgH = 14;
+          const cellW = data.cell.width;
+          const cellH = data.cell.height;
+          
+          const posX = data.cell.x + (Math.max(0, cellW - imgW) / 2);
+          const posY = data.cell.y + (Math.max(0, cellH - imgH) / 2);
+          
+          doc.addImage(firmaData, firmaFormat, posX, posY, imgW, imgH);
+        } catch (e) { 
+          console.error('Error al insertar firma en PDF:', e); 
         }
       }
     }
