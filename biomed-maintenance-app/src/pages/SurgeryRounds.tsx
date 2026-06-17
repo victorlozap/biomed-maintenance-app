@@ -115,17 +115,22 @@ export default function SurgeryRounds() {
       try {
         const engDetails = getEngineerSignature(user?.email || '');
         const sigUrl = engDetails.firma || '/imagenes/firma-victor-lopez.png';
-        const resFirma = await fetch(sigUrl);
-        if (resFirma.ok) {
-          const blob = await resFirma.blob();
-          const dataUrl = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.readAsDataURL(blob);
-          });
-          setFirmaData(dataUrl);
-          const ct = resFirma.headers.get('content-type');
-          setFirmaFormat(ct && ct.includes('jpeg') ? 'JPEG' : 'PNG');
+        if (sigUrl.startsWith('data:')) {
+          setFirmaData(sigUrl);
+          setFirmaFormat(sigUrl.includes('jpeg') ? 'JPEG' : 'PNG');
+        } else {
+          const resFirma = await fetch(sigUrl);
+          if (resFirma.ok) {
+            const blob = await resFirma.blob();
+            const dataUrl = await new Promise<string>((resolve) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result as string);
+              reader.readAsDataURL(blob);
+            });
+            setFirmaData(dataUrl);
+            const ct = resFirma.headers.get('content-type');
+            setFirmaFormat(ct && ct.includes('jpeg') ? 'JPEG' : 'PNG');
+          }
         }
       } catch (e) { /* ignore */ }
     };

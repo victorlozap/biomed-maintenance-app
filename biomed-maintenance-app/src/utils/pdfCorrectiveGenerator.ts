@@ -105,7 +105,7 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
   
   const cleanSigUrl = sigUrl.startsWith('/') ? sigUrl.substring(1) : sigUrl;
   
-  const rutasFirma = [
+  const rutasFirma = sigUrl.startsWith('data:') ? [sigUrl] : [
     sigUrl,
     `${baseUrl}${cleanSigUrl}`,
     cleanSigUrl,

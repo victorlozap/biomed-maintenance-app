@@ -1,3 +1,10 @@
+import firmaVictor from '../assets/firmas/firma-victor-lopez.png';
+import firmaLeo from '../assets/firmas/firma-leonardo-marin.png';
+import firmaCamilo from '../assets/firmas/firma-camilo-ramirez.png';
+import firmaCristian from '../assets/firmas/firma-cristian-hurtado.png';
+import firmaAna from '../assets/firmas/firma-ana-varon.png';
+import firmaTatiana from '../assets/firmas/firma-tatiana-salazar.png';
+
 export interface Engineer {
   name: string;
   cargo: string;
@@ -11,42 +18,42 @@ export const ENGINEERS: Engineer[] = [
     name: 'VICTOR LOPEZ', 
     cargo: 'INGENIERO BIOMÉDICO', 
     pattern: 'victor', 
-    firma: '/imagenes/firma-victor-lopez.png', 
+    firma: firmaVictor, 
     email: 'victor.lopez.ing@gmail.com' 
   },
   { 
     name: 'LEONARDO GRAJALES', 
     cargo: 'INGENIERO BIOMÉDICO', 
     pattern: 'leograjales', 
-    firma: '/imagenes/firma-leonardo.png', 
+    firma: firmaLeo, 
     email: 'leograjales14@gmail.com' 
   },
   { 
     name: 'CAMILO RAMIREZ', 
     cargo: 'INGENIERO BIOMÉDICO', 
     pattern: 'kmiloramirez', 
-    firma: '/imagenes/firma-camilo.png', 
+    firma: firmaCamilo, 
     email: 'j.kmiloramirez@hotmail.com' 
   },
   { 
     name: 'CRISTIAN HURTADO', 
     cargo: 'INGENIERO BIOMÉDICO', 
     pattern: 'cristiand.hurtado', 
-    firma: '/imagenes/firma-cristian.png', 
+    firma: firmaCristian, 
     email: 'ingcristiand.hurtado@gmail.com' 
   },
   { 
     name: 'ANA VARON', 
     cargo: 'INGENIERA BIOMÉDICA', 
     pattern: 'ana.varon', 
-    firma: '/imagenes/firma-ana-varon.png', 
+    firma: firmaAna, 
     email: 'ana.varon515@gmail.com' 
   },
   { 
     name: 'TATIANA SALAZAR', 
     cargo: 'INGENIERA BIOMÉDICA', 
     pattern: 'tsalazar', 
-    firma: '/imagenes/firma-tatiana.png', 
+    firma: firmaTatiana, 
     email: 'tsalazarnaranjo@gmail.com' 
   },
   { 

@@ -149,8 +149,8 @@ export const generateProtocolPDF = async (
 
   const cleanUrlFirma = urlFirma.startsWith('/') ? urlFirma.substring(1) : urlFirma;
 
-  // Intentar cargar la firma con reintentos de ruta
-  const rutasFirma = [
+  // Si Vite provee un base64 directamente o si es ruta estática
+  const rutasFirma = urlFirma.startsWith('data:') ? [urlFirma] : [
     urlFirma,
     `${baseUrl}${cleanUrlFirma}`,
     cleanUrlFirma,
