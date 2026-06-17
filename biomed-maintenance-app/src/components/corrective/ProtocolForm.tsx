@@ -573,7 +573,7 @@ export const ProtocolForm = ({ equipment, initialData, onSave, onCancel, saving 
                 >
                   <option value="" disabled>Seleccione Ingeniero...</option>
                   {ENGINEERS.map(eng => (
-                    <option key={eng.id} value={eng.name}>{eng.name}</option>
+                    <option key={eng.pattern} value={eng.name}>{eng.name}</option>
                   ))}
                 </select>
               </div>

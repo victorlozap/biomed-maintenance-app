@@ -295,7 +295,7 @@ const Preventive = () => {
                        >
                          <option value="">Seleccione el ingeniero...</option>
                          {ENGINEERS.map(eng => (
-                           <option key={eng.id} value={eng.emailPattern || eng.name}>{eng.name} - {eng.cargo}</option>
+                           <option key={eng.pattern} value={eng.pattern || eng.name}>{eng.name} - {eng.cargo}</option>
                          ))}
                        </select>
                     </div>
