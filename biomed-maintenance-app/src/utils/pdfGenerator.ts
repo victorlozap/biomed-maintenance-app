@@ -53,10 +53,7 @@ export const generateProtocolPDF = async (
     return new Promise(async (resolve) => {
       try {
         const response = await fetch(url);
-        if (!response.ok) {
-          resolve(null);
-          return;
-        }
+        if (!response.ok) throw new Error('Fetch not ok');
         const blob = await response.blob();
         const img = new Image();
         const objectUrl = URL.createObjectURL(blob);
@@ -91,16 +88,40 @@ export const generateProtocolPDF = async (
         };
         img.src = objectUrl;
       } catch (e) {
-        console.error("Fetch/Load error", e);
-        resolve(null);
+        // Fallback a img.src directo si fetch falla (CORS o problemas de base)
+        const fallbackImg = new Image();
+        fallbackImg.crossOrigin = 'Anonymous';
+        fallbackImg.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = fallbackImg.width;
+            canvas.height = fallbackImg.height;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+              resolve(null);
+              return;
+            }
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(fallbackImg, 0, 0);
+            resolve({ data: canvas.toDataURL('image/jpeg', 0.95), format: 'JPEG' });
+          } catch (err) {
+            resolve(null);
+          }
+        };
+        fallbackImg.onerror = () => resolve(null);
+        fallbackImg.src = url;
       }
     });
   };
 
   // Buscar logo dinámicamente
+  const baseUrl = import.meta.env.BASE_URL || '/';
   let logoData: string | null = null;
   let logoFormat = 'JPEG';
   const posiblesRutasLogo = [
+     `${baseUrl}imagenes/logo-san-jorge.jpg`,
+     `${baseUrl}imagenes/logo.png`,
      '/imagenes/logo-san-jorge.jpg', 
      '/imagenes/logo.png', '/imagenes/logo.jpg', '/imagenes/logo.jpeg',
      'imagenes/logo-san-jorge.jpg', 'logo.png'
@@ -126,11 +147,15 @@ export const generateProtocolPDF = async (
   let engineerName = engDetails.name;
   let engineerCargo = engDetails.cargo;
 
+  const cleanUrlFirma = urlFirma.startsWith('/') ? urlFirma.substring(1) : urlFirma;
+
   // Intentar cargar la firma con reintentos de ruta
   const rutasFirma = [
     urlFirma,
-    urlFirma.startsWith('/') ? urlFirma.substring(1) : '/' + urlFirma,
-    window.location.origin + (urlFirma.startsWith('/') ? '' : '/') + urlFirma
+    `${baseUrl}${cleanUrlFirma}`,
+    cleanUrlFirma,
+    window.location.origin + (urlFirma.startsWith('/') ? '' : '/') + urlFirma,
+    window.location.origin + (baseUrl.endsWith('/') ? baseUrl : baseUrl + '/') + cleanUrlFirma
   ];
 
   for (const ruta of rutasFirma) {

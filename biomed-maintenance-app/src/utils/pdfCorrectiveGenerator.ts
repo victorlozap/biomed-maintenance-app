@@ -8,34 +8,60 @@ import { getEngineerSignature } from './engineerRegistry';
  */
 
 const loadAndSanitizeImage = async (url: string): Promise<{ data: string; format: string } | null> => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.onload = () => {
-      try {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) { resolve(null); return; }
-        ctx.drawImage(img, 0, 0);
-        // Usamos PNG para preservar transparencia si la hay
-        const data = canvas.toDataURL('image/png');
-        resolve({ data, format: 'PNG' });
-      } catch (e) {
-        console.error('Canvas error:', e);
-        resolve(null);
-      }
-    };
-    img.onerror = () => {
-      console.warn('Image load error for:', url);
-      resolve(null);
-    };
-    img.src = url;
+  return new Promise(async (resolve) => {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Fetch not ok');
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) { resolve(null); return; }
+          ctx.drawImage(img, 0, 0);
+          // Usamos PNG para preservar transparencia si la hay
+          const data = canvas.toDataURL('image/png');
+          URL.revokeObjectURL(objectUrl);
+          resolve({ data, format: 'PNG' });
+        } catch (e) {
+          console.error('Canvas error:', e);
+          resolve(null);
+        }
+      };
+      img.src = objectUrl;
+    } catch (e) {
+      // Fallback a img.src directo si fetch falla (CORS o problemas de base)
+      const fallbackImg = new Image();
+      fallbackImg.crossOrigin = 'Anonymous';
+      fallbackImg.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = fallbackImg.width;
+          canvas.height = fallbackImg.height;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(null);
+            return;
+          }
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(fallbackImg, 0, 0);
+          resolve({ data: canvas.toDataURL('image/jpeg', 0.95), format: 'JPEG' });
+        } catch (err) {
+          resolve(null);
+        }
+      };
+      fallbackImg.onerror = () => resolve(null);
+      fallbackImg.src = url;
+    }
   });
 };
 
-export const generateCorrectivePDF = async (correctiveData: any, equipment: any, userEmail: string) => {
+export const generateCorrectivePDF = async (correctiveData: any, equipment: any, userEmail: string, selectedEngineer?: string) => {
   try {
     if (!correctiveData) throw new Error("Datos del correctivo no proporcionados");
     if (!equipment) throw new Error("Datos del equipo no proporcionados");
@@ -50,8 +76,17 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
     const GRAY = [230, 230, 230] as [number, number, number];
 
   // ---- Logo ----
+  const baseUrl = import.meta.env.BASE_URL || '/';
+
   let logoData: string | null = null;
-  for (const ruta of ['/imagenes/logo-san-jorge.jpg', '/imagenes/logo.png', 'imagenes/logo-san-jorge.jpg']) {
+  const posiblesRutasLogo = [
+    `${baseUrl}imagenes/logo-san-jorge.jpg`,
+    `${baseUrl}imagenes/logo.png`,
+    '/imagenes/logo-san-jorge.jpg',
+    '/imagenes/logo.png',
+    'imagenes/logo-san-jorge.jpg'
+  ];
+  for (const ruta of posiblesRutasLogo) {
     if (logoData) break;
     const r = await loadAndSanitizeImage(ruta);
     if (r) { logoData = r.data; }
@@ -60,24 +95,31 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
 
   // ---- Firma y Nombre del Ingeniero ----
   let firmaData: string | null = null;
-  let firmaFormat = 'PNG';
+  let firmaFormat = 'JPEG';
   
-  // Prioridad: 1. Ingeniero seleccionado en el form, 2. Email del usuario
-  const engineerQuery = correctiveData.tecnico || userEmail || '';
+  const engineerQuery = selectedEngineer || correctiveData.tecnico || userEmail || '';
   const engDetails = getEngineerSignature(engineerQuery);
-
   const sigUrl = engDetails.firma || '/imagenes/firma-victor-lopez.png';
-  let engineerName = engDetails.name || 'VICTOR LOPEZ';
-  let engineerCargo = engDetails.cargo || 'INGENIERO BIOMÉDICO';
+  const engineerName = engDetails.name || 'VICTOR LOPEZ';
+  const engineerCargo = engDetails.cargo || 'INGENIERO BIOMÉDICO';
   
-  const pathsToTry = [sigUrl];
-  if (sigUrl.startsWith('/')) pathsToTry.push(sigUrl.substring(1));
-  if (typeof window !== 'undefined') pathsToTry.push(window.location.origin + sigUrl);
+  const cleanSigUrl = sigUrl.startsWith('/') ? sigUrl.substring(1) : sigUrl;
+  
+  const rutasFirma = [
+    sigUrl,
+    `${baseUrl}${cleanSigUrl}`,
+    cleanSigUrl,
+    window.location.origin + (sigUrl.startsWith('/') ? '' : '/') + sigUrl,
+    window.location.origin + (baseUrl.endsWith('/') ? baseUrl : baseUrl + '/') + cleanSigUrl
+  ];
 
-  for (const ruta of pathsToTry) {
+  for (const ruta of rutasFirma) {
     if (firmaData) break;
     const r = await loadAndSanitizeImage(ruta);
-    if (r) { firmaData = r.data; firmaFormat = r.format; }
+    if (r) {
+      firmaData = r.data;
+      firmaFormat = r.format;
+    }
   }
 
   // Helper: checkbox con checkmark vectorial
