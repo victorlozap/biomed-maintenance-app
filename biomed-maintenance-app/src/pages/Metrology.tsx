@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import type { CalibrationRecord } from '../types/metrology';
 import CalibrationTable from '../components/metrology/CalibrationTable';
+import EditCalibrationModal from '../components/metrology/EditCalibrationModal';
 import { Scale, Search, Filter, Download } from 'lucide-react';
 
 const Metrology = () => {
@@ -9,6 +10,10 @@ const Metrology = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedService, setSelectedService] = useState('TODOS');
+  
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState<CalibrationRecord | null>(null);
   
   // Derivados
   const [services, setServices] = useState<string[]>([]);
@@ -104,7 +109,27 @@ const Metrology = () => {
       </div>
 
       {/* Tabla */}
-      <CalibrationTable data={filteredRecords} loading={loading} />
+      <CalibrationTable 
+        data={filteredRecords} 
+        loading={loading} 
+        onEdit={(record) => {
+          setSelectedRecord(record);
+          setIsModalOpen(true);
+        }}
+      />
+
+      {/* Modal de edición */}
+      <EditCalibrationModal 
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedRecord(null);
+        }}
+        record={selectedRecord}
+        onSuccess={() => {
+          fetchCalibrations();
+        }}
+      />
     </div>
   );
 };
