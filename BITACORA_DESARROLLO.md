@@ -1,5 +1,20 @@
 # 📝 Bitácora de Desarrollo
 
+## [2026-07-08] 📏 Módulo de Metrología y Automatización de Ingesta
+
+- **Objetivo**: Crear un módulo dedicado al control metrológico y calibración de los equipos, aislando la lógica de fechas de vencimiento y gestión de certificados PDF.
+
+### 🚧 Retos y Desafíos Técnicos Enfrentados:
+1. **Volumen de Datos Históricos:** El hospital maneja decenas de archivos Excel (por servicio) con cientos de registros cada uno (ej. Banco de Sangre) y la necesidad de cargar rápidamente a Supabase.
+2. **Asociación de Certificados PDF:** Más de 1,400 certificados PDF almacenados con nombres que no empatan exactamente con un ID de base de datos, sino con una combinación de `EQUIPO + SERIE`.
+
+### ✅ Soluciones Implementadas:
+- **UI Especializada (Metrology.tsx):** Se construyó una tabla con cálculo automático en tiempo real que alerta si un equipo tiene su calibración "Vigente", "Próxima a Vencer" (<= 30 días) o "Vencida".
+- **Scripts ETL en Python:** Se crearon scripts locales (`import_calibrations.py`) que leen los Excel usando `pandas`. Se incluyó lógica inteligente para autocalcular fechas de vencimiento a partir de la periodicidad si el Excel original omitía dicho dato.
+- **Fuzzy Linking de PDFs:** Se copiaron los PDFs a la carpeta estática del front (`public/certificados/2025`) y un script de Python (`link_pdfs.py`) automatizó el escaneo del **número de serie** y del **Activo Fijo** dentro del nombre de cada archivo, logrando un 80% de vinculación automática.
+- **Sincronización Bidireccional de Inventario:** Se creó un script puente (`sync_calibrations_to_inventory.py`) para actualizar masivamente el inventario general con las fechas de calibración corregidas y extraídas desde los certificados.
+
+---
 ## [2026-05-14] 🛠 Estabilización de UI/UX y Reportes Correctivos en Producción
 
 - **Objetivo**: Estabilizar la interfaz de reportes de mantenimiento correctivo y resolver fallos críticos en producción (Vercel).

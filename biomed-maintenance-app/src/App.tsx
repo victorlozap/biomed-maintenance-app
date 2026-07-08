@@ -8,6 +8,7 @@ import Preventive from './pages/Preventive';
 import Corrective from './pages/Corrective';
 import SurgeryRounds from './pages/SurgeryRounds';
 import MaintenanceKPIs from './pages/MaintenanceKPIs';
+import Metrology from './pages/Metrology';
 import Login from './components/Login';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
@@ -94,6 +95,7 @@ const AppContent = () => {
           <Route path="/corrective" element={<Corrective />} />
           <Route path="/surgery-rounds" element={<SurgeryRounds />} />
           <Route path="/kpis" element={<MaintenanceKPIs />} />
+          <Route path="/metrology" element={<Metrology />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
