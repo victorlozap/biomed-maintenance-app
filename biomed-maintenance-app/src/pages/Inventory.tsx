@@ -643,6 +643,18 @@ const Inventory = () => {
                           <p className="text-white/30 text-[10px] uppercase font-bold tracking-wider mb-1">Garantía</p>
                           <p className="text-white text-base font-light leading-tight">{selectedEquipment.garantia || 'Expirada'}</p>
                         </div>
+                        {selectedEquipment.certificado_url && (
+                           <div className="bg-blue-500/10 p-3.5 rounded-2xl border border-blue-500/20 shadow-[inset_0_0_20px_rgba(59,130,246,0.05)] flex items-center justify-center">
+                             <a 
+                               href={selectedEquipment.certificado_url} 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               className="flex w-full items-center justify-center gap-2 text-blue-400 hover:text-white hover:bg-blue-500/20 transition-all rounded-xl py-2 font-bold text-xs uppercase tracking-wider"
+                             >
+                                <FileText size={16} /> Ver Certificado PDF
+                             </a>
+                           </div>
+                        )}
                       </div>
                    </div>
                 </div>

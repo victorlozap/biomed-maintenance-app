@@ -40,6 +40,23 @@ node scripts/sync_master_complete.cjs
 
 ---
 
+## 📏 4. Metrología y Calibraciones
+Para cargar nuevos archivos de excel de calibración o enlazar los PDFs locales de forma masiva:
+
+### Importar Datos a Supabase:
+Asegúrate de colocar el excel en la carpeta `Calibraciones/` y modificar el nombre en el script o pasarlo:
+```powershell
+python scripts/import_calibrations.py
+```
+
+### Enlazar Certificados PDF Local:
+Pega los nuevos archivos PDF dentro de `public/certificados/2025/` y ejecuta:
+```powershell
+python scripts/link_pdfs.py
+```
+
+---
+
 ## 💡 Notas Importantes
 
 - **Terminal:** Ejecutá estos comandos desde la carpeta raíz del proyecto (`biomed-maintenance-app`).
