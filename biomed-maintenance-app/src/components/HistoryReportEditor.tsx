@@ -6,6 +6,7 @@ import { generateCorrectivePDF } from '../utils/pdfCorrectiveGenerator';
 import { useAuth } from '../contexts/AuthContext';
 import { ProtocolForm } from './corrective/ProtocolForm';
 import protocolsData from '../data/protocols.json';
+import { ENGINEERS } from '../utils/engineerRegistry';
 
 const protocols = protocolsData as Record<string, any>;
 
@@ -20,6 +21,7 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [selectedEngineer, setSelectedEngineer] = useState('');
   
   // Preventive states
   const [activeProtocol, setActiveProtocol] = useState<any | null>(null);
@@ -150,7 +152,7 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
     if (item.table === 'correctivos_husj') {
         try {
           setLoading(true);
-          await generateCorrectivePDF(correctiveData, equipment, user?.email || '');
+          await generateCorrectivePDF(correctiveData, equipment, user?.email || '', selectedEngineer);
         } catch (err) {
           alert("Error al generar el PDF del correctivo.");
         } finally {
@@ -165,7 +167,7 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
       setLoading(true);
       await generateProtocolPDF(
         activeProtocol, equipment, checkValues, numericValues, notes, 
-        item.report_id, reportDate, user?.email || ''
+        item.report_id, reportDate, user?.email || '', selectedEngineer
       );
     } catch (err) {
       alert("Error al generar el PDF.");
@@ -262,10 +264,20 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <button onClick={handleRegeneratePDF} className="flex items-center gap-3 px-6 py-3 bg-white/5 hover:bg-white/10 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all">
+                    <select 
+                      value={selectedEngineer}
+                      onChange={e => setSelectedEngineer(e.target.value)}
+                      className="bg-black/40 border border-white/10 rounded-2xl px-4 py-3 text-white text-[10px] uppercase font-black tracking-widest outline-none focus:border-emerald-500 transition-all appearance-none h-[42px]"
+                    >
+                      <option value="">Firma por defecto</option>
+                      {ENGINEERS.map(eng => (
+                        <option key={eng.pattern} value={eng.name}>{eng.name}</option>
+                      ))}
+                    </select>
+                    <button onClick={handleRegeneratePDF} className="flex items-center gap-3 px-6 py-3 bg-white/5 hover:bg-white/10 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl transition-all h-[42px]">
                       <Download size={16} /> PDF
                     </button>
-                    <button onClick={onClose} className="p-3 hover:bg-white/5 text-white/20 hover:text-white rounded-2xl transition-all">
+                    <button onClick={onClose} className="p-3 hover:bg-white/5 text-white/20 hover:text-white rounded-2xl transition-all h-[42px] flex items-center justify-center">
                       <X size={24} />
                     </button>
                   </div>
