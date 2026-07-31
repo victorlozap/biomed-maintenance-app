@@ -35,11 +35,21 @@ export const HistoryReportEditor = ({ item, equipment, onClose, onUpdate }: Hist
 
   useEffect(() => {
     const loadCorrectiveData = async (protocolId: string) => {
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('correctivos_husj')
         .select('*')
-        .eq('no_reporte', protocolId)
-        .single();
+        .eq('id', protocolId)
+        .maybeSingle();
+
+      if (!data) {
+        const fallback = await supabase
+          .from('correctivos_husj')
+          .select('*')
+          .eq('no_reporte', protocolId)
+          .maybeSingle();
+        data = fallback.data;
+        error = fallback.error;
+      }
       
       if (!error && data) {
         setCorrectiveData(data);

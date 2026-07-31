@@ -150,7 +150,7 @@ export const generateCorrectivePDF = async (correctiveData: any, equipment: any,
   const procedure = s(metadata.procedimiento || correctiveData.tipo || 'Correctivo').toLowerCase();
   const contract = s(metadata.contrato || 'Mantenimiento').toLowerCase();
 
-  const reportNo = s(correctiveData.report_id || correctiveData.no_reporte || correctiveData.id || '');
+  const reportNo = s(correctiveData.no_reporte || correctiveData.report_id || correctiveData.id || '');
   
   const formatToDayMonthYear = (dateStr: string) => {
     if (!dateStr) return '';
