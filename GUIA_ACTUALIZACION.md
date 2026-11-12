@@ -31,12 +31,14 @@ node scripts/sync_2026_real.cjs "C:\Users\victo\OneDrive - E.S.E. Hospital Unive
 ---
 
 ## 📦 3. Inventario (Activos Fijos)
-Si realizaste cambios masivos en el Inventario Maestro, usá este comando para refrescar los equipos en el sistema.
+Si realizaste cambios masivos en el Inventario Maestro, usá este comando para refrescar los equipos en el sistema:
 
 ```powershell
-node scripts/sync_master_complete.cjs
+node scripts/sync_inventory_2026.cjs
 ```
-*(Asegurate de tener el archivo de Inventario actualizado en la carpeta de sincronización configurada).*
+*(Por defecto lee `1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025-2026.xlsx`. Si querés pasarle otra ruta podés ejecutar: `node scripts/sync_inventory_2026.cjs "ruta/al/archivo.xlsx"`).*
+- Preserva intactas las fotos cargadas y enlaces a certificados de calibración.
+- Asigna identificadores únicos a equipos en comodato o sin plaqueta para evitar colisiones.
 
 ---
 

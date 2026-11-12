@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { 
   Plus, Search, Filter, X, Loader2, RefreshCw, 
   Activity, Edit, Download, Save, Calendar, 
-  FileText, FileCheck 
+  FileText, FileCheck, FileSpreadsheet 
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
@@ -259,8 +259,35 @@ const Inventory = () => {
     }
   };
 
-  const handleAddNewEq = async () => {
-    if(!newEqData.equipo || !newEqData.id_unico) return;
+  const handleDownloadPDF = async (target?: any) => {
+    const eq = target || selectedEquipment;
+    if (!eq) return;
+    try {
+      const { generateProfilePDF } = await import('../utils/pdfProfileGenerator');
+      await generateProfilePDF(eq);
+    } catch (error: any) {
+      console.error('Error generando el PDF:', error);
+      alert('Error al generar PDF de Hoja de Vida: ' + (error?.message || error));
+    }
+  };
+
+  const handleDownloadExcel = async (target?: any) => {
+    const eq = target || selectedEquipment;
+    if (!eq) return;
+    try {
+      const { generateProfileExcel } = await import('../utils/excelProfileGenerator');
+      await generateProfileExcel(eq);
+    } catch (error: any) {
+      console.error('Error generando el Excel:', error);
+      alert('Error al generar Excel de Hoja de Vida: ' + (error?.message || error));
+    }
+  };
+
+  const handleAddNewEq = async (andDownloadFormat?: 'pdf' | 'excel') => {
+    if (!newEqData.equipo || !newEqData.id_unico) {
+      alert('Por favor complete al menos el nombre del equipo y el activo fijo.');
+      return;
+    }
     setLoading(true);
     
     const { data, error } = await supabase
@@ -271,9 +298,16 @@ const Inventory = () => {
     if (error) {
       alert('Error al guardar el equipo: ' + error.message);
     } else {
-      setLocalInventory(prev => [data[0], ...prev]);
+      const createdItem = data[0];
+      setLocalInventory(prev => [createdItem, ...prev]);
       setIsAddModalOpen(false);
       setNewEqData({ equipo: '', marca: '', modelo: '', numero_serie: '', id_unico: '', ubicacion: '', servicio: '', estado: 'BUENO', riesgo: 'I' });
+      
+      if (andDownloadFormat === 'pdf') {
+        setTimeout(() => handleDownloadPDF(createdItem), 150);
+      } else if (andDownloadFormat === 'excel') {
+        setTimeout(() => handleDownloadExcel(createdItem), 150);
+      }
     }
     setLoading(false);
   };
@@ -335,15 +369,7 @@ const Inventory = () => {
     return "text-white/60";
   };
 
-  const handleDownloadPDF = async () => {
-    try {
-      const { generateProfilePDF } = await import('../utils/pdfProfileGenerator');
-      // Mapear campos de vuelta a lo que espera el generador de PDF (Legacy keys) si es necesario
-      await generateProfilePDF(selectedEquipment);
-    } catch (error) {
-       console.error("Error generando el PDF:", error);
-    }
-  };
+
 
   return (
     <div className="flex-1 p-4 md:p-6 lg:p-10 overflow-y-auto h-screen relative z-10 custom-scrollbar">
@@ -515,12 +541,15 @@ const Inventory = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex gap-2 shrink-0 w-full sm:w-auto justify-end">
-                <button onClick={() => { setEditEqData(selectedEquipment); setIsEditModalOpen(true); }} className="flex-1 sm:flex-none p-2 md:px-6 md:py-2.5 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl text-sm font-semibold hover:scale-105 transition-all flex items-center justify-center gap-2">
+              <div className="flex flex-wrap gap-2 shrink-0 w-full sm:w-auto justify-end">
+                <button onClick={() => { setEditEqData(selectedEquipment); setIsEditModalOpen(true); }} className="flex-1 sm:flex-none p-2 md:px-4 md:py-2.5 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl text-xs md:text-sm font-semibold hover:scale-105 transition-all flex items-center justify-center gap-1.5 shadow-md">
                   <Edit size={16} /> <span className="hidden sm:inline">Editar</span>
                 </button>
-                <button onClick={handleDownloadPDF} className="flex-1 sm:flex-none p-2 md:px-6 md:py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl text-sm font-semibold hover:scale-105 transition-all flex items-center justify-center gap-2">
-                  <Download size={18} /> <span className="hidden sm:inline">PDF</span>
+                <button onClick={() => handleDownloadPDF(selectedEquipment)} title="Descargar Hoja de Vida oficial en PDF (Versión 5.0)" className="flex-1 sm:flex-none p-2 md:px-4 md:py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl text-xs md:text-sm font-semibold hover:scale-105 transition-all flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/20">
+                  <Download size={16} /> <span>PDF v5.0</span>
+                </button>
+                <button onClick={() => handleDownloadExcel(selectedEquipment)} title="Descargar Hoja de Vida oficial en Excel (Versión 5.0)" className="flex-1 sm:flex-none p-2 md:px-4 md:py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl text-xs md:text-sm font-semibold hover:scale-105 transition-all flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20">
+                  <FileSpreadsheet size={16} /> <span>Excel v5.0</span>
                 </button>
                 <button onClick={() => setSelectedEquipment(null)} className="p-2 md:p-3 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white rounded-xl transition-colors border border-white/5 flex-none">
                   <X size={20} />
@@ -843,9 +872,27 @@ const Inventory = () => {
                    </div>
                 </div>
              </div>
-             <div className="mt-10 flex gap-4">
-                <button onClick={() => setIsAddModalOpen(false)} className="flex-1 py-3 text-white/40 font-medium hover:text-white transition-colors">Cancelar</button>
-                <button onClick={handleAddNewEq} className="flex-1 py-3 bg-gradient-to-r from-orange-400 to-amber-500 text-white font-bold rounded-xl shadow-lg shadow-orange-500/20 active:scale-95 transition-all">Registrar Equipo</button>
+             <div className="mt-8 flex flex-col gap-3">
+                <div className="flex flex-col sm:flex-row gap-2">
+                   <button 
+                     type="button" 
+                     onClick={() => handleAddNewEq('pdf')} 
+                     className="flex-1 py-2.5 px-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl shadow-lg shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-1.5 text-xs"
+                   >
+                     <Download size={15} /> Registrar y Crear PDF v5.0
+                   </button>
+                   <button 
+                     type="button" 
+                     onClick={() => handleAddNewEq('excel')} 
+                     className="flex-1 py-2.5 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-1.5 text-xs"
+                   >
+                     <FileSpreadsheet size={15} /> Registrar y Crear Excel v5.0
+                   </button>
+                </div>
+                <div className="flex gap-3">
+                   <button onClick={() => setIsAddModalOpen(false)} className="flex-1 py-2.5 text-white/40 font-medium hover:text-white transition-colors text-xs">Cancelar</button>
+                   <button onClick={() => handleAddNewEq()} className="flex-1 py-2.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl border border-white/10 active:scale-95 transition-all text-xs">Solo Registrar</button>
+                </div>
              </div>
           </div>
         </div>
@@ -861,10 +908,24 @@ const Inventory = () => {
                   <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-white">Editor Global de Ficha</h3>
                   <p className="text-white/40 text-sm mt-1">Modificando registro centralizado: <span className="text-indigo-300 font-mono">{editEqData.id_unico}</span></p>
                </div>
-               <div className="flex gap-4">
-                  <button onClick={() => setIsEditModalOpen(false)} className="px-6 py-2.5 text-white/40 hover:text-white transition-colors font-medium">Cancelar</button>
-                  <button onClick={handleSaveEditEq} className="px-8 py-2.5 bg-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:scale-105 transition-all flex items-center gap-2">
-                     <Save size={18} /> Guardar Cambios
+               <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <button 
+                    onClick={() => handleDownloadPDF(editEqData)} 
+                    title="Generar Hoja de Vida oficial en PDF (v5.0)" 
+                    className="px-3 md:px-4 py-2 bg-gradient-to-r from-orange-500/20 to-amber-500/20 hover:from-orange-500/30 hover:to-amber-500/30 border border-orange-500/30 text-orange-300 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm"
+                  >
+                     <Download size={15} /> PDF v5.0
+                  </button>
+                  <button 
+                    onClick={() => handleDownloadExcel(editEqData)} 
+                    title="Generar Hoja de Vida oficial en Excel (v5.0)" 
+                    className="px-3 md:px-4 py-2 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 hover:from-emerald-500/30 hover:to-teal-500/30 border border-emerald-500/30 text-emerald-300 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm"
+                  >
+                     <FileSpreadsheet size={15} /> Excel v5.0
+                  </button>
+                  <button onClick={() => setIsEditModalOpen(false)} className="px-3 py-2 text-white/40 hover:text-white transition-colors font-medium text-xs">Cancelar</button>
+                  <button onClick={handleSaveEditEq} className="px-5 py-2 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:scale-105 transition-all flex items-center gap-2 text-xs">
+                     <Save size={16} /> Guardar Cambios
                   </button>
                </div>
             </div>

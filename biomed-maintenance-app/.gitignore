@@ -44,5 +44,6 @@ upload_*.py
 # Sensitive data files
 *.csv
 *.xlsx
+!public/formatos/*.xlsx
 !*.env.example
 Calibraciones/

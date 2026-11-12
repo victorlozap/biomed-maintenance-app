@@ -28,6 +28,7 @@ venv/
 Thumbs.db
 
 # Large data/temp files
+scratch/
 *.log
 form_out*.txt
 hv_out.txt
