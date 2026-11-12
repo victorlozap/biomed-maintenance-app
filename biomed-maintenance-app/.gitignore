@@ -47,3 +47,4 @@ upload_*.py
 !public/formatos/*.xlsx
 !*.env.example
 Calibraciones/
+temp_pilot_images/
