@@ -16,13 +16,13 @@
 - Create directory: `biomed-maintenance-app/temp_pilot_images/`
 - Modify: `biomed-maintenance-app/.gitignore`
 
-- [ ] **Step 1: Create local staging directory**
+- [x] **Step 1: Create local staging directory**
 Create `biomed-maintenance-app/temp_pilot_images` to store candidate photos locally during the verification stage.
 
-- [ ] **Step 2: Add staging directory to .gitignore**
+- [x] **Step 2: Add staging directory to .gitignore**
 Ensure temporary download artifacts do not pollute the git repository.
 
-- [ ] **Step 3: Commit setup**
+- [x] **Step 3: Commit setup**
 Commit message: `chore(inventory): setup temp directory for equipment photos staging`
 
 ---
@@ -32,7 +32,7 @@ Commit message: `chore(inventory): setup temp directory for equipment photos sta
 **Files:**
 - Create: `biomed-maintenance-app/scripts/download_pilot_images.cjs`
 
-- [ ] **Step 1: Define pilot models catalog and verified image sources**
+- [x] **Step 1: Define pilot models catalog and verified image sources**
 Configure the 10 target models with official manufacturer product image sources:
 1. Gentec FM-197B-15L-CH (Flujómetro de O2)
 2. Lenz GZ-805 (Tensiómetro digital)
@@ -45,18 +45,18 @@ Configure the 10 target models with official manufacturer product image sources:
 9. Pulmo-Med 7E-A (Aspirador de secreciones)
 10. Edan iM70 (Monitor de signos vitales)
 
-- [ ] **Step 2: Implement download and validation logic**
+- [x] **Step 2: Implement download and validation logic**
 Implement streaming download via `https`, checking:
 - HTTP 200 response
 - Valid image MIME type (`image/png`, `image/jpeg`, `image/webp`)
 - Minimum file size (> 5 KB) to avoid broken thumbnails or 404 HTML error pages
 - Save to `temp_pilot_images/${marca}_${modelo}.png` (sanitized filename)
 
-- [ ] **Step 3: Execute download script**
+- [x] **Step 3: Execute download script**
 Run: `node scripts/download_pilot_images.cjs`
 Expected: 10 images successfully downloaded into `temp_pilot_images/`.
 
-- [ ] **Step 4: Commit downloader script**
+- [x] **Step 4: Commit downloader script**
 Commit message: `feat(inventory): add pilot equipment photos download script`
 
 ---
@@ -66,10 +66,10 @@ Commit message: `feat(inventory): add pilot equipment photos download script`
 **Files:**
 - Review: `biomed-maintenance-app/temp_pilot_images/*`
 
-- [ ] **Step 1: Inspect downloaded image files**
+- [x] **Step 1: Inspect downloaded image files**
 Verify that each of the 10 downloaded images matches the clinical equipment model and has clean framing/background.
 
-- [ ] **Step 2: User confirmation**
+- [x] **Step 2: User confirmation**
 Prompt user to confirm the downloaded images or request adjustments before uploading to cloud storage.
 
 ---
@@ -79,16 +79,16 @@ Prompt user to confirm the downloaded images or request adjustments before uploa
 **Files:**
 - Create: `biomed-maintenance-app/scripts/upload_pilot_images.cjs`
 
-- [ ] **Step 1: Read files and map to database models**
+- [x] **Step 1: Read files and map to database models**
 Script scans `temp_pilot_images/`, maps each file to its corresponding `(marca, modelo)` pair in the catalog.
 
-- [ ] **Step 2: Upload to Supabase Storage bucket**
+- [x] **Step 2: Upload to Supabase Storage bucket**
 Upload each file to `equipment-images/photos/${filename}`:
 - `upsert: true`
 - `contentType: 'image/png'` or detected MIME type
 - Retrieve public URL: `https://gzdspkhpxkibjxbfdeuc.supabase.co/storage/v1/object/public/equipment-images/photos/${filename}`
 
-- [ ] **Step 3: Update `equipments` table**
+- [x] **Step 3: Update `equipments` table**
 Execute safe update for each model:
 ```sql
 UPDATE equipments
@@ -98,7 +98,7 @@ WHERE UPPER(TRIM(marca)) = UPPER(TRIM(:marca))
   AND (foto_url IS NULL OR foto_url = '');
 ```
 
-- [ ] **Step 4: Commit uploader script**
+- [x] **Step 4: Commit uploader script**
 Commit message: `feat(inventory): add pilot equipment photos upload and sync script`
 
 ---
@@ -109,13 +109,12 @@ Commit message: `feat(inventory): add pilot equipment photos upload and sync scr
 - Supabase DB & Storage
 - `biomed-maintenance-app/src/utils/pdfProfileGenerator.ts`
 
-- [ ] **Step 1: Run upload script**
+- [x] **Step 1: Run upload script**
 Run: `node scripts/upload_pilot_images.cjs`
 Expected: 10 images uploaded to Storage; ~524 rows updated across the 10 models.
 
-- [ ] **Step 2: Query Supabase DB for verification**
+- [x] **Step 2: Query Supabase DB for verification**
 Verify count of equipment with photo updated from 498 to ~1,022.
 
-- [ ] **Step 3: Verify Hoja de Vida PDF rendering**
+- [x] **Step 3: Verify Hoja de Vida PDF rendering**
 Run test script generating Hoja de Vida v5.0 for one of the updated equipments (e.g. Edan iM70) and verify that the photo embeds seamlessly without errors.
-
