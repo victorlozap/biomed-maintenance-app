@@ -36,4 +36,5 @@ Crear una aplicación web móvil (*Mobile-First*) de alto rendimiento para el **
 - `biomed-maintenance-app/`: Raíz del código fuente.
 - `BITACORA_DESARROLLO.md`: Registro histórico de hitos y soluciones técnicas.
 - `INSTRUCCIONES_AGENTE.md`: Reglas persistentes de comportamiento para la IA.
-- `1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx`: Base de datos maestra original.
+- `biomed-maintenance-app/1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025-2026.xlsx`: Base de datos maestra oficial y vigente del inventario.
+- `_dev_archive/inventarios_historicos_2025/`: Respaldo de inventarios y datos históricos anteriores.

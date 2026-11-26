@@ -3,7 +3,8 @@ const xlsx = require('xlsx');
 
 const supabase = createClient('https://gzdspkhpxkibjxbfdeuc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6ZHNwa2hweGtpYmp4YmZkZXVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4ODIzNTksImV4cCI6MjA5MDQ1ODM1OX0.gQockW2pLcQiJ4xGX5WL6OL5mWFI9LqBQAEODN1kkZI');
 
-const defaultPath = '../Mantenimientos/1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx';
+const path = require('path');
+const defaultPath = path.resolve(__dirname, '../../biomed-maintenance-app/1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025-2026.xlsx');
 const filePath = process.argv[2] || defaultPath;
 
 async function syncMaster() {

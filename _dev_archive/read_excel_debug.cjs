@@ -1,7 +1,7 @@
 const xlsx = require('xlsx');
 const path = require('path');
 
-const filePath = 'd:\\VICTOR LOPEZ\\CLAUDE CODE\\prueba\\Mantenimientos\\1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx';
+const filePath = 'd:\\VICTOR LOPEZ\\CLAUDE CODE\\prueba\\biomed-maintenance-app\\1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025-2026.xlsx';
 try {
     const workbook = xlsx.readFile(filePath);
     const sheetName = workbook.SheetNames[0];

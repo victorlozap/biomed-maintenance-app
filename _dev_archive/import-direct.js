@@ -20,7 +20,7 @@ const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_A
 if (!supabaseKey) throw new Error('VITE_SUPABASE_ANON_KEY is missing. Set it in your .env file.');
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const EXCEL_PATH = 'd:\\VICTOR LOPEZ\\CLAUDE CODE\\prueba\\Mantenimientos\\1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx';
+const EXCEL_PATH = 'd:\\VICTOR LOPEZ\\CLAUDE CODE\\prueba\\biomed-maintenance-app\\1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025-2026.xlsx';
 
 async function importExcel() {
     console.log("📂 Leyendo Excel (Sheet: INVENTARIO HUSJ (2025))...");

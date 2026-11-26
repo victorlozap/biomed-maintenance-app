@@ -1,7 +1,7 @@
 import XLSX from 'xlsx';
 import fs from 'fs';
 
-const EXCEL_PATH = 'd:\\VICTOR LOPEZ\\CLAUDE CODE\\prueba\\Mantenimientos\\1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx';
+const EXCEL_PATH = 'd:\\VICTOR LOPEZ\\CLAUDE CODE\\prueba\\biomed-maintenance-app\\1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025-2026.xlsx';
 const OUTPUT_SQL_PATH = 'd:\\VICTOR LOPEZ\\CLAUDE CODE\\prueba\\biomed-maintenance-app\\fix_locations.sql';
 
 async function generateSQL() {

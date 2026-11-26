@@ -3,9 +3,10 @@
   "syncRules": [
     {
       "name": "Inventario Maestro",
-      "pattern": "1. INVENTARIO HUSJ 🏣/1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx",
-      "command": "node ../biomed-maintenance-app/scripts/sync_master_complete.cjs",
-      "type": "inventory"
+      "pattern": "1. INVENTARIO HUSJ 🏣/1. INVENTARIO EQUIPOS MÉDICOS HUSJ.*\\.xlsx$",
+      "command": "node ../biomed-maintenance-app/scripts/sync_inventory_2026.cjs",
+      "type": "inventory",
+      "isRegex": true
     },
     {
       "name": "Correctivos Mensuales",

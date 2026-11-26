@@ -2,7 +2,7 @@ const xlsx = require('xlsx');
 const fs = require('fs');
 const path = require('path');
 
-const inputFilePath = 'd:\\VICTOR LOPEZ\\CLAUDE CODE\\prueba\\1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025.xlsx';
+const inputFilePath = 'd:\\VICTOR LOPEZ\\CLAUDE CODE\\prueba\\biomed-maintenance-app\\1. INVENTARIO EQUIPOS MÉDICOS HUSJ 2025-2026.xlsx';
 const outputPath = path.join(__dirname, '..', 'src', 'data', 'inventory.json');
 
 try {
